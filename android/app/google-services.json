@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "897938119219",
+    "project_id": "parttimenow-firebase",
+    "storage_bucket": "parttimenow-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:897938119219:android:6f62d8776a251da8702146",
+        "android_client_info": {
+          "package_name": "com.example.parttimenow_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfWRXI7TSE-9Ce4eesWFbCKTKHAuFqCPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
