@@ -43,58 +43,65 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
           onPageChanged: onPageChanged,
           children: homeScreenItems,
         ),
-        bottomNavigationBar: CupertinoTabBar(    
-          height: 80,  
-          activeColor: navActivaeColor,    
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(
-                size: 40,
-                Icons.home_outlined,
-                color: _page == 0 ? navActivaeColor :primaryColor ,
+        bottomNavigationBar: Container(
+          padding: EdgeInsets.only(top: 10),
+          child: CupertinoTabBar(   
+            border: null,   
+            height: 55,  
+            activeColor: navActivaeColor,    
+            items: [
+              BottomNavigationBarItem(
+        
+                icon: Icon(
+                  size: 40,
+                  Icons.home_outlined,
+                  color: _page == 0 ? navActivaeColor :primaryColor ,
+                ),
+                label: 'Home',
+                backgroundColor: primaryColor,
+                
               ),
-              label: '',
-              backgroundColor: primaryColor,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                size: 40,
-                Icons.search,
-                color: _page == 1 ? navActivaeColor :primaryColor ,
+              BottomNavigationBarItem(
+                icon: Icon(
+                  size: 40,
+                  Icons.search,
+                  color: _page == 1 ? navActivaeColor :primaryColor ,
+                ),
+                label: '',
+                backgroundColor: primaryColor,
               ),
-              label: '',
-              backgroundColor: primaryColor,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                size: 40,
-                Icons.add_box_outlined,
-                color: _page == 2 ? navActivaeColor :primaryColor ,
+              BottomNavigationBarItem(
+                icon: Icon(
+                  size: 40,
+                  Icons.add_box_outlined,
+                  color: _page == 2 ? navActivaeColor :primaryColor ,
+                ),
+                label: '',
+                backgroundColor: primaryColor,
               ),
-              label: '',
-              backgroundColor: primaryColor,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                size: 40,
-                Icons.chat_bubble_outline,
-                color: _page == 3 ? navActivaeColor :primaryColor ,
+              BottomNavigationBarItem(
+                icon: Icon(
+                  size: 40,
+                  Icons.chat_bubble_outline,
+                  color: _page == 3 ? navActivaeColor :primaryColor ,
+                ),
+                label: '',
+                backgroundColor: primaryColor,
               ),
-              label: '',
-              backgroundColor: primaryColor,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                size: 40,
-                Icons.menu,
-                color: _page == 4 ? navActivaeColor :primaryColor ,
+              BottomNavigationBarItem(
+                icon: Icon(
+                  size: 40,
+                  Icons.menu,
+                  color: _page == 4 ? navActivaeColor :primaryColor ,
+                ),
+                label: '',
+                backgroundColor: primaryColor,
               ),
-              label: '',
-              backgroundColor: primaryColor,
-            ),
-          ],
-          backgroundColor: mobileAppBackgroundColor,
-          onTap: navigationTapped ,
+            ],
+            backgroundColor: mobileAppBackgroundColor,
+            onTap: navigationTapped ,
+            
+          ),
         ));
   }
 }
