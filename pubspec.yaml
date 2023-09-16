@@ -35,6 +35,9 @@ dependencies:
   firebase_storage: ^11.2.6
   flutter:
     sdk: flutter
+  flutter_svg: ^2.0.7
+  image_picker: ^1.0.4
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -45,13 +48,19 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
 flutter:
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/logo.svg
+    - assets/ic_instagram.svg
+    - assets/userLogin.svg
+    - assets/Welcome.svg
+    - assets/SignUp.jpg
+    - assets/background.jpg
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
