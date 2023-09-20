@@ -10,22 +10,31 @@ class FeedScreenLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 70,
-        backgroundColor: mobileBackgroundColor,
+        toolbarHeight: 50,
+        backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: false,
-        title: Card(
-          elevation: 0,
-          shape: const CircleBorder(),
-          color: Colors.white,
-          child: IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              color: navActivaeColor,
-              Icons.format_indent_increase_outlined,
+                  title: const Text(
+            'PartTimeNow',
+            style: TextStyle(
+              color: signInBtn,
+              fontSize: 28,
+              fontWeight: FontWeight.w500,
+              fontFamily: 'Roboto',
             ),
           ),
-        ),
+        // title: Card(
+        //   elevation: 0,
+        //   shape: const CircleBorder(),
+        //   color: Colors.white,
+        //   child: IconButton(
+        //     onPressed: () {},
+        //     icon: const Icon(
+        //       color: navActivaeColor,
+        //       Icons.format_indent_increase_outlined,
+        //     ),
+        //   ),
+        // ),
         actions: [
           Card(
             margin: const EdgeInsets.only(right: 10),
@@ -44,12 +53,13 @@ class FeedScreenLayout extends StatelessWidget {
       ),
       body: Container(
         decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(
-              'assets/background.jpg',
-            ),
-            fit: BoxFit.cover,
-          ),
+          color: Color.fromARGB(255, 223, 223, 223),
+          // image: DecorationImage(
+          //   image: AssetImage(
+          //     'assets/background.jpg',
+          //   ),
+          //   fit: BoxFit.cover,
+          // ),
         ),
         child: StreamBuilder(
           stream: FirebaseFirestore.instance.collection('posts').snapshots(),
@@ -64,10 +74,10 @@ class FeedScreenLayout extends StatelessWidget {
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) => Container(
                 margin: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 10,
+                  horizontal: 0,
+                  vertical: 5,
                 ),
-                child: PostCard(),
+                child: const PostCard(),
               ),
             );
           },
