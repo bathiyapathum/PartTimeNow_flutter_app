@@ -50,9 +50,22 @@ class MenueScreen extends StatelessWidget {
               child:
                   Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 const CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage('assets/Welcome.jpg'),
+                  backgroundColor: navActivaeColor,
+                  radius: 52,
+
+                  child:  CircleAvatar(
+                
+                    radius: 50,
+                    backgroundImage: NetworkImage(
+                      'https://images.unsplash.com/photo-1694284028434-2872aa51337b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0Nnx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60'
+                      ),
+                    // fit: BoxFit.cover,
+                    
+                    
+                  ),
                 ),
+                
+                
                 const SizedBox(
                   width: 30,
                 ),
@@ -101,7 +114,7 @@ class MenueScreen extends StatelessWidget {
               ]),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   padding: const EdgeInsets.only(left: 30, right: 30, top: 50),
