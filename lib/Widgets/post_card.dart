@@ -138,7 +138,7 @@ class PostCard extends StatelessWidget {
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(
-                        'https://w.forfun.com/fetch/f8/f8630c70a089df7390f25558ea609624.jpeg'),
+                        'https://scontent-sin6-2.xx.fbcdn.net/v/t39.30808-6/356209773_116716801459939_5871731410986802382_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=a2f6c7&_nc_eui2=AeHL1Ime47YADmBstnarbFT3NhiHvYMaTIE2GIe9gxpMgYKV_9F5tr0HtsFjmmDZ7WqOtFCyNWaRUauhl95llITH&_nc_ohc=sg-TVHRdxD4AX91rvHz&_nc_ht=scontent-sin6-2.xx&oh=00_AfDLSSrJGzIzLtnEYJRMKQg6U3DcNsZ-SF8x5VSbV-MM_w&oe=650FB4D7'),
                     fit: BoxFit.cover,
                   ),
                 ),
