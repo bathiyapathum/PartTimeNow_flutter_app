@@ -33,6 +33,7 @@ dependencies:
   firebase_auth: ^4.9.0
   firebase_core: ^2.15.1
   firebase_storage: ^11.2.6
+
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.7
@@ -48,7 +49,6 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -60,7 +60,12 @@ flutter:
     - assets/userLogin.svg
     - assets/Welcome.svg
     - assets/SignUp.jpg
-    - assets/background.jpg
+    - assets/background.png
+    - assets/home.svg
+    - assets/chat.svg
+    - assets/add.svg
+    - assets/menu.svg
+    - assets/search.svg
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

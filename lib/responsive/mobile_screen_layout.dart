@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:parttimenow_flutter/utils/global_variable.dart';
 
@@ -20,6 +21,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     super.initState();
     pageController = PageController();
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -28,7 +30,8 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
 
   void navigationTapped(int page) {
     pageController.jumpToPage(page);
-  } 
+  }
+
   void onPageChanged(int page) {
     setState(() {
       _page = page;
@@ -45,62 +48,54 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         ),
         bottomNavigationBar: Container(
           padding: EdgeInsets.only(top: 10),
-          child: CupertinoTabBar(   
-            border: null,   
-            height: 55,  
-            activeColor: navActivaeColor,    
+          child: CupertinoTabBar(
+            border: null,
+            height: 55,
+            activeColor: navActivaeColor,
             items: [
               BottomNavigationBarItem(
-        
-                icon: Icon(
-                  size: 40,
-                  Icons.home_outlined,
-                  color: _page == 0 ? navActivaeColor :primaryColor ,
+                icon: SvgPicture.asset(
+                  'assets/home.svg',
+                  color: _page == 0 ? navActivaeColor : primaryColor,
                 ),
                 label: 'Home',
                 backgroundColor: primaryColor,
-                
               ),
               BottomNavigationBarItem(
-                icon: Icon(
-                  size: 40,
-                  Icons.search,
-                  color: _page == 1 ? navActivaeColor :primaryColor ,
+                icon: SvgPicture.asset(
+                  'assets/search.svg',
+                  color: _page == 1 ? navActivaeColor : primaryColor,
+                ),
+                label: 'Search',
+                backgroundColor: primaryColor,
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/add.svg',
+                  color: _page == 2 ? navActivaeColor : primaryColor,
                 ),
                 label: '',
                 backgroundColor: primaryColor,
               ),
               BottomNavigationBarItem(
-                icon: Icon(
-                  size: 40,
-                  Icons.add_box_outlined,
-                  color: _page == 2 ? navActivaeColor :primaryColor ,
+                icon: SvgPicture.asset(
+                  'assets/chat.svg',
+                  color: _page == 3 ? navActivaeColor : primaryColor,
                 ),
-                label: '',
+                label: 'Chat',
                 backgroundColor: primaryColor,
               ),
               BottomNavigationBarItem(
-                icon: Icon(
-                  size: 40,
-                  Icons.chat_bubble_outline,
-                  color: _page == 3 ? navActivaeColor :primaryColor ,
+                icon: SvgPicture.asset(
+                  'assets/menu.svg',
+                  color: _page == 4 ? navActivaeColor : primaryColor,
                 ),
-                label: '',
-                backgroundColor: primaryColor,
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  size: 40,
-                  Icons.menu,
-                  color: _page == 4 ? navActivaeColor :primaryColor ,
-                ),
-                label: '',
+                label: 'Menu',
                 backgroundColor: primaryColor,
               ),
             ],
             backgroundColor: mobileAppBackgroundColor,
-            onTap: navigationTapped ,
-            
+            onTap: navigationTapped,
           ),
         ));
   }
