@@ -46,7 +46,7 @@ class FeedScreenLayout extends StatelessWidget {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-              'assets/background.jpg',
+              '',
             ),
             fit: BoxFit.cover,
           ),
@@ -67,7 +67,7 @@ class FeedScreenLayout extends StatelessWidget {
                   horizontal: 10,
                   vertical: 10,
                 ),
-                child: PostCard(),
+                child: const PostCard(),
               ),
             );
           },
