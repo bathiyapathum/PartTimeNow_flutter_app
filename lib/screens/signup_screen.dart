@@ -225,6 +225,8 @@ class _SignupScreenState extends State<SignupScreen> {
                     : const Text(
                         'Sign Up',
                         style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: buttonText,
                           fontSize: 20,
                           letterSpacing: 1.5,
                         ),
