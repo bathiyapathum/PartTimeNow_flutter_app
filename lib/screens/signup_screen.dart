@@ -2,6 +2,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:logger/logger.dart';
 import 'package:parttimenow_flutter/Widgets/text_field_input.dart';
 import 'package:parttimenow_flutter/resources/auth_method.dart';
 import 'package:parttimenow_flutter/responsive/mobile_screen_layout.dart';
@@ -19,6 +20,7 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  final logger = Logger();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController bioController = TextEditingController();
@@ -64,9 +66,9 @@ class _SignupScreenState extends State<SignupScreen> {
       return;
     }
 
-    print('isssssssssssssssssssssssssaaaa' + _isLoading.toString());
+    logger.d('isssssssssssssssssssssssssaaaa  ${_isLoading.toString()}');
 
-    print(res);
+    logger.d(res);
 
     if (res == 'Success') {
       setState(() {
@@ -74,13 +76,13 @@ class _SignupScreenState extends State<SignupScreen> {
       });
       snackBar(res);
       navgateToHome();
-      print('isssssssssssssssssssssssssaaaa' + _isLoading.toString());
+      logger.d('isssssssssssssssssssssssssaaaa  ${_isLoading.toString()}');
     } else {
       setState(() {
         _isLoading = false;
       });
       snackBar(res);
-      print('isssssssssssssssssssssssssssssssss' + _isLoading.toString());
+      logger.d('isssssssssssssssssssssssssaaaa  ${_isLoading.toString()}');
     }
   }
 

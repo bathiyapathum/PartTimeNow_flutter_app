@@ -3,8 +3,10 @@
 import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:logger/logger.dart';
 
 class StorageMethod {
+  final logger = Logger();
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -23,7 +25,7 @@ class StorageMethod {
             .child(path)
             .child(_auth.currentUser!.uid)
             .putData(file)
-            .whenComplete(() => print("Image uploaded to storage"))
+            .whenComplete(() => logger.d("Image uploaded to storage"))
             .catchError((e) => res = e);
 
         //get image url

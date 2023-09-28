@@ -16,9 +16,9 @@ class ChatTextField extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: Color(0xFFFF6E41),
+          color: const Color(0xFFFF6E41),
         ),
-        color: Color(0xFFFFE6DE),
+        color: const Color(0xFFFFE6DE),
       ),
       child: Padding(
         padding: const EdgeInsets.only(left: 8),
