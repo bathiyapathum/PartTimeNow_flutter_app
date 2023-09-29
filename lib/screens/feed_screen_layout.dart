@@ -14,19 +14,30 @@ class FeedScreenLayout extends StatelessWidget {
         backgroundColor: mobileBackgroundColor,
         elevation: 0,
         centerTitle: false,
-        title: Card(
-          elevation: 0,
-          shape: const CircleBorder(),
-          color: Colors.white,
-          child: IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              color: navActivaeColor,
-              Icons.format_indent_increase_outlined,
-            ),
+        title: const Text(
+          "Home",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
           ),
         ),
         actions: [
+          Card(
+            elevation: 0,
+            shape: const CircleBorder(),
+            color: Colors.white,
+            child: IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                color: navActivaeColor,
+                Icons.format_indent_increase_outlined,
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
           Card(
             margin: const EdgeInsets.only(right: 10),
             elevation: 0,
@@ -67,7 +78,9 @@ class FeedScreenLayout extends StatelessWidget {
                   horizontal: 10,
                   vertical: 10,
                 ),
-                child: const PostCard(),
+                child: PostCard(
+                  snap: snapshot.data!.docs[index].data(),
+                ),
               ),
             );
           },

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:parttimenow_flutter/Widgets/chat_bubble.dart';
 import 'package:parttimenow_flutter/Widgets/chat_text_field.dart';
@@ -37,7 +36,7 @@ class _ChatPageState extends State<ChatPage> {
       appBar: AppBar(
         title: Text(
           widget.recieverUserEmail,
-          style: TextStyle(color: Colors.deepOrange),
+          style: const TextStyle(color: Colors.deepOrange),
         ),
         backgroundColor: Colors.white,
         elevation: 1,
@@ -102,7 +101,7 @@ class _ChatPageState extends State<ChatPage> {
           children: [
             Text(
               data['senderEmail'],
-              style: TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.black),
             ),
             const SizedBox(
               height: 5,

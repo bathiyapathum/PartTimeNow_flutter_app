@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parttimenow_flutter/screens/chat_page.dart';
-import 'package:parttimenow_flutter/utils/colors.dart';
-import 'package:provider/provider.dart';
 
 class ChatHomePage extends StatefulWidget {
   const ChatHomePage({Key? key}) : super(key: key);
@@ -39,8 +37,8 @@ class _ChatHomePageState extends State<ChatHomePage> {
       ),
       body: Container(
         decoration: backgroundGradient,
+        margin: const EdgeInsets.only(top: 10),
         child: _buildUserList(),
-        margin: EdgeInsets.only(top: 10),
       ),
     );
   }
@@ -96,58 +94,56 @@ class _ChatHomePageState extends State<ChatHomePage> {
 
           return Column(
             children: [
-              Container(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: Container(
-                    width: 400,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color:
-                          Color.fromARGB(255, 247, 193, 193).withOpacity(0.3),
-                    ),
-                    child: Center(
-                      child: ListTile(
-                        tileColor: Colors.transparent,
-                        leading: ClipOval(
-                          child: Container(
-                            width: 48,
-                            height: 48,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.transparent,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: userData['photoUrl'] != null
-                                    ? NetworkImage(userData['photoUrl'])
-                                    : const AssetImage(
-                                            'assets/default_profile_image.png')
-                                        as ImageProvider,
-                              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: Container(
+                  width: 400,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color:
+                        const Color.fromARGB(255, 247, 193, 193).withOpacity(0.3),
+                  ),
+                  child: Center(
+                    child: ListTile(
+                      tileColor: Colors.transparent,
+                      leading: ClipOval(
+                        child: Container(
+                          width: 48,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.transparent,
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: userData['photoUrl'] != null
+                                  ? NetworkImage(userData['photoUrl'])
+                                  : const AssetImage(
+                                          'assets/default_profile_image.png')
+                                      as ImageProvider,
                             ),
                           ),
                         ),
-                        title: Text(
-                          userData['username'],
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        subtitle: Text(
-                          lastReplyMessage, // Display the last reply message here
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ChatPage(
-                                recieverUserEmail: userData['username'],
-                                recieverUserID: document.id,
-                              ),
-                            ),
-                          );
-                        },
                       ),
+                      title: Text(
+                        userData['username'],
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                      subtitle: Text(
+                        lastReplyMessage, // Display the last reply message here
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatPage(
+                              recieverUserEmail: userData['username'],
+                              recieverUserID: document.id,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),

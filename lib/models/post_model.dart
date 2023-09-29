@@ -14,6 +14,7 @@ class PostModel {
   final String uid;
   final String photoUrl;
   final List feedbacksId;
+  final List saved;
 
   const PostModel({
     required this.postId,
@@ -29,6 +30,7 @@ class PostModel {
     required this.uid,
     required this.photoUrl,
     required this.feedbacksId,
+    required this.saved,
   });
 
   Map<String, dynamic> toJson() => {
@@ -45,6 +47,7 @@ class PostModel {
         'uid': uid,
         'photoUrl': photoUrl,
         'feedbacksId': feedbacksId,
+        'saved': saved,
       };
 
   static PostModel fromSnap(DocumentSnapshot snap) {
@@ -63,6 +66,7 @@ class PostModel {
       uid: snapshot['uid'],
       photoUrl: snapshot['photoUrl'],
       feedbacksId: snapshot['feedbacksId'],
+      saved: snapshot['saved'],
     );
   }
 }
