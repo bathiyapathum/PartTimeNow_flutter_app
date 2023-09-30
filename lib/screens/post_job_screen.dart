@@ -124,7 +124,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
             buildTextField('Location', locationController),
             SizedBox(height: 10),
             buildDescriptionField(),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 // Handle the form submission here
@@ -133,10 +133,11 @@ class _PostJobScreenState extends State<PostJobScreen> {
                 primary: Colors.orange, // Button background color
                 onPrimary: Colors.white, // Button text color
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20), // Rounded corners
+                  borderRadius: BorderRadius.circular(10), // Rounded corners
                 ),
+                minimumSize: Size(150, 40), // Set the button size
               ),
-              child: Text('Post Job'),
+              child: Text('Post Job', style: TextStyle(fontSize: 16)),
             ),
           ],
         ),
@@ -147,19 +148,20 @@ class _PostJobScreenState extends State<PostJobScreen> {
   Widget buildTextField(String labelText, TextEditingController controller) {
     return TextField(
       controller: controller,
-      style: TextStyle(color: Colors.black),
+      style: TextStyle(color: Colors.black, fontSize: 14), // Adjust font size
       decoration: InputDecoration(
         labelText: labelText,
-        labelStyle: TextStyle(color: Colors.black),
+        labelStyle:
+            TextStyle(color: Colors.black, fontSize: 14), // Adjust font size
         hintText: 'Enter a value',
         hintStyle: TextStyle(color: Colors.grey),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.black),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10), // Adjust field size
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Color.fromARGB(255, 206, 124, 0)),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10), // Adjust field size
         ),
       ),
       onTap: () {
@@ -175,20 +177,21 @@ class _PostJobScreenState extends State<PostJobScreen> {
   Widget buildDescriptionField() {
     return TextField(
       controller: descriptionController,
-      style: TextStyle(color: Colors.black),
+      style: TextStyle(color: Colors.black, fontSize: 14), // Adjust font size
       maxLines: 5,
       decoration: InputDecoration(
         labelText: 'Description',
-        labelStyle: TextStyle(color: Colors.black),
+        labelStyle:
+            TextStyle(color: Colors.black, fontSize: 14), // Adjust font size
         hintText: 'Enter a description',
         hintStyle: TextStyle(color: Colors.grey),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.black),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10), // Adjust field size
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.orange),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10), // Adjust field size
         ),
       ),
     );
