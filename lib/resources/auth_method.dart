@@ -1,7 +1,10 @@
 // ignore_for_file: unnecessary_null_comparison
+
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:parttimenow_flutter/models/feeback_model.dart';
+import 'package:parttimenow_flutter/models/post_model.dart';
 import 'package:parttimenow_flutter/models/user_model.dart';
 import 'package:parttimenow_flutter/resources/storage_method.dart';
 
@@ -119,5 +122,69 @@ class AuthMethod {
       res = e.toString();
     }
     return res;
+  }
+
+  //feedback
+  Future<void> submitFeedback({
+    required int rating,
+    required String feedback,
+  }) async {
+    try {
+      // Check if the user is authenticated
+      if (_auth.currentUser != null) {
+        final feedbackData = FeedbackModel(
+          userId: _auth.currentUser!.uid,
+          rating: rating,
+          feedback: feedback,
+        );
+
+        final firebaseFeedback = _firestore.collection('feedback');
+
+        await firebaseFeedback.add(feedbackData.toJson());
+
+        // Handle successful submission
+      } else {
+        // Handle the case where the user is not logged in
+        throw Exception('User not logged in');
+      }
+    } catch (e) {
+      // Handle the error
+      print('Feedback submission error: $e');
+    }
+  }
+
+// Post job
+  Future<void> postJob({
+    required DateTime startDate,
+    required DateTime endDate,
+    required double salary,
+    required String location,
+    required String description,
+  }) async {
+    try {
+      () async {
+        if (_auth.currentUser != null) {
+          final jobData = JobPostModel(
+            userId: _auth.currentUser!.uid,
+            startDate: startDate,
+            endDate: endDate,
+            salary: salary,
+            location: location,
+            description: description,
+          );
+
+          final firebaseJobs = _firestore.collection('jobs');
+          await firebaseJobs.add(jobData.toJson());
+
+          // Handle successful job posting
+          print('Job posted successfully');
+        }
+      }();
+    } catch (e) {
+      // Handle the error and print it for debugging
+      print('Job posting error: $e');
+      throw Exception(
+          'Job posting error: $e'); // Rethrow the exception with the error message
+    }
   }
 }

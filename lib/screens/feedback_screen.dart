@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:parttimenow_flutter/models/feeback_model.dart';
+import 'package:parttimenow_flutter/resources/auth_method.dart';
 
 class FeedbackScreen extends StatefulWidget {
-  const FeedbackScreen({Key? key});
+  const FeedbackScreen({Key? key}) : super(key: key);
 
   @override
   State<FeedbackScreen> createState() => _FeedbackScreenState();
@@ -69,8 +72,21 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
               _buildFeedbackField(),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
-                  // Handle feedback submission here
+                onPressed: () async {
+                  if (_rating != null) {
+                    final feedback = feedbackController.text;
+
+                    await AuthMethod().submitFeedback(
+                      rating: _rating!,
+                      feedback: feedback,
+                    );
+
+                    // Handle successful submission
+                    feedbackController.clear();
+                    setState(() {
+                      _rating = null;
+                    });
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.orange,

@@ -12,6 +12,6 @@ const homeScreenItems = [
   Text('Search'),
   PostJobScreen(),
   // Text('Message')
-  FeedbackScreen(), // this is temporary for testing
+  FeedbackScreen(), // this is temporary for testing,
   MenueScreen(),
 ];

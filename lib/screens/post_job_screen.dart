@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:parttimenow_flutter/resources/auth_method.dart';
+// Import your AuthMethod class
 
 class PostJobScreen extends StatefulWidget {
   const PostJobScreen({Key? key});
@@ -126,8 +128,33 @@ class _PostJobScreenState extends State<PostJobScreen> {
             buildDescriptionField(),
             SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () {
-                // Handle the form submission here
+              onPressed: () async {
+                // Add a print statement to check if this code block is executed
+                print("Post Job button pressed");
+
+                final startDate = DateTime.parse(startDateController.text);
+                final endDate = DateTime.parse(endDateController.text);
+                final salary = double.parse(salaryController.text);
+                final location = locationController.text;
+                final description = descriptionController.text;
+
+                await AuthMethod().postJob(
+                  startDate: startDate,
+                  endDate: endDate,
+                  salary: salary,
+                  location: location,
+                  description: description,
+                );
+
+                // Handle successful job posting
+                // Clear text controllers or navigate to another screen as needed
+                startDateController.clear();
+                startTimeController.clear();
+                endDateController.clear();
+                endTimeController.clear();
+                salaryController.clear();
+                locationController.clear();
+                descriptionController.clear();
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.orange, // Button background color
@@ -190,7 +217,8 @@ class _PostJobScreenState extends State<PostJobScreen> {
           borderRadius: BorderRadius.circular(10), // Adjust field size
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.orange),
+          borderSide:
+              BorderSide(color: const Color.fromARGB(255, 255, 162, 22)),
           borderRadius: BorderRadius.circular(10), // Adjust field size
         ),
       ),
