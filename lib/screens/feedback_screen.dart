@@ -24,43 +24,66 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         title: Text('Leave Feedback'),
         backgroundColor: Color.fromARGB(255, 206, 124, 0),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Padding(
-                padding: EdgeInsets.only(left: 20), // Add left padding
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Rate Us: ',
-                      style: TextStyle(fontSize: 1),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.close,
+                          size: 30,
+                          color: Colors.black,
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          'Rate Your Experience',
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.orange,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
-                    _buildStarRating(),
                   ],
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            _buildFeedbackField(),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Handle feedback submission here
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.orange, // Button background color
-                onPrimary: Colors.white, // Button text color
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10), // Rounded corners
+              SizedBox(height: 20),
+              _buildStarRating(),
+              SizedBox(height: 30),
+              Text(
+                'Please Share Your Opinion\nAbout This Job!',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
-                minimumSize: Size(150, 40), // Set the button size
+                textAlign: TextAlign.center,
               ),
-              child: Text('Submit', style: TextStyle(fontSize: 16)),
-            ),
-          ],
+              SizedBox(height: 20),
+              _buildFeedbackField(),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  // Handle feedback submission here
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.orange,
+                  onPrimary: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  minimumSize: Size(150, 40),
+                ),
+                child: Text('Submit', style: TextStyle(fontSize: 16)),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -72,7 +95,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         mainAxisSize: MainAxisSize.min,
         children: List.generate(5, (index) {
           return IconButton(
-            iconSize: 30, // Increase the star size
+            iconSize: 40,
             onPressed: () {
               setState(() {
                 _rating = index + 1;
@@ -92,24 +115,23 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
   Widget _buildFeedbackField() {
     return Container(
-      width: 300, // Adjust the field width
+      width: 300,
       child: TextField(
         controller: feedbackController,
-        style: TextStyle(color: Colors.black, fontSize: 18), // Adjust font size
+        style: TextStyle(color: Colors.black, fontSize: 18),
         maxLines: 5,
         decoration: InputDecoration(
           labelText: 'Feedback',
-          labelStyle:
-              TextStyle(color: Colors.black, fontSize: 18), // Adjust font size
+          labelStyle: TextStyle(color: Colors.black, fontSize: 18),
           hintText: 'Enter your feedback here',
           hintStyle: TextStyle(color: Colors.grey),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black),
-            borderRadius: BorderRadius.circular(10), // Adjust field size
+            borderRadius: BorderRadius.circular(10),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Color.fromARGB(255, 206, 124, 0)),
-            borderRadius: BorderRadius.circular(10), // Adjust field size
+            borderRadius: BorderRadius.circular(10),
           ),
         ),
       ),
