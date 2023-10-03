@@ -350,6 +350,18 @@ class PostCard extends StatelessWidget {
                       child: IconButton(
                         onPressed: () {},
                         icon: const Icon(
+                          Icons.message_outlined,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
                           Icons.bookmark_border,
                           color: Colors.black,
                         ),
