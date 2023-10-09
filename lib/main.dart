@@ -41,6 +41,10 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Part Time Now',
         theme: ThemeData.dark().copyWith(          
+          dividerTheme: DividerThemeData(
+            color: Colors.grey[300],
+            thickness: 1,
+          ),
           scaffoldBackgroundColor: Colors.white,          
         ),
         home: StreamBuilder(

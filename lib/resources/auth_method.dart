@@ -1,14 +1,19 @@
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:logger/logger.dart';
 import 'package:parttimenow_flutter/models/feeback_model.dart';
 import 'package:parttimenow_flutter/models/post_model.dart';
 import 'package:parttimenow_flutter/models/user_model.dart';
 import 'package:parttimenow_flutter/resources/storage_method.dart';
 
 class AuthMethod {
+  final logger = Logger();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  //get current user
+  User? get currentUser => _auth.currentUser;
 
   Future<UserModel> getUserDetails() async {
     //not a model class
@@ -40,7 +45,7 @@ class AuthMethod {
           password: password,
         );
 
-        print(cred.user!.uid);
+        logger.d(cred.user!.uid);
 
         String photoUrl = await StorageMethod().uploadImage(
           path: 'profilePics',
@@ -120,6 +125,7 @@ class AuthMethod {
       res = e.toString();
     }
     return res;
+    }
   }
 
   //feedback
