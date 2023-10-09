@@ -1,13 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostModel {
+  final String userId; // This field represents the user ID
   final String postId;
   final String userName;
   final String gender;
-  final String startDate;
-  final String endDate;
   final String startTime;
-  final num salary;
   final String location;
   final String description;
   final String endTime;
@@ -15,14 +12,14 @@ class PostModel {
   final String photoUrl;
   final List feedbacksId;
   final List saved;
+  final DateTime startDate;
+  final DateTime endDate;
+  final double salary;
 
-  const PostModel({
-    required this.postId,
-    required this.userName,
-    required this.gender,
+  JobPostModel({
+    required this.userId,
     required this.startDate,
     required this.endDate,
-    required this.startTime,
     required this.salary,
     required this.location,
     required this.description,
@@ -68,5 +65,18 @@ class PostModel {
       feedbacksId: snapshot['feedbacksId'],
       saved: snapshot['saved'],
     );
+  });
+
+//   // Convert the model to a JSON format
+//   Map<String, dynamic> toJson() {
+//     return {
+//       'userId': userId,
+//       'startDate': startDate.toUtc().toIso8601String(),
+//       'endDate': endDate.toUtc().toIso8601String(),
+//       'salary': salary,
+//       'location': location,
+//       'description': description,
+//     };
+// >>>>>>> main
   }
 }
