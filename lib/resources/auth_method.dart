@@ -38,6 +38,7 @@ class AuthMethod {
           password.isNotEmpty &&
           username.isNotEmpty &&
           bio.isNotEmpty &&
+          // ignore: unnecessary_null_comparison
           file != null) {
         //Register user
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
@@ -125,7 +126,6 @@ class AuthMethod {
       res = e.toString();
     }
     return res;
-    }
   }
 
   //feedback
@@ -153,7 +153,7 @@ class AuthMethod {
       }
     } catch (e) {
       // Handle the error
-      print('Feedback submission error: $e');
+      logger.d('Feedback submission error: $e');
     }
   }
 
@@ -164,29 +164,39 @@ class AuthMethod {
     required double salary,
     required String location,
     required String description,
+    required String startTime,
+    required String endTime,
   }) async {
     try {
       () async {
         if (_auth.currentUser != null) {
-          final jobData = JobPostModel(
-            userId: _auth.currentUser!.uid,
-            startDate: startDate,
-            endDate: endDate,
-            salary: salary,
-            location: location,
-            description: description,
-          );
+          final jobData = PostModel(
+              userId: _auth.currentUser!.uid,
+              startDate: startDate,
+              endDate: endDate,
+              salary: salary,
+              location: location,
+              description: description,
+              startTime: startTime,
+              endTime: endTime,
+              userName: _auth.currentUser!.displayName!,
+              uid: _auth.currentUser!.uid,
+              photoUrl: _auth.currentUser!.photoURL!,
+              feedbacksId: [],
+              saved: [],
+              postId: "",
+              gender: "male");
 
           final firebaseJobs = _firestore.collection('jobs');
           await firebaseJobs.add(jobData.toJson());
 
           // Handle successful job posting
-          print('Job posted successfully');
+          logger.d('Job posted successfully');
         }
       }();
     } catch (e) {
       // Handle the error and print it for debugging
-      print('Job posting error: $e');
+      logger.d('Job posting error: $e');
       throw Exception(
           'Job posting error: $e'); // Rethrow the exception with the error message
     }

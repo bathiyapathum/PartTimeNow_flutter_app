@@ -39,14 +39,15 @@ class _JobPostingPageState extends State<JobPostingPage> {
             FirebaseFirestore.instance.collection('users').doc(user.uid);
         DocumentSnapshot userSnapshot = await users.get();
         final job = PostModel(
+          userId: user.uid,
           postId: UniqueKey().toString(),
           userName: userSnapshot['username'] ??
               'User Name', // Replace with user's name if available
-          gender: 'Gender', // Replace with user's gender if available
-          startDate: startDateController.text,
-          endDate: endDateController.text,
+          gender: 'male', // Replace with user's gender if available
+          startDate: DateTime.parse(startDateController.text),
+          endDate: DateTime.parse(endDateController.text),
           startTime: startTimeController.text,
-          salary: double.parse(salaryController.text) ,
+          salary: double.parse(salaryController.text),
           location: locationController.text,
           description: descriptionController.text,
           endTime: endTimeController.text,
