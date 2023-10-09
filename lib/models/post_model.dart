@@ -7,7 +7,7 @@ class PostModel {
   final String startDate;
   final String endDate;
   final String startTime;
-  final String salary;
+  final num salary;
   final String location;
   final String description;
   final String endTime;
@@ -40,7 +40,7 @@ class PostModel {
         'startDate': startDate,
         'endDate': endDate,
         'startTime': startTime,
-        'salary': salary,
+        'salary': salary.toDouble(),
         'location': location,
         'description': description,
         'endTime': endTime,

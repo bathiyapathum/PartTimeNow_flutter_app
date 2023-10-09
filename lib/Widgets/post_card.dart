@@ -6,6 +6,7 @@ import 'package:parttimenow_flutter/providers/user_provider.dart';
 import 'package:parttimenow_flutter/resources/firestore_methods.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class PostCard extends StatefulWidget {
   // ignore: prefer_typing_uninitialized_variables
@@ -69,13 +70,46 @@ class _PostCardState extends State<PostCard> {
                 ).copyWith(right: 0),
                 child: Row(
                   children: [
-                    CircleAvatar(
-                      radius: 22,
-                      backgroundImage: NetworkImage(
-                        widget.snap['photoUrl']?.toString() ??
-                            'https://images.unsplash.com/photo-1694284028434-2872aa51337b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0Nnx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-                      ),
-                    ),
+                    widget.snap['photoUrl']?.toString() == null
+                        ? Shimmer.fromColors(
+                            baseColor: Colors.grey[300]!,
+                            highlightColor: Colors.grey[100]!,
+                            child: const CircleAvatar(
+                              radius: 22,
+                              backgroundColor: Colors.grey,
+                            ),
+                          )
+                        : FutureBuilder(
+                            future: precacheImage(
+                              NetworkImage(
+                                widget.snap['photoUrl']?.toString() ??
+                                    'https://images.unsplash.com/photo-1694284028434-2872aa51337b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0Nnx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
+                              ),
+                              context,
+                            ),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                return CircleAvatar(
+                                  radius: 22,
+                                  backgroundImage: NetworkImage(
+                                    widget.snap['photoUrl']?.toString() ??
+                                        'https://images.unsplash.com/photo-1694284028434-2872aa51337b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0Nnx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
+                                  ),
+                                );
+                              } else {
+                                return Shimmer.fromColors(
+                                  baseColor: Colors.grey[300]!,
+                                  highlightColor: Colors.grey[100]!,
+                                  child: const CircleAvatar(
+                                    radius: 22,
+                                    backgroundColor: Colors.grey,
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8),

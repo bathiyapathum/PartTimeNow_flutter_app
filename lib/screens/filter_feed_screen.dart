@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:parttimenow_flutter/Widgets/search_location_field.dart';
 import 'package:parttimenow_flutter/Widgets/show_item_chip.dart';
-import 'package:parttimenow_flutter/responsive/mobile_screen_layout.dart';
+import 'package:parttimenow_flutter/models/filter_model.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:parttimenow_flutter/utils/global_variable.dart';
 import 'package:parttimenow_flutter/utils/utills.dart';
 
 class FilterFeedScreen extends StatefulWidget {
-  const FilterFeedScreen({super.key});
+  final Map<String, dynamic> filterStat;
+  final Function(Map<String, dynamic>)? callback;
+  const FilterFeedScreen({super.key, this.callback, required this.filterStat});
 
   @override
   State<FilterFeedScreen> createState() => _FilterFeedScreenState();
@@ -24,46 +26,101 @@ class _FilterFeedScreenState extends State<FilterFeedScreen> {
   bool isCategorySelected = false;
   bool isPriceSelected = false;
   bool isGenderSelected = false;
-  bool openModel = false;
+  bool openModelCat = false;
+  bool openModelLoc = false;
 
   final TextEditingController minController = TextEditingController();
   final TextEditingController maxController = TextEditingController();
+  late Function callback;
+  late Map<String, dynamic> filterStat;
 
   @override
-  void dispose() {
-    minController.dispose();
-    maxController.dispose();
-    super.dispose();
+  void initState() {
+    callback = widget.callback!;
+    filterStat = widget.filterStat;
+    FilterModel filterModel = FilterModel.fromList(filterStat);
+
+    if (filterModel.male != null) {
+      setState(() {
+        isMaleSelected = true;
+        isGenderSelected = true;
+      });
+    }
+    if (filterModel.female != null) {
+      setState(() {
+        isFemaleSelected = true;
+        isGenderSelected = true;
+      });
+    }
+    if (filterModel.location != null) {
+      setState(() {
+        location = filterModel.location;
+        openModelLoc = true;
+        isLocationSelected = true;
+      });
+    }
+    if (filterModel.category != null) {
+      setState(() {
+        category = filterModel.category;
+        openModelCat = true;
+        isCategorySelected = true;
+      });
+    }
+    if (filterModel.startSal != null) {
+      setState(() {
+        values = RangeValues(double.parse(filterModel.startSal!), values.end);
+        minController.text = filterModel.startSal!;
+        isPriceSelected = true;
+      });
+    }
+    if (filterModel.endSal != null) {
+      setState(() {
+        values = RangeValues(values.start, double.parse(filterModel.endSal!));
+        maxController.text = filterModel.endSal!;
+        isPriceSelected = true;
+      });
+    }
+    super.initState();
   }
 
-  String location = "";
-  String category = "f";
-
-  void getLocation(String data) {
-    setState(() {
-      location = data;
-    });
-  }
+  String? location;
+  String? category;
 
   void getCategory(String data) {
     setState(() {
       category = data;
-      openModel = true;
-    });
-  }
-  void openClosed(String data) {
-    setState(() {
-      openModel = false;
-      category = "";
+      openModelCat = true;
     });
   }
 
-  void navigateToFeed() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const MobileScreenLayout(),
-      ),
-    );
+  void getLocation(String data) {
+    setState(() {
+      location = data;
+      openModelLoc = true;
+    });
+  }
+
+  void openClosedCat(String data) {
+    setState(() {
+      openModelCat = false;
+      category = null;
+    });
+  }
+
+  void openClosedLoc(String data) {
+    setState(() {
+      openModelLoc = false;
+      location = null;
+    });
+  }
+
+  void navigateToFeed(context) {
+    // Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (context) => const MobileScreenLayout(),
+    //   ),
+    // );
+    Navigator.pop(context);
   }
 
   void hello() {
@@ -112,7 +169,15 @@ class _FilterFeedScreenState extends State<FilterFeedScreen> {
     }
   }
 
-  RangeValues values = const RangeValues(0, 3000);
+  RangeValues values = const RangeValues(0, 50000);
+
+  @override
+  void dispose() {
+    minController.dispose();
+    maxController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     RangeLabels lables = RangeLabels(
@@ -126,12 +191,17 @@ class _FilterFeedScreenState extends State<FilterFeedScreen> {
         backgroundColor: mobileBackgroundColor,
         elevation: 0,
         centerTitle: false,
-        title: const Text(
-          "Filter",
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
+        title: GestureDetector(
+          onTap: () {
+            logger.d(filterStat);
+          },
+          child: const Text(
+            "Filter",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         actions: [
@@ -141,7 +211,7 @@ class _FilterFeedScreenState extends State<FilterFeedScreen> {
             color: Colors.white,
             child: IconButton(
               onPressed: () {
-                navigateToFeed();
+                navigateToFeed(context);
               },
               icon: const Icon(
                 color: navActivaeColor,
@@ -190,6 +260,21 @@ class _FilterFeedScreenState extends State<FilterFeedScreen> {
                 GestureDetector(
                   onTap: () {
                     logger.d("clear all");
+                    setState(() {
+                      isMaleSelected = false;
+                      isFemaleSelected = false;
+                      isGenderSelected = false;
+                      isLocationSelected = false;
+                      isCategorySelected = false;
+                      isPriceSelected = false;
+                      minController.text = "0";
+                      maxController.text = "50000";
+                      values = const RangeValues(0, 50000);
+                      location = null;
+                      category = null;
+                      openModelCat = false;
+                      openModelLoc = false;
+                    });
                   },
                   child: const Padding(
                     padding: EdgeInsets.only(right: 20),
@@ -588,14 +673,25 @@ class _FilterFeedScreenState extends State<FilterFeedScreen> {
                 ),
               ],
             ),
-            isLocationSelected
-                ? SearchLocationField(
-                    contentList: locations,
-                    callback: getLocation,
-                  )
-                : const SizedBox(),
-            const SizedBox(
-              height: 20,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                isLocationSelected
+                    ? SearchLocationField(
+                        contentList: locations,
+                        callback: getLocation,
+                      )
+                    : const SizedBox(),
+                openModelLoc
+                    ? ShowItemChip(
+                        selectedItem: location,
+                        callback: openClosedLoc,
+                      )
+                    : const SizedBox(),
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
             ),
             Divider(
               color: Colors.grey[300],
@@ -634,16 +730,23 @@ class _FilterFeedScreenState extends State<FilterFeedScreen> {
                 ),
               ],
             ),
-            isCategorySelected
-                ? SearchLocationField(
-                    contentList: categories,
-                    callback: getCategory,
-                  )
-                : const SizedBox(),
-            openModel ? ShowItemChip(
-              selectedItem: category,
-              callback: openClosed,
-            ): const SizedBox(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                isCategorySelected
+                    ? SearchLocationField(
+                        contentList: categories,
+                        callback: getCategory,
+                      )
+                    : const SizedBox(),
+                openModelCat
+                    ? ShowItemChip(
+                        selectedItem: category,
+                        callback: openClosedCat,
+                      )
+                    : const SizedBox(),
+              ],
+            ),
             const SizedBox(
               height: 20,
             ),
@@ -664,7 +767,29 @@ class _FilterFeedScreenState extends State<FilterFeedScreen> {
                 ),
               ),
               onPressed: () {
-                hello();
+                // hello();
+                Map<String, dynamic> query = {};
+                query.putIfAbsent("location", () => location);
+                query.putIfAbsent("category", () => category);
+                query.putIfAbsent(
+                    "startSal", () => values.start.toInt().toString());
+                query.putIfAbsent(
+                    "endSal", () => values.end.toInt().toString());
+                query.putIfAbsent("male", () => isMaleSelected ? 'male' : null);
+                query.putIfAbsent(
+                    "female", () => isFemaleSelected ? 'female' : null);
+
+                Map<String, dynamic> clear = {};
+                clear.putIfAbsent("location", () => null);
+                clear.putIfAbsent("category", () => null);
+                clear.putIfAbsent("startSal", () => null);
+                clear.putIfAbsent("endSal", () => null);
+                clear.putIfAbsent("male", () => null);
+                clear.putIfAbsent("female", () => null);
+                logger.d(query);
+                callback(clear);
+                callback(query);
+                navigateToFeed(context);
               },
               child: const Padding(
                 padding: EdgeInsets.symmetric(

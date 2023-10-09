@@ -46,7 +46,7 @@ class _JobPostingPageState extends State<JobPostingPage> {
           startDate: startDateController.text,
           endDate: endDateController.text,
           startTime: startTimeController.text,
-          salary: salaryController.text,
+          salary: double.parse(salaryController.text) ,
           location: locationController.text,
           description: descriptionController.text,
           endTime: endTimeController.text,
