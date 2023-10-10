@@ -1,14 +1,19 @@
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:logger/logger.dart';
 import 'package:parttimenow_flutter/models/feeback_model.dart';
 import 'package:parttimenow_flutter/models/post_model.dart';
 import 'package:parttimenow_flutter/models/user_model.dart';
 import 'package:parttimenow_flutter/resources/storage_method.dart';
 
 class AuthMethod {
+  final logger = Logger();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  //get current user
+  User? get currentUser => _auth.currentUser;
 
   Future<UserModel> getUserDetails() async {
     //not a model class
@@ -33,6 +38,7 @@ class AuthMethod {
           password.isNotEmpty &&
           username.isNotEmpty &&
           bio.isNotEmpty &&
+          // ignore: unnecessary_null_comparison
           file != null) {
         //Register user
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
@@ -40,7 +46,7 @@ class AuthMethod {
           password: password,
         );
 
-        print(cred.user!.uid);
+        logger.d(cred.user!.uid);
 
         String photoUrl = await StorageMethod().uploadImage(
           path: 'profilePics',
@@ -147,7 +153,7 @@ class AuthMethod {
       }
     } catch (e) {
       // Handle the error
-      print('Feedback submission error: $e');
+      logger.d('Feedback submission error: $e');
     }
   }
 
@@ -158,29 +164,39 @@ class AuthMethod {
     required double salary,
     required String location,
     required String description,
+    required String startTime,
+    required String endTime,
   }) async {
     try {
       () async {
         if (_auth.currentUser != null) {
-          final jobData = JobPostModel(
-            userId: _auth.currentUser!.uid,
-            startDate: startDate,
-            endDate: endDate,
-            salary: salary,
-            location: location,
-            description: description,
-          );
+          final jobData = PostModel(
+              userId: _auth.currentUser!.uid,
+              startDate: startDate,
+              endDate: endDate,
+              salary: salary,
+              location: location,
+              description: description,
+              startTime: startTime,
+              endTime: endTime,
+              userName: _auth.currentUser!.displayName!,
+              uid: _auth.currentUser!.uid,
+              photoUrl: _auth.currentUser!.photoURL!,
+              feedbacksId: [],
+              saved: [],
+              postId: "",
+              gender: "male");
 
           final firebaseJobs = _firestore.collection('jobs');
           await firebaseJobs.add(jobData.toJson());
 
           // Handle successful job posting
-          print('Job posted successfully');
+          logger.d('Job posted successfully');
         }
       }();
     } catch (e) {
       // Handle the error and print it for debugging
-      print('Job posting error: $e');
+      logger.d('Job posting error: $e');
       throw Exception(
           'Job posting error: $e'); // Rethrow the exception with the error message
     }

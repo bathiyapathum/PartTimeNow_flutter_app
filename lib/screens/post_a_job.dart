@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -37,14 +39,15 @@ class _JobPostingPageState extends State<JobPostingPage> {
             FirebaseFirestore.instance.collection('users').doc(user.uid);
         DocumentSnapshot userSnapshot = await users.get();
         final job = PostModel(
+          userId: user.uid,
           postId: UniqueKey().toString(),
           userName: userSnapshot['username'] ??
               'User Name', // Replace with user's name if available
-          gender: 'Gender', // Replace with user's gender if available
-          startDate: startDateController.text,
-          endDate: endDateController.text,
+          gender: 'male', // Replace with user's gender if available
+          startDate: DateTime.parse(startDateController.text),
+          endDate: DateTime.parse(endDateController.text),
           startTime: startTimeController.text,
-          salary: salaryController.text,
+          salary: double.parse(salaryController.text),
           location: locationController.text,
           description: descriptionController.text,
           endTime: endTimeController.text,
@@ -52,16 +55,17 @@ class _JobPostingPageState extends State<JobPostingPage> {
           photoUrl: userSnapshot['photoUrl'] ??
               'photo', // Replace with user's photo URL if available
           feedbacksId: [], // Initialize with an empty list of feedbacks
+          saved: [],
         );
 
         await jobs.add(job.toJson());
 
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Job posted successfully!'),
         ));
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Failed to post job. Please try again later.'),
       ));
     }
@@ -71,13 +75,13 @@ class _JobPostingPageState extends State<JobPostingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Post a Job'),
+        title: const Text('Post a Job'),
       ),
       body: Container(
         height: double.infinity,
         color: Colors.deepOrange.shade50,
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -88,11 +92,11 @@ class _JobPostingPageState extends State<JobPostingPage> {
                     onPressed: () {
                       // Handle close button press here
                     },
-                    icon: Icon(Icons.close),
+                    icon: const Icon(Icons.close),
                     color: Colors.black,
                     // Replace with your close icon
                   ),
-                  Container(
+                  SizedBox(
                     width: 100,
                     child: ElevatedButton(
                       onPressed: _postJob,
@@ -140,7 +144,7 @@ class _JobPostingPageState extends State<JobPostingPage> {
                       textInputType: TextInputType.datetime,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                       width: 16.0), // Add some spacing between the text fields
                   Flexible(
                     child: CustomTextField(

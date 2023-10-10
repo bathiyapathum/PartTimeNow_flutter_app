@@ -155,156 +155,154 @@ class MenueScreen extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          Card(
-                            margin: const EdgeInsets.symmetric(
-                              horizontal: 7,
-                              vertical: 5,
-                            ),
-                            // padding: const EdgeInsets.only(
-                            //     left: 5, right: 5, top: 5, bottom: 5),
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ButtonStyle(
-                                fixedSize: MaterialStateProperty.all<Size>(
-                                    const Size(300, 50)),
-                                elevation: MaterialStateProperty.all(12.0),
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                  signInBtn,
-                                ),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        0.0), // Adjust the radius as needed
-                                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        Card(
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 7,
+                            vertical: 5,
+                          ),
+                          // padding: const EdgeInsets.only(
+                          //     left: 5, right: 5, top: 5, bottom: 5),
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ButtonStyle(
+                              fixedSize: MaterialStateProperty.all<Size>(
+                                  const Size(300, 50)),
+                              elevation: MaterialStateProperty.all(12.0),
+                              backgroundColor:
+                                  MaterialStateProperty.all<Color>(
+                                signInBtn,
+                              ),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      0.0), // Adjust the radius as needed
                                 ),
                               ),
-                              child: const Text('hay'),
                             ),
+                            child: const Text('hay'),
                           ),
-                          Card(
-                            margin: const EdgeInsets.symmetric(
-                              horizontal: 7,
-                              vertical: 7,
-                            ),
-                            // padding: const EdgeInsets.only(
-                            //     left: 5, right: 5, top: 5, bottom: 5),
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ButtonStyle(
-                                fixedSize: MaterialStateProperty.all<Size>(
-                                    const Size(300, 50)),
-                                elevation: MaterialStateProperty.all(12.0),
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                  signInBtn,
-                                ),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        0.0), // Adjust the radius as needed
-                                  ),
+                        ),
+                        Card(
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 7,
+                            vertical: 7,
+                          ),
+                          // padding: const EdgeInsets.only(
+                          //     left: 5, right: 5, top: 5, bottom: 5),
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ButtonStyle(
+                              fixedSize: MaterialStateProperty.all<Size>(
+                                  const Size(300, 50)),
+                              elevation: MaterialStateProperty.all(12.0),
+                              backgroundColor:
+                                  MaterialStateProperty.all<Color>(
+                                signInBtn,
+                              ),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      0.0), // Adjust the radius as needed
                                 ),
                               ),
-                              child: const Text('hay'),
                             ),
+                            child: const Text('hay'),
                           ),
-                          Card(
-                            margin: const EdgeInsets.symmetric(
-                              horizontal: 7,
-                              vertical: 7,
-                            ),
-                            // padding: const EdgeInsets.only(
-                            //     left: 5, right: 5, top: 5, bottom: 5),
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ButtonStyle(
-                                fixedSize: MaterialStateProperty.all<Size>(
-                                    const Size(300, 50)),
-                                elevation: MaterialStateProperty.all(12.0),
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                  signInBtn,
-                                ),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        0.0), // Adjust the radius as needed
-                                  ),
+                        ),
+                        Card(
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 7,
+                            vertical: 7,
+                          ),
+                          // padding: const EdgeInsets.only(
+                          //     left: 5, right: 5, top: 5, bottom: 5),
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ButtonStyle(
+                              fixedSize: MaterialStateProperty.all<Size>(
+                                  const Size(300, 50)),
+                              elevation: MaterialStateProperty.all(12.0),
+                              backgroundColor:
+                                  MaterialStateProperty.all<Color>(
+                                signInBtn,
+                              ),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      0.0), // Adjust the radius as needed
                                 ),
                               ),
-                              child: const Text('hay'),
                             ),
+                            child: const Text('hay'),
                           ),
-                          Card(
-                            margin: const EdgeInsets.symmetric(
-                              horizontal: 7,
-                              vertical: 7,
-                            ),
-                            // padding: const EdgeInsets.only(
-                            //     left: 5, right: 5, top: 5, bottom: 5),
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ButtonStyle(
-                                fixedSize: MaterialStateProperty.all<Size>(
-                                    const Size(300, 50)),
-                                elevation: MaterialStateProperty.all(12.0),
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                  signInBtn,
-                                ),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        0.0), // Adjust the radius as needed
-                                  ),
+                        ),
+                        Card(
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 7,
+                            vertical: 7,
+                          ),
+                          // padding: const EdgeInsets.only(
+                          //     left: 5, right: 5, top: 5, bottom: 5),
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ButtonStyle(
+                              fixedSize: MaterialStateProperty.all<Size>(
+                                  const Size(300, 50)),
+                              elevation: MaterialStateProperty.all(12.0),
+                              backgroundColor:
+                                  MaterialStateProperty.all<Color>(
+                                signInBtn,
+                              ),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      0.0), // Adjust the radius as needed
                                 ),
                               ),
-                              child: const Text('hay'),
                             ),
+                            child: const Text('hay'),
                           ),
-                          Card(
-                            margin: const EdgeInsets.symmetric(
-                              horizontal: 7,
-                              vertical: 7,
-                            ),
-                            // padding: const EdgeInsets.only(
-                            //     left: 5, right: 5, top: 5, bottom: 5),
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ButtonStyle(
-                                fixedSize: MaterialStateProperty.all<Size>(
-                                    const Size(300, 50)),
-                                elevation: MaterialStateProperty.all(12.0),
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                  signInBtn,
-                                ),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        0.0), // Adjust the radius as needed
-                                  ),
+                        ),
+                        Card(
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 7,
+                            vertical: 7,
+                          ),
+                          // padding: const EdgeInsets.only(
+                          //     left: 5, right: 5, top: 5, bottom: 5),
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ButtonStyle(
+                              fixedSize: MaterialStateProperty.all<Size>(
+                                  const Size(300, 50)),
+                              elevation: MaterialStateProperty.all(12.0),
+                              backgroundColor:
+                                  MaterialStateProperty.all<Color>(
+                                signInBtn,
+                              ),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      0.0), // Adjust the radius as needed
                                 ),
                               ),
-                              child: const Text('hay'),
                             ),
+                            child: const Text('hay'),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
               // ),

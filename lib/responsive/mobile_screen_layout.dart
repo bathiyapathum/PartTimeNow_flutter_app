@@ -41,62 +41,91 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: PageView(
-          controller: pageController,
-          onPageChanged: onPageChanged,
-          children: homeScreenItems,
-        ),
-        bottomNavigationBar: Container(
-          padding: EdgeInsets.only(top: 10),
-          child: CupertinoTabBar(
-            border: null,
-            height: 55,
-            activeColor: navActivaeColor,
-            items: [
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
+      body: PageView(
+        controller: pageController,
+        onPageChanged: onPageChanged,
+        children: homeScreenItems,
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.only(top: 10),
+        child: CupertinoTabBar(
+          border: null,
+          height: 55,
+          activeColor: navActivaeColor,
+          items: [
+            BottomNavigationBarItem(
+              icon: ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                  _page == 0
+                      ? navActivaeColor
+                      : primaryColor, // Define your condition here
+                  BlendMode.srcIn,
+                ),
+                child: SvgPicture.asset(
                   'assets/home.svg',
-                  color: _page == 0 ? navActivaeColor : primaryColor,
                 ),
-                label: 'Home',
-                backgroundColor: primaryColor,
               ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
+              label: 'Home',
+              backgroundColor: primaryColor,
+            ),
+            BottomNavigationBarItem(
+              icon: ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                  _page == 1 ? navActivaeColor : primaryColor,
+                  BlendMode.srcIn,
+                ),
+                child: SvgPicture.asset(
                   'assets/search.svg',
-                  color: _page == 1 ? navActivaeColor : primaryColor,
                 ),
-                label: 'Search',
-                backgroundColor: primaryColor,
               ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
+              label: 'Search',
+              backgroundColor: primaryColor,
+            ),
+            BottomNavigationBarItem(
+              icon: ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                  _page == 2 ? navActivaeColor : primaryColor,
+                  BlendMode.srcIn,
+                ),
+                child: SvgPicture.asset(
                   'assets/add.svg',
-                  color: _page == 2 ? navActivaeColor : primaryColor,
                 ),
-                label: '',
-                backgroundColor: primaryColor,
               ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
+              label: '',
+              backgroundColor: primaryColor,
+            ),
+            BottomNavigationBarItem(
+              icon: ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                  _page == 3 ? navActivaeColor : primaryColor,
+                  BlendMode.srcIn,
+                ),
+                child: SvgPicture.asset(
                   'assets/chat.svg',
-                  color: _page == 3 ? navActivaeColor : primaryColor,
                 ),
-                label: 'Chat',
-                backgroundColor: primaryColor,
               ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
+              label: 'Chat',
+              backgroundColor: primaryColor,
+            ),
+            BottomNavigationBarItem(
+              icon: ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                  _page == 4 ? navActivaeColor : primaryColor,
+                  BlendMode.srcIn,
+                ),
+                child: SvgPicture.asset(
                   'assets/menu.svg',
-                  color: _page == 4 ? navActivaeColor : primaryColor,
                 ),
-                label: 'Menu',
-                backgroundColor: primaryColor,
               ),
-            ],
-            backgroundColor: mobileAppBackgroundColor,
-            onTap: navigationTapped,
-          ),
-        ));
+              label: 'Menu',
+              backgroundColor: primaryColor,
+            ),
+          ],
+          backgroundColor: mobileAppBackgroundColor,
+          onTap: navigationTapped,
+          currentIndex: _page,
+        ),
+      ),
+    );
   }
 }

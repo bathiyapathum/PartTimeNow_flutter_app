@@ -1,39 +1,131 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parttimenow_flutter/Widgets/post_card.dart';
+import 'package:parttimenow_flutter/Widgets/shimmer_post_card.dart';
+import 'package:parttimenow_flutter/models/filter_model.dart';
+import 'package:parttimenow_flutter/screens/filter_feed_screen.dart';
+import 'package:parttimenow_flutter/screens/select_location_screen.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
+import 'package:parttimenow_flutter/utils/utills.dart';
 
-class FeedScreenLayout extends StatelessWidget {
+class FeedScreenLayout extends StatefulWidget {
   const FeedScreenLayout({super.key});
 
   @override
+  State<FeedScreenLayout> createState() => _FeedScreenLayoutState();
+}
+
+class _FeedScreenLayoutState extends State<FeedScreenLayout> {
+  Map<String, dynamic> filteredData = {};
+  String gender = "male";
+  void navigateToFilter(context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => FilterFeedScreen(
+          callback: getLocation,
+          filterStat: filteredData,
+        ),
+      ),
+    );
+  }
+
+  void navigateToSearch(context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const SelectLocationScreen(),
+      ),
+    );
+  }
+
+  void showDialog({
+    required context,
+  }) {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) {
+        return SizedBox(
+          child: FilterFeedScreen(
+            callback: getLocation,
+            filterStat: filteredData,
+          ),
+        );
+      },
+    );
+  }
+
+  void showShrim({
+    required context,
+  }) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const ShrimmerPostCard(),
+      ),
+    );
+  }
+
+  void getLocation(Map<String, dynamic> data) {
+    setState(() {
+      filteredData = data;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    FilterModel filterModel = FilterModel.fromList(filteredData);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
         backgroundColor: mobileBackgroundColor,
         elevation: 0,
         centerTitle: false,
-        title: Card(
-          elevation: 0,
-          shape: const CircleBorder(),
-          color: Colors.white,
-          child: IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              color: navActivaeColor,
-              Icons.format_indent_increase_outlined,
+        title: GestureDetector(
+          onTap: () {
+            logger.d(filterModel.category);
+            logger.d(filterModel.location);
+            logger.d(filterModel.male);
+            logger.d(filterModel.female);
+            logger.d(filterModel.startSal);
+            logger.d(filterModel.endSal);
+          },
+          child: const Text(
+            "Home",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
         actions: [
+          Card(
+            elevation: 0,
+            shape: const CircleBorder(),
+            color: Colors.white,
+            child: IconButton(
+              onPressed: () {
+                // navigateToFilter(context);
+                showDialog(context: context);
+              },
+              icon: const Icon(
+                color: navActivaeColor,
+                Icons.format_indent_increase_outlined,
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
           Card(
             margin: const EdgeInsets.only(right: 10),
             elevation: 0,
             shape: const CircleBorder(),
             color: Colors.white,
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                // navigateToSearch(context);
+                showShrim(context: context);
+              },
               icon: const Icon(
                 color: navActivaeColor,
                 Icons.notifications,
@@ -42,24 +134,75 @@ class FeedScreenLayout extends StatelessWidget {
           )
         ],
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(
-              '',
-            ),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('posts').snapshots(),
-          builder: (context,
-              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('posts')
+            .where("gender",
+                isEqualTo:
+                    filterModel.male != null && filterModel.female != null
+                        ? null
+                        : (filterModel.male != null
+                            ? "male"
+                            : (filterModel.female != null ? "female" : null)))
+            .where("location",
+                isEqualTo: filterModel.location != null
+                    ? filterModel.location?.toLowerCase()
+                    : filterModel.location)
+            .where("category",
+                isEqualTo: filterModel.category != null
+                    ? filterModel.category?.toLowerCase()
+                    : filterModel.category)
+            .where("salary",
+                isGreaterThanOrEqualTo: filterModel.startSal != null
+                    ? int.parse(filterModel.startSal!)
+                    : null)
+            .where("salary",
+                isLessThanOrEqualTo: filterModel.endSal != null
+                    ? int.parse(filterModel.endSal!)
+                    : null)
+            .snapshots(),
+        builder: (context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return ListView.builder(
+              itemCount: 2,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) => Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
+                ),
+                child: const ShrimmerPostCard(),
+              ),
+            );
+          }
+          if (!snapshot.hasData ||
+              snapshot.data != null && snapshot.data!.docs.isEmpty) {
+            return const Center(
+              child: Text(
+                "No Data",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          }
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text(
+                "Error",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          }
+          if (snapshot.hasData &&
+              snapshot.connectionState == ConnectionState.active) {
             return ListView.builder(
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) => Container(
@@ -67,11 +210,24 @@ class FeedScreenLayout extends StatelessWidget {
                   horizontal: 10,
                   vertical: 10,
                 ),
-                child: const PostCard(),
+                child: PostCard(
+                  snap: snapshot.data!.docs[index].data(),
+                ),
               ),
             );
-          },
-        ),
+          }
+          return ListView.builder(
+            itemCount: 2,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) => Container(
+              margin: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 10,
+              ),
+              child: const ShrimmerPostCard(),
+            ),
+          );
+        },
       ),
     );
   }

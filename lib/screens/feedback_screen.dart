@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:parttimenow_flutter/models/feeback_model.dart';
 import 'package:parttimenow_flutter/resources/auth_method.dart';
 
 class FeedbackScreen extends StatefulWidget {
@@ -24,15 +22,15 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Leave Feedback'),
-        backgroundColor: Color.fromARGB(255, 206, 124, 0),
+        title: const Text('Leave Feedback'),
+        backgroundColor: const Color.fromARGB(255, 206, 124, 0),
       ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
+              const Padding(
+                padding: EdgeInsets.all(20.0),
                 child: Column(
                   children: [
                     Row(
@@ -56,10 +54,10 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               _buildStarRating(),
-              SizedBox(height: 30),
-              Text(
+              const SizedBox(height: 30),
+              const Text(
                 'Please Share Your Opinion\nAbout This Job!',
                 style: TextStyle(
                   fontSize: 18,
@@ -68,9 +66,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               _buildFeedbackField(),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
                   if (_rating != null) {
@@ -89,14 +87,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.orange,
-                  onPrimary: Colors.white,
+                  foregroundColor: Colors.orange,
+                  backgroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  minimumSize: Size(150, 40),
+                  minimumSize: const Size(150, 40),
                 ),
-                child: Text('Submit', style: TextStyle(fontSize: 16)),
+                child: const Text('Submit', style: TextStyle(fontSize: 16)),
               ),
             ],
           ),
@@ -130,23 +128,23 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   }
 
   Widget _buildFeedbackField() {
-    return Container(
+    return SizedBox(
       width: 300,
       child: TextField(
         controller: feedbackController,
-        style: TextStyle(color: Colors.black, fontSize: 18),
+        style: const TextStyle(color: Colors.black, fontSize: 18),
         maxLines: 5,
         decoration: InputDecoration(
           labelText: 'Feedback',
-          labelStyle: TextStyle(color: Colors.black, fontSize: 18),
+          labelStyle: const TextStyle(color: Colors.black, fontSize: 18),
           hintText: 'Enter your feedback here',
-          hintStyle: TextStyle(color: Colors.grey),
+          hintStyle: const TextStyle(color: Colors.grey),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
+            borderSide: const BorderSide(color: Colors.black),
             borderRadius: BorderRadius.circular(10),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Color.fromARGB(255, 206, 124, 0)),
+            borderSide: const BorderSide(color: Color.fromARGB(255, 206, 124, 0)),
             borderRadius: BorderRadius.circular(10),
           ),
         ),
