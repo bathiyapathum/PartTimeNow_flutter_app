@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:parttimenow_flutter/screens/chat_home_page.dart';
 import 'package:parttimenow_flutter/screens/feed_screen_layout.dart';
-// import 'package:parttimenow_flutter/screens/feedback_screen.dart';
+import 'package:parttimenow_flutter/screens/feedback_screen.dart';
 import 'package:parttimenow_flutter/screens/menue_screen_layout.dart';
 // import 'package:parttimenow_flutter/screens/post_a_job.dart';
 import 'package:parttimenow_flutter/screens/post_job_screen.dart';
 
 // import 'package:parttimenow_flutter/screens/post_a_job.dart';
-
 
 const mobileScreenSize = 600;
 const webScreenSize = 600;
@@ -16,13 +15,13 @@ const homeScreenItems = [
   FeedScreenLayout(),
   Text('Search'),
   PostJobScreen(),
-  // FeedbackScreen(), // this is temporary for testing,
+  FeedbackScreen(), // this is temporary for testing,
   // JobPostingPage(),
-  ChatHomePage(),
+  // ChatHomePage(),
   MenueScreen(),
 ];
 
-const categories =[
+const categories = [
   'Software Engineering',
   'Accounting',
   'Marketing',
@@ -37,8 +36,8 @@ const categories =[
   'Retail',
   'Security',
 ];
-const locations =[
- 'Ampara',
+const locations = [
+  'Ampara',
   'Anuradhapura',
   'Badulla',
   'Batticaloa',
