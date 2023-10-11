@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parttimenow_flutter/resources/auth_method.dart';
+import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:parttimenow_flutter/utils/utills.dart';
 // Import your AuthMethod class
 
@@ -64,7 +65,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Post a Job'),
-        backgroundColor: const Color.fromARGB(255, 206, 124, 0),
+        backgroundColor: mobileBackgroundColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -160,8 +161,8 @@ class _PostJobScreenState extends State<PostJobScreen> {
                 descriptionController.clear();
               },
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.orange, // Button background color
-                backgroundColor: Colors.white, // Button text color
+                foregroundColor: Colors.white, // Button background color
+                backgroundColor: mobileBackgroundColor, // Button text color
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10), // Rounded corners
                 ),
@@ -178,11 +179,12 @@ class _PostJobScreenState extends State<PostJobScreen> {
   Widget buildTextField(String labelText, TextEditingController controller) {
     return TextField(
       controller: controller,
-      style: const TextStyle(color: Colors.black, fontSize: 14), // Adjust font size
+      style: const TextStyle(
+          color: Colors.black, fontSize: 14), // Adjust font size
       decoration: InputDecoration(
         labelText: labelText,
-        labelStyle:
-            const TextStyle(color: Colors.black, fontSize: 14), // Adjust font size
+        labelStyle: const TextStyle(
+            color: Colors.black, fontSize: 14), // Adjust font size
         hintText: 'Enter a value',
         hintStyle: const TextStyle(color: Colors.grey),
         enabledBorder: OutlineInputBorder(
@@ -207,12 +209,13 @@ class _PostJobScreenState extends State<PostJobScreen> {
   Widget buildDescriptionField() {
     return TextField(
       controller: descriptionController,
-      style: const TextStyle(color: Colors.black, fontSize: 14), // Adjust font size
+      style: const TextStyle(
+          color: Colors.black, fontSize: 14), // Adjust font size
       maxLines: 5,
       decoration: InputDecoration(
         labelText: 'Description',
-        labelStyle:
-            const TextStyle(color: Colors.black, fontSize: 14), // Adjust font size
+        labelStyle: const TextStyle(
+            color: Colors.black, fontSize: 14), // Adjust font size
         hintText: 'Enter a description',
         hintStyle: const TextStyle(color: Colors.grey),
         enabledBorder: OutlineInputBorder(
