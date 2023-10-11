@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:parttimenow_flutter/models/user_model.dart';
 import 'package:parttimenow_flutter/providers/user_provider.dart';
 import 'package:parttimenow_flutter/resources/firestore_methods.dart';
+import 'package:parttimenow_flutter/screens/feedback_screen.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -41,6 +42,15 @@ class _PostCardState extends State<PostCard> {
       num += 2;
     });
     logger.d('saved');
+  }
+
+  void openfeedbackmodel(context) {
+    //navigate to feedback screen
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const FeedbackScreen(),
+      ),
+    );
   }
 
   @override
@@ -501,7 +511,9 @@ class _PostCardState extends State<PostCard> {
                   Align(
                     alignment: Alignment.bottomRight,
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        openfeedbackmodel(context);
+                      },
                       icon: SvgPicture.asset(
                         'assets/feedback.svg',
                         colorFilter: const ColorFilter.mode(
