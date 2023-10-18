@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parttimenow_flutter/resources/auth_method.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:parttimenow_flutter/utils/utills.dart';
+import 'package:intl/intl.dart';
 // Import your AuthMethod class
 
 class PostJobScreen extends StatefulWidget {
@@ -42,7 +43,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
     );
     if (picked != null && picked != DateTime.now()) {
       setState(() {
-        controller.text = picked.toString();
+        controller.text = formatDate(picked);
       });
     }
   }
@@ -58,6 +59,16 @@ class _PostJobScreenState extends State<PostJobScreen> {
         controller.text = picked.format(context);
       });
     }
+  }
+
+  String formatDate(DateTime date) {
+    final formatter = DateFormat('yyyy-MM-dd');
+    return formatter.format(date);
+  }
+
+  String formatTime(DateTime time) {
+    final formatter = DateFormat('h:mm a');
+    return formatter.format(time);
   }
 
   @override

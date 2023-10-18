@@ -8,15 +8,16 @@ import 'package:parttimenow_flutter/screens/feedback_screen.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostCard extends StatefulWidget {
-  // ignore: prefer_typing_uninitialized_variables
-  final snap;
+  final dynamic snap;
 
-  const PostCard({super.key, required this.snap});
+  const PostCard({Key? key, required this.snap}) : super(key: key);
 
   @override
-  State<PostCard> createState() => _PostCardState();
+  _PostCardState createState() => _PostCardState();
 }
 
 class _PostCardState extends State<PostCard> {
@@ -44,13 +45,17 @@ class _PostCardState extends State<PostCard> {
     logger.d('saved');
   }
 
-  void openfeedbackmodel(context) {
-    //navigate to feedback screen
+  void openFeedbackModel(context) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const FeedbackScreen(),
       ),
     );
+  }
+
+  String formatDate(DateTime? date) {
+    final formatter = DateFormat('yyyy-MM-dd');
+    return date != null ? formatter.format(date) : 'N/A';
   }
 
   @override
@@ -59,6 +64,14 @@ class _PostCardState extends State<PostCard> {
       context,
       listen: false,
     ).userModel;
+
+    final startDate = widget.snap['startDate'] is Timestamp
+        ? (widget.snap['startDate'] as Timestamp).toDate()
+        : null;
+    final endDate = widget.snap['endDate'] is Timestamp
+        ? (widget.snap['endDate'] as Timestamp).toDate()
+        : null;
+
     return Center(
       child: Card(
         elevation: 20,
@@ -67,7 +80,6 @@ class _PostCardState extends State<PostCard> {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Container(
-          // color: postCardbackgroundColor,
           padding: const EdgeInsets.symmetric(
             vertical: 10,
           ),
@@ -104,7 +116,7 @@ class _PostCardState extends State<PostCard> {
                                   radius: 22,
                                   backgroundImage: NetworkImage(
                                     widget.snap['photoUrl']?.toString() ??
-                                        'https://images.unsplash.com/photo-1694284028434-2872aa51337b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0Nnx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
+                                        'https://images.unsplash.com/photo-1694284028434-2872aa51337b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYW-ltZmVlZHw0Nnx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
                                   ),
                                 );
                               } else {
@@ -119,7 +131,6 @@ class _PostCardState extends State<PostCard> {
                               }
                             },
                           ),
-
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8),
@@ -162,25 +173,11 @@ class _PostCardState extends State<PostCard> {
                                   size: 16,
                                 ),
                               ],
-                            )
+                            ),
                           ],
                         ),
                       ),
                     ),
-                    // const Expanded(
-                    //   child: Padding(
-                    //     padding: EdgeInsets.only(left: 8),
-                    //     child: Text(
-                    //       "Rating",
-                    //       style: TextStyle(
-                    //         fontWeight: FontWeight.bold,
-                    //         fontSize: 16,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    //   ],
-                    // ),
                     IconButton(
                       onPressed: () {
                         showDialog(
@@ -208,7 +205,7 @@ class _PostCardState extends State<PostCard> {
                       icon: const Icon(
                         Icons.more_vert,
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -246,12 +243,10 @@ class _PostCardState extends State<PostCard> {
                         const TableRow(
                           children: [
                             TableCell(
-                              child: SizedBox(
-                                  height: 16), // Adjust the height for spacing
+                              child: SizedBox(height: 16),
                             ),
                             TableCell(
-                              child: SizedBox(
-                                  height: 16), // Adjust the height for spacing
+                              child: SizedBox(height: 16),
                             ),
                           ],
                         ),
@@ -273,8 +268,7 @@ class _PostCardState extends State<PostCard> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    widget.snap['startDate']?.toString() ??
-                                        'N/A',
+                                    formatDate(startDate),
                                     style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -289,7 +283,7 @@ class _PostCardState extends State<PostCard> {
                                     ),
                                   ),
                                   Text(
-                                    widget.snap['endDate']?.toString() ?? 'N/A',
+                                    formatDate(endDate),
                                     style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -303,12 +297,10 @@ class _PostCardState extends State<PostCard> {
                         const TableRow(
                           children: [
                             TableCell(
-                              child: SizedBox(
-                                  height: 16), // Adjust the height for spacing
+                              child: SizedBox(height: 16),
                             ),
                             TableCell(
-                              child: SizedBox(
-                                  height: 16), // Adjust the height for spacing
+                              child: SizedBox(height: 16),
                             ),
                           ],
                         ),
@@ -357,16 +349,13 @@ class _PostCardState extends State<PostCard> {
                             ),
                           ],
                         ),
-                        // Add a spacer row with space between rows
                         const TableRow(
                           children: [
                             TableCell(
-                              child: SizedBox(
-                                  height: 16), // Adjust the height for spacing
+                              child: SizedBox(height: 16),
                             ),
                             TableCell(
-                              child: SizedBox(
-                                  height: 16), // Adjust the height for spacing
+                              child: SizedBox(height: 16),
                             ),
                           ],
                         ),
@@ -411,12 +400,10 @@ class _PostCardState extends State<PostCard> {
                         const TableRow(
                           children: [
                             TableCell(
-                              child: SizedBox(
-                                  height: 16), // Adjust the height for spacing
+                              child: SizedBox(height: 16),
                             ),
                             TableCell(
-                              child: SizedBox(
-                                  height: 16), // Adjust the height for spacing
+                              child: SizedBox(height: 16),
                             ),
                           ],
                         ),
@@ -446,12 +433,10 @@ class _PostCardState extends State<PostCard> {
                         const TableRow(
                           children: [
                             TableCell(
-                              child: SizedBox(
-                                  height: 16), // Adjust the height for spacing
+                              child: SizedBox(height: 16),
                             ),
                             TableCell(
-                              child: SizedBox(
-                                  height: 16), // Adjust the height for spacing
+                              child: SizedBox(height: 16),
                             ),
                           ],
                         ),
@@ -468,8 +453,7 @@ class _PostCardState extends State<PostCard> {
                               ),
                             ),
                             TableCell(
-                              child: SizedBox(
-                                  height: 0), // Adjust the height for spacing
+                              child: SizedBox(height: 0),
                             ),
                           ],
                         ),
@@ -494,25 +478,26 @@ class _PostCardState extends State<PostCard> {
               Row(
                 children: [
                   IconButton(
-                      onPressed: () {
-                        postSave(user);
-                      },
-                      icon: widget.snap['saved'].contains(user.uid)
-                          ? SvgPicture.asset(
-                              'assets/saved.svg',
-                              colorFilter: const ColorFilter.mode(
-                                  Colors.red, BlendMode.srcIn),
-                            )
-                          : SvgPicture.asset(
-                              'assets/saved.svg',
-                              colorFilter: const ColorFilter.mode(
-                                  Colors.black, BlendMode.srcIn),
-                            )),
+                    onPressed: () {
+                      postSave(user);
+                    },
+                    icon: widget.snap['saved'].contains(user.uid)
+                        ? SvgPicture.asset(
+                            'assets/saved.svg',
+                            colorFilter: const ColorFilter.mode(
+                                Colors.red, BlendMode.srcIn),
+                          )
+                        : SvgPicture.asset(
+                            'assets/saved.svg',
+                            colorFilter: const ColorFilter.mode(
+                                Colors.black, BlendMode.srcIn),
+                          ),
+                  ),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: IconButton(
                       onPressed: () {
-                        openfeedbackmodel(context);
+                        openFeedbackModel(context);
                       },
                       icon: SvgPicture.asset(
                         'assets/feedback.svg',
