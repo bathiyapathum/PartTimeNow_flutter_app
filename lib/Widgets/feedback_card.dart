@@ -41,6 +41,7 @@ class _FeedbackCardState extends State<FeedbackCard> {
 
   @override
   Widget build(BuildContext context) {
+    final rating = widget.snap['rating']?.toString() ?? 'N/A';
     return Center(
       child: Card(
         elevation: 20,
@@ -120,7 +121,7 @@ class _FeedbackCardState extends State<FeedbackCard> {
                             Row(
                               children: [
                                 Text(
-                                  'Rating $num',
+                                  '$rating Star Rating',
                                   style: const TextStyle(
                                     color: Color.fromARGB(255, 194, 188, 188),
                                     fontWeight: FontWeight.bold,
@@ -128,7 +129,7 @@ class _FeedbackCardState extends State<FeedbackCard> {
                                   ),
                                 ),
                                 const Text(
-                                  "4.3",
+                                  '',
                                   style: TextStyle(
                                     color: Color.fromARGB(255, 194, 188, 188),
                                     fontWeight: FontWeight.bold,
