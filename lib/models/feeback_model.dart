@@ -4,6 +4,7 @@ class FeedbackModel {
   final String feedback;
   final String photoUrl;
   final String username;
+  final String feedbackId;
 
   FeedbackModel({
     required this.userId,
@@ -11,6 +12,7 @@ class FeedbackModel {
     required this.feedback,
     required this.photoUrl,
     required this.username,
+    required this.feedbackId,
   });
 
   Map<String, dynamic> toJson() => {
@@ -19,5 +21,6 @@ class FeedbackModel {
         'feedback': feedback,
         'photoUrl': photoUrl,
         'username': username,
+        'feedbackId': feedbackId,
       };
 }

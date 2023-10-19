@@ -5,7 +5,6 @@ import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 class FeedbackCard extends StatefulWidget {
-  // ignore: prefer_typing_uninitialized_variables
   final snap;
 
   const FeedbackCard({super.key, required this.snap});
@@ -17,7 +16,6 @@ class FeedbackCard extends StatefulWidget {
 class _FeedbackCardState extends State<FeedbackCard> {
   final logger = Logger();
   bool isSaved = false;
-  int num = 1;
 
   void postSave(user) async {
     logger.d('user ${user.uid}');
@@ -34,14 +32,31 @@ class _FeedbackCardState extends State<FeedbackCard> {
       widget.snap['saved'],
     );
     setState(() {
-      num += 2;
+      // Update your data here
     });
     logger.d('saved');
+  }
+
+  Widget buildStarRating(int rating) {
+    List<Widget> stars = [];
+
+    for (int i = 0; i < rating; i++) {
+      stars.add(Icon(
+        Icons.star,
+        color: Colors.yellow[700],
+        size: 16,
+      ));
+    }
+
+    return Row(
+      children: stars,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final rating = widget.snap['rating']?.toString() ?? 'N/A';
+
     return Center(
       child: Card(
         elevation: 20,
@@ -50,7 +65,6 @@ class _FeedbackCardState extends State<FeedbackCard> {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Container(
-          // color: postCardbackgroundColor,
           padding: const EdgeInsets.symmetric(
             vertical: 10,
           ),
@@ -63,46 +77,46 @@ class _FeedbackCardState extends State<FeedbackCard> {
                 ).copyWith(right: 0),
                 child: Row(
                   children: [
-                    widget.snap['photoUrl']?.toString() == null
-                        ? Shimmer.fromColors(
-                            baseColor: Colors.grey[300]!,
-                            highlightColor: Colors.grey[100]!,
-                            child: const CircleAvatar(
-                              radius: 22,
-                              backgroundColor: Colors.grey,
-                            ),
-                          )
-                        : FutureBuilder(
-                            future: precacheImage(
-                              NetworkImage(
-                                widget.snap['photoUrl']?.toString() ??
-                                    'https://images.unsplash.com/photo-1694284028434-2872aa51337b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0Nnx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-                              ),
-                              context,
-                            ),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.done) {
-                                return CircleAvatar(
-                                  radius: 22,
-                                  backgroundImage: NetworkImage(
-                                    widget.snap['photoUrl']?.toString() ??
-                                        'https://images.unsplash.com/photo-1694284028434-2872aa51337b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0Nnx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-                                  ),
-                                );
-                              } else {
-                                return Shimmer.fromColors(
-                                  baseColor: Colors.grey[300]!,
-                                  highlightColor: Colors.grey[100]!,
-                                  child: const CircleAvatar(
-                                    radius: 22,
-                                    backgroundColor: Colors.grey,
-                                  ),
-                                );
-                              }
-                            },
+                    if (widget.snap['photoUrl'] == null)
+                      Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        child: CircleAvatar(
+                          radius: 22,
+                          backgroundColor: Colors.grey,
+                        ),
+                      )
+                    else
+                      FutureBuilder(
+                        future: precacheImage(
+                          NetworkImage(
+                            widget.snap['photoUrl'] ??
+                                'https://images.unsplash.com/photo-1694284028434-2872aa51337b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0Nnx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
                           ),
-
+                          context,
+                        ),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            return CircleAvatar(
+                              radius: 22,
+                              backgroundImage: NetworkImage(
+                                widget.snap['photoUrl'] ??
+                                    'https://images.unsplash.com/photo-1694284028434-2872aa51337b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYW-ltZmVlZHw0Nnx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
+                              ),
+                            );
+                          } else {
+                            return Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: Colors.grey[100]!,
+                              child: CircleAvatar(
+                                radius: 22,
+                                backgroundColor: Colors.grey,
+                              ),
+                            );
+                          }
+                        },
+                      ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8),
@@ -128,70 +142,16 @@ class _FeedbackCardState extends State<FeedbackCard> {
                                     fontSize: 12,
                                   ),
                                 ),
-                                const Text(
-                                  '',
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 194, 188, 188),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
-                                ),
                                 const SizedBox(
                                   width: 4,
                                 ),
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.yellow[700],
-                                  size: 16,
-                                ),
+                                buildStarRating(widget.snap['rating'] ?? 0),
                               ],
-                            )
+                            ),
                           ],
                         ),
                       ),
                     ),
-                    // const Expanded(
-                    //   child: Padding(
-                    //     padding: EdgeInsets.only(left: 8),
-                    //     child: Text(
-                    //       "Rating",
-                    //       style: TextStyle(
-                    //         fontWeight: FontWeight.bold,
-                    //         fontSize: 16,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    //   ],
-                    // ),
-                    IconButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => Dialog(
-                            child: ListView(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 16,
-                              ),
-                              shrinkWrap: true,
-                              children: const [
-                                ListTile(
-                                  leading: Icon(Icons.edit),
-                                  title: Text('Edit'),
-                                ),
-                                ListTile(
-                                  leading: Icon(Icons.delete),
-                                  title: Text('Delete'),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                      icon: const Icon(
-                        Icons.more_vert,
-                      ),
-                    )
                   ],
                 ),
               ),

@@ -142,6 +142,7 @@ class AuthMethod {
           feedback: feedback,
           photoUrl: (await getUserDetails()).photoUrl,
           username: (await getUserDetails()).username,
+          feedbackId: '',
         );
 
         final firebaseFeedback = _firestore.collection('feedback');
