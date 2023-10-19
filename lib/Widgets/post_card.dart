@@ -92,6 +92,7 @@ class _PostCardState extends State<PostCard> {
                 ).copyWith(right: 0),
                 child: Row(
                   children: [
+
                     widget.snap['photoUrl']?.toString() == null
                         ? Shimmer.fromColors(
                             baseColor: Colors.grey[300]!,
@@ -137,6 +138,7 @@ class _PostCardState extends State<PostCard> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
+
                           children: [
                             Text(
                               widget.snap['userName']?.toString() ?? 'N/A',
@@ -206,6 +208,7 @@ class _PostCardState extends State<PostCard> {
                         Icons.more_vert,
                       ),
                     ),
+
                   ],
                 ),
               ),
