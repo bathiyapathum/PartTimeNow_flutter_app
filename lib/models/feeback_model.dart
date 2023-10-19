@@ -4,7 +4,7 @@ class FeedbackModel {
   final String feedback;
   final String photoUrl;
   final String username;
-  final String feedbackId;
+  String feedbackId;
 
   FeedbackModel({
     required this.userId,
