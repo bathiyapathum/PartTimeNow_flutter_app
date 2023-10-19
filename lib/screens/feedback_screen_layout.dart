@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:parttimenow_flutter/Widgets/feedback_card.dart';
 import 'package:parttimenow_flutter/Widgets/post_card.dart';
-
 import 'package:parttimenow_flutter/Widgets/shimmer_post_card.dart';
 import 'package:parttimenow_flutter/models/filter_model.dart';
 import 'package:parttimenow_flutter/screens/filter_feed_screen.dart';
@@ -10,14 +10,14 @@ import 'package:parttimenow_flutter/screens/select_location_screen.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:parttimenow_flutter/utils/utills.dart';
 
-class FeedScreenLayout extends StatefulWidget {
-  const FeedScreenLayout({super.key});
+class FeedbackScreenLayout extends StatefulWidget {
+  const FeedbackScreenLayout({super.key});
 
   @override
-  State<FeedScreenLayout> createState() => _FeedScreenLayoutState();
+  State<FeedbackScreenLayout> createState() => _FeedbackScreenLayoutState();
 }
 
-class _FeedScreenLayoutState extends State<FeedScreenLayout> {
+class _FeedbackScreenLayoutState extends State<FeedbackScreenLayout> {
   Map<String, dynamic> filteredData = {};
   String gender = "male";
   void navigateToFilter(context) {
@@ -80,7 +80,6 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
         backgroundColor: mobileBackgroundColor,
         elevation: 0,
         centerTitle: false,
-
         title: GestureDetector(
           onTap: () {
             logger.d(filterModel.category);
@@ -99,7 +98,6 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
             ),
           ),
         ),
-
         actions: [
           Card(
             elevation: 0,
@@ -138,32 +136,7 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
         ],
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('posts')
-            .where("gender",
-                isEqualTo:
-                    filterModel.male != null && filterModel.female != null
-                        ? null
-                        : (filterModel.male != null
-                            ? "male"
-                            : (filterModel.female != null ? "female" : null)))
-            .where("location",
-                isEqualTo: filterModel.location != null
-                    ? filterModel.location?.toLowerCase()
-                    : filterModel.location)
-            .where("category",
-                isEqualTo: filterModel.category != null
-                    ? filterModel.category?.toLowerCase()
-                    : filterModel.category)
-            .where("salary",
-                isGreaterThanOrEqualTo: filterModel.startSal != null
-                    ? int.parse(filterModel.startSal!)
-                    : null)
-            .where("salary",
-                isLessThanOrEqualTo: filterModel.endSal != null
-                    ? int.parse(filterModel.endSal!)
-                    : null)
-            .snapshots(),
+        stream: FirebaseFirestore.instance.collection('feedback').snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -213,7 +186,7 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
                   horizontal: 10,
                   vertical: 10,
                 ),
-                child: PostCard(
+                child: FeedbackCard(
                   snap: snapshot.data!.docs[index].data(),
                 ),
               ),

@@ -1,13 +1,19 @@
-// ignore_for_file: unnecessary_null_comparison
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:logger/logger.dart';
+import 'package:parttimenow_flutter/models/feeback_model.dart';
+import 'package:parttimenow_flutter/models/post_model.dart';
 import 'package:parttimenow_flutter/models/user_model.dart';
 import 'package:parttimenow_flutter/resources/storage_method.dart';
 
 class AuthMethod {
+  final logger = Logger();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  //get current user
+  User? get currentUser => _auth.currentUser;
 
   Future<UserModel> getUserDetails() async {
     //not a model class
@@ -32,6 +38,7 @@ class AuthMethod {
           password.isNotEmpty &&
           username.isNotEmpty &&
           bio.isNotEmpty &&
+          // ignore: unnecessary_null_comparison
           file != null) {
         //Register user
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
@@ -39,7 +46,7 @@ class AuthMethod {
           password: password,
         );
 
-        print(cred.user!.uid);
+        logger.d(cred.user!.uid);
 
         String photoUrl = await StorageMethod().uploadImage(
           path: 'profilePics',
@@ -119,5 +126,86 @@ class AuthMethod {
       res = e.toString();
     }
     return res;
+  }
+
+  //feedback
+  Future<void> submitFeedback({
+    required int rating,
+    required String feedback,
+  }) async {
+    try {
+      // Check if the user is authenticated
+      if (_auth.currentUser != null) {
+        final feedbackData = FeedbackModel(
+          userId: _auth.currentUser!.uid,
+          rating: rating,
+          feedback: feedback,
+          photoUrl: (await getUserDetails()).photoUrl,
+          username: (await getUserDetails()).username,
+          feedbackId: '',
+        );
+
+        final firebaseFeedback = _firestore.collection('feedback');
+        final documentReference =
+            await firebaseFeedback.add(feedbackData.toJson());
+
+        feedbackData.feedbackId = documentReference.id;
+        await documentReference.update({'feedbackId': feedbackData.feedbackId});
+      } else {
+        // Handle the case where the user is not logged in
+        throw Exception('User not logged in');
+      }
+    } catch (e) {
+      // Handle the error
+      logger.d('Feedback submission error: $e');
+    }
+  }
+
+// Post job
+  Future<void> postJob({
+    required DateTime startDate,
+    required DateTime endDate,
+    required double salary,
+    required String location,
+    required String description,
+    required String startTime,
+    required String endTime,
+  }) async {
+    try {
+      if (_auth.currentUser != null) {
+        getUserDetails().then((value) async {
+          final jobData = PostModel(
+              userId: _auth.currentUser!.uid,
+              startDate: startDate,
+              endDate: endDate,
+              salary: salary,
+              location: location,
+              description: description,
+              startTime: startTime,
+              endTime: endTime,
+              userName: value.username,
+              uid: _auth.currentUser!.uid,
+              photoUrl: value.photoUrl,
+              feedbacksId: [],
+              saved: [],
+              postId: "",
+              gender: "male");
+
+          final firebaseJobs = _firestore.collection('posts');
+          await firebaseJobs.add(jobData.toJson());
+        });
+
+        // Handle successful job posting
+        logger.d('Job posted successfully');
+      } else {
+        // Handle the case where the user is not logged in
+        throw Exception('User not logged in');
+      }
+    } catch (e) {
+      // Handle the error and print it for debugging
+      logger.d('Job posting error: $e');
+      throw Exception(
+          'Job posting error: $e'); // Rethrow the exception with the error message
+    }
   }
 }

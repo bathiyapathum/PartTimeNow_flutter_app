@@ -1,27 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostModel {
+  final String userId;
   final String postId;
   final String userName;
   final String gender;
-  final String startDate;
-  final String endDate;
   final String startTime;
-  final String salary;
   final String location;
   final String description;
   final String endTime;
   final String uid;
   final String photoUrl;
   final List feedbacksId;
+  final List saved;
+  final DateTime startDate;
+  final DateTime endDate;
+  final double salary;
 
-  const PostModel({
-    required this.postId,
-    required this.userName,
-    required this.gender,
+  PostModel({
+    required this.userId,
     required this.startDate,
-    required this.endDate,
     required this.startTime,
+    required this.userName,
+    required this.endDate,
     required this.salary,
     required this.location,
     required this.description,
@@ -29,6 +30,9 @@ class PostModel {
     required this.uid,
     required this.photoUrl,
     required this.feedbacksId,
+    required this.saved,
+    required this.postId,
+    required this.gender,
   });
 
   Map<String, dynamic> toJson() => {
@@ -38,19 +42,21 @@ class PostModel {
         'startDate': startDate,
         'endDate': endDate,
         'startTime': startTime,
-        'salary': salary,
+        'salary': salary.toDouble(),
         'location': location,
         'description': description,
         'endTime': endTime,
         'uid': uid,
         'photoUrl': photoUrl,
         'feedbacksId': feedbacksId,
+        'saved': saved,
       };
 
   static PostModel fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
     return PostModel(
       postId: snapshot['postId'],
+      userId: snapshot['userId'],
       userName: snapshot['userName'],
       gender: snapshot['gender'],
       startDate: snapshot['startDate'],
@@ -63,6 +69,7 @@ class PostModel {
       uid: snapshot['uid'],
       photoUrl: snapshot['photoUrl'],
       feedbacksId: snapshot['feedbacksId'],
+      saved: snapshot['saved'],
     );
   }
 }

@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 60,
-        backgroundColor: mobileBackgroundColor,
+        backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
         title: const Text(
@@ -111,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage(
-                'assets/background.jpg',
+                '',
               ),
               fit: BoxFit.cover,
             ),
@@ -194,6 +194,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     : const Text(
                         'Sign In',
                         style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: buttonText,
                           fontSize: 20,
                           letterSpacing: 1.5,
                         ),

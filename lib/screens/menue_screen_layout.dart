@@ -156,6 +156,7 @@ class MenueScreen extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
+
                 child: Container(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -207,8 +208,11 @@ class MenueScreen extends StatelessWidget {
                                 ),
                               ]),
                               // child: const Text('hay'),
+
                             ),
+                            child: const Text('hay'),
                           ),
+
                           const SizedBox(height: 25),
                           Card(
                             shadowColor: Colors.transparent,
@@ -254,8 +258,11 @@ class MenueScreen extends StatelessWidget {
                                 ),
                               ]),
                               // child: const Text('hay'),
+
                             ),
+                            child: const Text('hay'),
                           ),
+
                           const SizedBox(height: 25),
                           Card(
                             shadowColor: Colors.transparent,
@@ -301,8 +308,11 @@ class MenueScreen extends StatelessWidget {
                                 ),
                               ]),
                               // child: const Text('hay'),
+
                             ),
+                            child: const Text('hay'),
                           ),
+
                           const SizedBox(height: 25),
                           Card(
                             shadowColor: Colors.transparent,
@@ -348,8 +358,11 @@ class MenueScreen extends StatelessWidget {
                                 ),
                               ]),
                               // child: const Text('hay'),
+
                             ),
+                            child: const Text('hay'),
                           ),
+
                           const SizedBox(height: 25),
                           Card(
                             shadowColor: Colors.transparent,
@@ -395,13 +408,17 @@ class MenueScreen extends StatelessWidget {
                                 ),
                               ]),
                               // child: const Text('hay'),
+
                             ),
+                            child: const Text('hay'),
                           ),
+
                           const SizedBox(height: 44),
                         ],
                       ),
                     ],
                   ),
+
                 ),
               ),
 
