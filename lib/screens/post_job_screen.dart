@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:parttimenow_flutter/resources/auth_method.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
-import 'package:parttimenow_flutter/utils/utills.dart';
+import 'package:parttimenow_flutter/utils/global_variable.dart';
+// import 'package:parttimenow_flutter/utils/global_variable.dart';
+// import 'package:parttimenow_flutter/utils/utills.dart';
 
 class PostJobScreen extends StatefulWidget {
   const PostJobScreen({Key? key}) : super(key: key);

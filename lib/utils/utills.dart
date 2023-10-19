@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:logger/logger.dart';
+import 'package:parttimenow_flutter/utils/global_variable.dart';
+// import 'package:logger/logger.dart';
 
-final logger = Logger();
+// final logger = Logger();
 
 pickImage(ImageSource source) async {
 
