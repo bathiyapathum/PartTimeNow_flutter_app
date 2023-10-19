@@ -8,6 +8,7 @@ import 'package:parttimenow_flutter/models/filter_model.dart';
 import 'package:parttimenow_flutter/screens/filter_feed_screen.dart';
 import 'package:parttimenow_flutter/screens/select_location_screen.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
+import 'package:parttimenow_flutter/utils/global_variable.dart';
 import 'package:parttimenow_flutter/utils/utills.dart';
 
 class FeedbackScreenLayout extends StatefulWidget {
