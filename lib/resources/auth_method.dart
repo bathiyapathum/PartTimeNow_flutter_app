@@ -142,13 +142,15 @@ class AuthMethod {
           feedback: feedback,
           photoUrl: (await getUserDetails()).photoUrl,
           username: (await getUserDetails()).username,
+          feedbackId: '',
         );
 
         final firebaseFeedback = _firestore.collection('feedback');
+        final documentReference =
+            await firebaseFeedback.add(feedbackData.toJson());
 
-        await firebaseFeedback.add(feedbackData.toJson());
-
-        // Handle successful submission
+        feedbackData.feedbackId = documentReference.id;
+        await documentReference.update({'feedbackId': feedbackData.feedbackId});
       } else {
         // Handle the case where the user is not logged in
         throw Exception('User not logged in');
