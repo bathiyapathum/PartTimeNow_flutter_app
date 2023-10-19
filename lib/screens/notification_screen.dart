@@ -1,29 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:parttimenow_flutter/Widgets/notification_card.dart';
 import 'package:parttimenow_flutter/Widgets/post_card.dart';
-import 'package:parttimenow_flutter/screens/notification_screen.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 
-class FeedScreenLayout extends StatelessWidget {
-  const FeedScreenLayout({super.key});
+class NotificationScreen extends StatelessWidget{
+  const NotificationScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
+@override
+  Widget build(BuildContext context){
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 50,
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: false,
-        title: const Text(
-          'PartTimeNow',
-          style: TextStyle(
-            color: signInBtn,
-            fontSize: 28,
-            fontWeight: FontWeight.w500,
-            fontFamily: 'Roboto',
+                  title: const Text(
+            'PartTimeNow',
+            style: TextStyle(
+              color: signInBtn,
+              fontSize: 28,
+              fontWeight: FontWeight.w500,
+              fontFamily: 'Roboto',
+            ),
           ),
-        ),
         // title: Card(
         //   elevation: 0,
         //   shape: const CircleBorder(),
@@ -43,13 +44,7 @@ class FeedScreenLayout extends StatelessWidget {
             shape: const CircleBorder(),
             color: Colors.white,
             child: IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const NotificationScreen()),
-                );
-              },
+              onPressed: () {},
               icon: const Icon(
                 color: navActivaeColor,
                 Icons.notifications,
@@ -58,6 +53,8 @@ class FeedScreenLayout extends StatelessWidget {
           )
         ],
       ),
+
+
       body: Container(
         decoration: const BoxDecoration(
           color: Color.fromARGB(255, 223, 223, 223),
@@ -84,12 +81,22 @@ class FeedScreenLayout extends StatelessWidget {
                   horizontal: 0,
                   vertical: 5,
                 ),
-                child: const PostCard(),
+                child: const NotificationCard(),
               ),
             );
           },
         ),
       ),
+    
+
+
+
+
     );
+      
+
   }
+  
+
+
 }

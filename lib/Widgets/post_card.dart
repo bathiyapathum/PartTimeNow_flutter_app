@@ -40,25 +40,6 @@ class PostCard extends StatelessWidget {
                         'https://images.unsplash.com/photo-1694284028434-2872aa51337b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0Nnx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
                       ),
                     ),
-                    // const Expanded(
-                    //   child: Padding(
-                    //     padding: EdgeInsets.only(left: 8),
-                    //     child: Column(
-                    //       mainAxisSize: MainAxisSize.min,
-                    //       crossAxisAlignment: CrossAxisAlignment.start,
-                    //       children: [
-                    //         Text(
-                    //           'John Doe',
-                    //           style: TextStyle(
-                    //             color: postUserNameColor,
-                    //             fontWeight: FontWeight.bold,
-                    //             fontSize: 16,
-                    //           ),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
 
                     SizedBox(
                       width: 10,
@@ -100,34 +81,7 @@ class PostCard extends StatelessWidget {
                       ],
                     ),
 
-                    // IconButton(
-                    //   onPressed: () {
-                    //     showDialog(
-                    //       context: context,
-                    //       builder: (context) => Dialog(
-                    //         child: ListView(
-                    //           padding: const EdgeInsets.symmetric(
-                    //             vertical: 16,
-                    //           ),
-                    //           shrinkWrap: true,
-                    //           children: const [
-                    //             ListTile(
-                    //               leading: Icon(Icons.edit),
-                    //               title: Text('Edit'),
-                    //             ),
-                    //             ListTile(
-                    //               leading: Icon(Icons.delete),
-                    //               title: Text('Delete'),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //     );
-                    //   },
-                    //   icon: const Icon(
-                    //     Icons.more_vert,
-                    //   ),
-                    // )
+
                   ],
                 ),
               ),
