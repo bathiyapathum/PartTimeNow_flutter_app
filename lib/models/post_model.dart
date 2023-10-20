@@ -16,6 +16,7 @@ class PostModel {
   final DateTime startDate;
   final DateTime endDate;
   final double salary;
+  final int rating;
 
   PostModel({
     required this.userId,
@@ -33,6 +34,7 @@ class PostModel {
     required this.saved,
     required this.postId,
     required this.gender,
+    required this.rating,
   });
 
   Map<String, dynamic> toJson() => {
@@ -50,6 +52,7 @@ class PostModel {
         'photoUrl': photoUrl,
         'feedbacksId': feedbacksId,
         'saved': saved,
+        'rating': rating,
       };
 
   static PostModel fromSnap(DocumentSnapshot snap) {
@@ -70,6 +73,7 @@ class PostModel {
       photoUrl: snapshot['photoUrl'],
       feedbacksId: snapshot['feedbacksId'],
       saved: snapshot['saved'],
+      rating: snapshot['rating'],
     );
   }
 }
