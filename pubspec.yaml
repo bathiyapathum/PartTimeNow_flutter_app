@@ -82,8 +82,8 @@ flutter:
     - assets/feedback.svg
     - assets/message.svg
     - assets/saved.svg
+    - assets/location.png
     - assets/sign.png
-
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

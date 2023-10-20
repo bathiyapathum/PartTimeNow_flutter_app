@@ -109,31 +109,91 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         top: false,
         bottom: false,
-        child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(
-                'assets/sign.png',
+
+        child: SingleChildScrollView(
+          child: Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  '',
+                ),
+//                 fit: BoxFit.cover,
+// =======
+//         child: Container(
+//           decoration: const BoxDecoration(
+//             image: DecorationImage(
+//               image: AssetImage(
+//                 'assets/sign.png',
+// >>>>>>> main
               ),
-              fit: BoxFit.cover,
             ),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Flexible(flex: 2, child: Container()),
-              const CircleAvatar(
-                radius: 84,
-                backgroundColor: primaryColor,
-                child: CircleAvatar(
-                  radius: 74,
-                  //svg image
-                  backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1681811472561-801b008d75e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=60',
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  height: 32,
+                ),
+                 const Material(
+                  elevation: 10.2, // This elevation property adds a shadow
+                  shadowColor: postUserNameColor,
+                  shape: CircleBorder(),
+                  child: CircleAvatar(
+                    radius: 84,
+                    backgroundColor: Color.fromARGB(255, 255, 128, 8),
+                    child: CircleAvatar(
+                      radius: 82,
+                      //svg image
+                      backgroundImage: NetworkImage(
+                        'https://images.unsplash.com/photo-1681811472561-801b008d75e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=60',
+                      ),
+                    ),
                   ),
                 ),
+// <<<<<<< feature/feedview
+//                 const SizedBox(
+//                   height: 32,
+//                 ),
+//                 const Text('Sign In to Continue',
+//                     style: TextStyle(
+//                       color: primaryColor,
+//                       fontSize: 24,
+//                       fontWeight: FontWeight.bold,
+//                     )),
+//                 const SizedBox(height: 44),
+//                 //text feild email
+//                 TextFieldInput(
+//                   textEditingController: emailController,
+//                   hintText: 'Email',
+//                   textInputType: TextInputType.emailAddress,
+//                 ),
+//                 const SizedBox(
+//                   height: 20,
+//                 ),
+//                 //text feild password
+//                 TextFieldInput(
+//                   textEditingController: passwordController,
+//                   hintText: 'Password',
+//                   textInputType: TextInputType.visiblePassword,
+//                   isPass: true,
+//                 ),
+//                 const SizedBox(
+//                   height: 18,
+//                 ),
+//                 Text(
+//                   _error,
+//                   style: const TextStyle(
+//                     color: Colors.red,
+//                     fontSize: 16,
+//                   ),
+//                 ),
+//                 const SizedBox(
+//                   height: 20,
+//                 ),
+//                 // button login
+//                 ElevatedButton(
+// =======
               ),
               const SizedBox(
                 height: 32,
@@ -191,6 +251,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
                 child: ElevatedButton(
+// >>>>>>> main
                   onPressed: () {
                     loginInUser();
                   },
@@ -200,6 +261,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     backgroundColor: signInBtn,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
+
                     ),
                   ),
                   child: _isLoading
@@ -228,12 +290,32 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     padding: const EdgeInsets.symmetric(
                       vertical: 8,
+// >>>>>>> main
                     ),
-                    child: const Text("Don't have an account?",
-                        style: TextStyle(
-                          color: hintColor,
-                        )),
                   ),
+// <<<<<<< feature/feedview
+//                   child: _isLoading
+//                       ? const Center(
+//                           child: CircularProgressIndicator(
+//                             color: primaryColor,
+//                           ),
+//                         )
+//                       : const Text(
+//                           'Sign In',
+//                           style: TextStyle(
+//                             fontWeight: FontWeight.bold,
+//                             color: buttonText,
+//                             fontSize: 20,
+//                             letterSpacing: 1.5,
+//                           ),
+//                         ),
+//                 ),
+//                 //go to signup
+//                 Row(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   children: [
+//                     Container(
+// =======
                   const SizedBox(
                     width: 5,
                   ),
@@ -242,24 +324,42 @@ class _LoginScreenState extends State<LoginScreen> {
                       navigateToSignup();
                     },
                     child: Container(
+// >>>>>>> main
                       padding: const EdgeInsets.symmetric(
                         vertical: 8,
                       ),
-                      child: const Text(
-                        "Sign Up ",
-                        style: TextStyle(
-                          color: postUserNameColor,
-                          fontWeight: FontWeight.bold,
+                      child: const Text("Don't have an account?",
+                          style: TextStyle(
+                            color: hintColor,
+                          )),
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        navigateToSignup();
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                        ),
+                        child: const Text(
+                          "Sign Up ",
+                          style: TextStyle(
+                            color: postUserNameColor,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 64,
-              )
-            ],
+                  ],
+                ),
+                const SizedBox(
+                  height: 64,
+                )
+              ],
+            ),
           ),
         ),
       ),

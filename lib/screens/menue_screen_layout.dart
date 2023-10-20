@@ -350,6 +350,33 @@ class MenueScreen extends StatelessWidget {
                               // child: const Text('hay'),
                             ),
                           ),
+// <<<<<<< feature/feedview
+//                         ),
+//                         Card(
+//                           margin: const EdgeInsets.symmetric(
+//                             horizontal: 7,
+//                             vertical: 7,
+//                           ),
+//                           // padding: const EdgeInsets.only(
+//                           //     left: 5, right: 5, top: 5, bottom: 5),
+//                           child: ElevatedButton(
+//                             onPressed: () {
+//                               AuthMethod().signOut();
+//                             },
+//                             style: ButtonStyle(
+//                               fixedSize: MaterialStateProperty.all<Size>(
+//                                   const Size(300, 50)),
+//                               elevation: MaterialStateProperty.all(12.0),
+//                               backgroundColor:
+//                                   MaterialStateProperty.all<Color>(
+//                                 signInBtn,
+//                               ),
+//                               shape: MaterialStateProperty.all<
+//                                   RoundedRectangleBorder>(
+//                                 RoundedRectangleBorder(
+//                                   borderRadius: BorderRadius.circular(
+//                                       0.0), // Adjust the radius as needed
+// =======
                           const SizedBox(height: 25),
                           Card(
                             shadowColor: Colors.transparent,
@@ -383,6 +410,7 @@ class MenueScreen extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(
                                         20.0), // Adjust the radius as needed
                                   ),
+// >>>>>>> main
                                 ),
                               ),
                               child: const Row(children: [

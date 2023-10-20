@@ -9,7 +9,6 @@ import 'package:logger/logger.dart';
 
 import 'package:parttimenow_flutter/screens/post_job_screen.dart';
 
-
 const mobileScreenSize = 600;
 const webScreenSize = 600;
 final logger = Logger();
@@ -27,10 +26,11 @@ const homeScreenItems = [
 ];
 
 const categories = [
+  'Sales',
+  'Retail',
   'Software Engineering',
   'Accounting',
   'Marketing',
-  'Sales',
   'Human Resources',
   'Customer Service',
   'Distribution',
@@ -38,7 +38,6 @@ const categories = [
   'Education',
   'Hospitality',
   'Manufacturing',
-  'Retail',
   'Security',
 ];
 const locations = [
@@ -68,3 +67,28 @@ const locations = [
   'Trincomalee',
   'Vavuniya',
 ];
+
+const categoryIcons = {
+  'Software Engineering': Icons.computer_rounded,
+  'Sales': Icons.shopping_bag,
+  'Accounting': Icons.account_balance,
+  'Marketing': Icons.mark_email_read,
+  'Human Resources': Icons.people,
+  'Distribution': Icons.delivery_dining,
+  'Customer Service': Icons.support_agent,
+  'Healthcare': Icons.medical_services,
+  'Education': Icons.school,
+  'Hospitality': Icons.hotel,
+  'Manufacturing': Icons.build,
+  'Retail': Icons.shopping_cart,
+  'Security': Icons.security,
+  'Plumber': Icons.plumbing,
+  'Electrician': Icons.electrical_services,
+  'Carpenter': Icons.construction,
+  'Mason': Icons.handyman,
+  'Painter': Icons.format_paint,
+  'Welder': Icons.precision_manufacturing,
+  'Singer': Icons.mic,
+  'Actor': Icons.theater_comedy,
+  'Musician': Icons.music_note,
+};
