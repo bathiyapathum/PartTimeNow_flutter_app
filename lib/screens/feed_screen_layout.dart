@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parttimenow_flutter/Widgets/post_card.dart';
+
 import 'package:parttimenow_flutter/Widgets/shimmer_post_card.dart';
 import 'package:parttimenow_flutter/models/filter_model.dart';
 import 'package:parttimenow_flutter/screens/filter_feed_screen.dart';
 import 'package:parttimenow_flutter/screens/select_location_screen.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
+import 'package:parttimenow_flutter/utils/global_variable.dart';
 import 'package:parttimenow_flutter/utils/utills.dart';
 
 class FeedScreenLayout extends StatefulWidget {
@@ -79,6 +81,7 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
         backgroundColor: mobileBackgroundColor,
         elevation: 0,
         centerTitle: false,
+
         title: GestureDetector(
           onTap: () {
             logger.d(filterModel.category);
@@ -97,6 +100,7 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
             ),
           ),
         ),
+
         actions: [
           Card(
             elevation: 0,

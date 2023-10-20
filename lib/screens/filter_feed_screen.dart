@@ -7,6 +7,7 @@ import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:parttimenow_flutter/utils/global_variable.dart';
 import 'package:parttimenow_flutter/utils/utills.dart';
 
+
 class FilterFeedScreen extends StatefulWidget {
   final Map<String, dynamic> filterStat;
   final Function(Map<String, dynamic>)? callback;
@@ -124,8 +125,9 @@ class _FilterFeedScreenState extends State<FilterFeedScreen> {
   }
 
   void hello() {
-    logger.d(location);
-    logger.d(category);
+    // logger.d(location);
+    // logger.d(category);
+    logger.d(values.start.toInt());
   }
 
   void handleDropdown(isSelected) {

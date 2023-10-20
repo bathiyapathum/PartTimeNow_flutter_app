@@ -14,6 +14,7 @@ class MenueScreen extends StatelessWidget {
       ),
     );
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +66,7 @@ class MenueScreen extends StatelessWidget {
                 // padding: const EdgeInsets.only(left: 30, right: 20, top: 20),
                 child: Container(
                   padding: const EdgeInsets.only(
-                      left: 7, right: 7, top: 10, bottom: 10),
+                      left: 10, right: 7, top: 10, bottom: 10),
                   child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -155,157 +156,273 @@ class MenueScreen extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        Card(
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 7,
-                            vertical: 5,
-                          ),
-                          // padding: const EdgeInsets.only(
-                          //     left: 5, right: 5, top: 5, bottom: 5),
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ButtonStyle(
-                              fixedSize: MaterialStateProperty.all<Size>(
-                                  const Size(300, 50)),
-                              elevation: MaterialStateProperty.all(12.0),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                signInBtn,
-                              ),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      0.0), // Adjust the radius as needed
+                child: Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                          const SizedBox(height: 44),
+                          Card(
+                            shadowColor: Colors.transparent,
+                            color: Colors.white,
+
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 7,
+                              vertical: 0,
+                            ),
+                            // padding: const EdgeInsets.only(
+                            //     left: 5, right: 5, top: 5, bottom: 5),
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                // overlayColor: MaterialStateProperty.all<Color>(
+                                //   Colors.white
+                                // ),
+
+                                fixedSize: MaterialStateProperty.all<Size>(
+                                    const Size(300, 50)),
+                                elevation: MaterialStateProperty.all(12.0),
+
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                  Colors.black,
+                                ),
+
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        20.0), // Adjust the radius as needed
+                                  ),
                                 ),
                               ),
+                              child: const Row(children: [
+                                Icon(Icons.star_border),
+                                SizedBox(width: 50),
+                                Text('Saved'),
+                                SizedBox(width: 120),
+                                Icon(
+                                  Icons.arrow_forward_ios_outlined,
+                                ),
+                              ]),
+                              // child: const Text('hay'),
                             ),
-                            child: const Text('hay'),
                           ),
-                        ),
-                        Card(
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 7,
-                            vertical: 7,
-                          ),
-                          // padding: const EdgeInsets.only(
-                          //     left: 5, right: 5, top: 5, bottom: 5),
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ButtonStyle(
-                              fixedSize: MaterialStateProperty.all<Size>(
-                                  const Size(300, 50)),
-                              elevation: MaterialStateProperty.all(12.0),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                signInBtn,
-                              ),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      0.0), // Adjust the radius as needed
+                          const SizedBox(height: 25),
+                          Card(
+                            shadowColor: Colors.transparent,
+                            color: Colors.white,
+
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 7,
+                              vertical: 0,
+                            ),
+                            // padding: const EdgeInsets.only(
+                            //     left: 5, right: 5, top: 5, bottom: 5),
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                // overlayColor: MaterialStateProperty.all<Color>(
+                                //   Colors.white
+                                // ),
+
+                                fixedSize: MaterialStateProperty.all<Size>(
+                                    const Size(300, 50)),
+                                elevation: MaterialStateProperty.all(12.0),
+
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                  Colors.black,
+                                ),
+
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        20.0), // Adjust the radius as needed
+                                  ),
                                 ),
                               ),
+                              child: const Row(children: [
+                                Icon(Icons.category_outlined),
+                                SizedBox(width: 50),
+                                Text('Categories'),
+                                SizedBox(width: 90),
+                                Icon(
+                                  Icons.arrow_forward_ios_outlined,
+                                ),
+                              ]),
+                              // child: const Text('hay'),
                             ),
-                            child: const Text('hay'),
                           ),
-                        ),
-                        Card(
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 7,
-                            vertical: 7,
-                          ),
-                          // padding: const EdgeInsets.only(
-                          //     left: 5, right: 5, top: 5, bottom: 5),
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ButtonStyle(
-                              fixedSize: MaterialStateProperty.all<Size>(
-                                  const Size(300, 50)),
-                              elevation: MaterialStateProperty.all(12.0),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                signInBtn,
-                              ),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      0.0), // Adjust the radius as needed
+                          const SizedBox(height: 25),
+                          Card(
+                            shadowColor: Colors.transparent,
+                            color: Colors.white,
+
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 7,
+                              vertical: 0,
+                            ),
+                            // padding: const EdgeInsets.only(
+                            //     left: 5, right: 5, top: 5, bottom: 5),
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                // overlayColor: MaterialStateProperty.all<Color>(
+                                //   Colors.white
+                                // ),
+
+                                fixedSize: MaterialStateProperty.all<Size>(
+                                    const Size(300, 50)),
+                                elevation: MaterialStateProperty.all(12.0),
+
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                  Colors.black,
+                                ),
+
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        20.0), // Adjust the radius as needed
+                                  ),
                                 ),
                               ),
+                              child: const Row(children: [
+                                Icon(Icons.location_on),
+                                SizedBox(width: 50),
+                                Text('Location'),
+                                SizedBox(width: 107),
+                                Icon(
+                                  Icons.arrow_forward_ios_outlined,
+                                ),
+                              ]),
+                              // child: const Text('hay'),
                             ),
-                            child: const Text('hay'),
                           ),
-                        ),
-                        Card(
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 7,
-                            vertical: 7,
-                          ),
-                          // padding: const EdgeInsets.only(
-                          //     left: 5, right: 5, top: 5, bottom: 5),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              signOut(context);
-                            },
-                            style: ButtonStyle(
-                              fixedSize: MaterialStateProperty.all<Size>(
-                                  const Size(300, 50)),
-                              elevation: MaterialStateProperty.all(12.0),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                signInBtn,
-                              ),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      0.0), // Adjust the radius as needed
+                          const SizedBox(height: 25),
+                          Card(
+                            shadowColor: Colors.transparent,
+                            color: Colors.white,
+
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 7,
+                              vertical: 0,
+                            ),
+                            // padding: const EdgeInsets.only(
+                            //     left: 5, right: 5, top: 5, bottom: 5),
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                // overlayColor: MaterialStateProperty.all<Color>(
+                                //   Colors.white
+                                // ),
+
+                                fixedSize: MaterialStateProperty.all<Size>(
+                                    const Size(300, 50)),
+                                elevation: MaterialStateProperty.all(12.0),
+
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                  Colors.black,
+                                ),
+
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        20.0), // Adjust the radius as needed
+                                  ),
                                 ),
                               ),
+                              child: const Row(children: [
+                                Icon(Icons.feedback_outlined),
+                                SizedBox(width: 50),
+                                Text('Feedbacks'),
+                                SizedBox(width: 92),
+                                Icon(
+                                  Icons.arrow_forward_ios_outlined,
+                                ),
+                              ]),
+                              // child: const Text('hay'),
                             ),
-                            child: const Text('hay'),
                           ),
-                        ),
-                        Card(
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 7,
-                            vertical: 7,
-                          ),
-                          // padding: const EdgeInsets.only(
-                          //     left: 5, right: 5, top: 5, bottom: 5),
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ButtonStyle(
-                              fixedSize: MaterialStateProperty.all<Size>(
-                                  const Size(300, 50)),
-                              elevation: MaterialStateProperty.all(12.0),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                signInBtn,
-                              ),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      0.0), // Adjust the radius as needed
+                          const SizedBox(height: 25),
+                          Card(
+                            shadowColor: Colors.transparent,
+                            color: Colors.white,
+
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 7,
+                              vertical: 0,
+                            ),
+                            // padding: const EdgeInsets.only(
+                            //     left: 5, right: 5, top: 5, bottom: 5),
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                // overlayColor: MaterialStateProperty.all<Color>(
+                                //   Colors.white
+                                // ),
+
+                                fixedSize: MaterialStateProperty.all<Size>(
+                                    const Size(300, 50)),
+                                elevation: MaterialStateProperty.all(12.0),
+
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                  Colors.black,
+                                ),
+
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        20.0), // Adjust the radius as needed
+                                  ),
                                 ),
                               ),
+                              child: const Row(children: [
+                                Icon(Icons.request_page_outlined),
+                                SizedBox(width: 50),
+                                Text('Job Request'),
+                                SizedBox(width: 80),
+                                Icon(
+                                  Icons.arrow_forward_ios_outlined,
+                                ),
+                              ]),
+                              // child: const Text('hay'),
                             ),
-                            child: const Text('hay'),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          const SizedBox(height: 44),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
+
+
               // ),
 
               //////////////////////////////////////////
               // ),
+
+
+              const Card(
+                color: Colors.amber,
+                margin: EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 80,
+                ),
+                child: ButtonBar(
+                  
+                ),
+                
+              )
             ],
           ),
         ]),
