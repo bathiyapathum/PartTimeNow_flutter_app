@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:parttimenow_flutter/Widgets/text_field_input.dart';
 import 'package:parttimenow_flutter/resources/auth_method.dart';
 import 'package:parttimenow_flutter/responsive/mobile_screen_layout.dart';
@@ -95,13 +96,14 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Sign In',
-          style: TextStyle(
-            color: navActivaeColor,
-            fontSize: 24,
+          style: GoogleFonts.lato(
+              textStyle: const TextStyle(
+            color: postUserNameColor,
+            fontSize: 30,
             fontWeight: FontWeight.bold,
-          ),
+          )),
         ),
       ),
       body: SafeArea(
@@ -111,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage(
-                '',
+                'assets/sign.png',
               ),
               fit: BoxFit.cover,
             ),
@@ -136,17 +138,19 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 32,
               ),
-              const Text('Sign In to Continue',
-                  style: TextStyle(
+              Text('Sign In to Continue',
+                  style: GoogleFonts.lato(
+                      textStyle: const TextStyle(
                     color: postUserNameColor,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                  )),
+                  ))),
               const SizedBox(height: 44),
               //text feild email
               TextFieldInput(
                 textEditingController: emailController,
-                hintText: 'Email',
+                hintText: 'Email ID',
+                label: 'Email',
                 textInputType: TextInputType.emailAddress,
               ),
               const SizedBox(
@@ -156,6 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
               TextFieldInput(
                 textEditingController: passwordController,
                 hintText: 'Password',
+                label: 'Password',
                 textInputType: TextInputType.visiblePassword,
                 isPass: true,
               ),
@@ -173,34 +178,48 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 34,
               ),
               // button login
-              ElevatedButton(
-                onPressed: () {
-                  loginInUser();
-                },
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 48),
-                  foregroundColor: primaryColor,
-                  backgroundColor: signInBtn,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2), // Shadow color
+                      spreadRadius: 3, // Spread radius
+                      blurRadius: 5, // Blur radius
+                      offset: Offset(2, 6), // Offset
+                    ),
+                  ],
                 ),
-                child: _isLoading
-                    ? const Center(
-                        child: CircularProgressIndicator(
-                          color: primaryColor,
+                child: ElevatedButton(
+                  onPressed: () {
+                    loginInUser();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 48),
+                    foregroundColor: primaryColor,
+                    backgroundColor: signInBtn,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                  ),
+                  child: _isLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: primaryColor,
+                          ),
+                        )
+                      : Text(
+                          'Sign In',
+                          style: GoogleFonts.lato(
+                            fontWeight: FontWeight.bold,
+                            color: buttonText,
+                            fontSize: 20,
+                            letterSpacing: 1.5,
+                          ),
                         ),
-                      )
-                    : const Text(
-                        'Sign In',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: buttonText,
-                          fontSize: 20,
-                          letterSpacing: 1.5,
-                        ),
-                      ),
+                ),
               ),
+
               Flexible(flex: 2, child: Container()),
               //go to signup
               Row(
@@ -214,6 +233,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                           color: hintColor,
                         )),
+                  ),
+                  const SizedBox(
+                    width: 5,
                   ),
                   GestureDetector(
                     onTap: () {

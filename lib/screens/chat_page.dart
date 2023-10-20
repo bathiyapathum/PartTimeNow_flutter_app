@@ -8,10 +8,12 @@ import 'package:parttimenow_flutter/services/chat/chat_service.dart';
 class ChatPage extends StatefulWidget {
   final String recieverUserEmail;
   final String recieverUserID;
+  final String recieverUserImage;
   const ChatPage(
       {super.key,
       required this.recieverUserEmail,
-      required this.recieverUserID});
+      required this.recieverUserID,
+      required this.recieverUserImage});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -21,11 +23,39 @@ class _ChatPageState extends State<ChatPage> {
   final TextEditingController _messageController = TextEditingController();
   final ChatService _chatService = ChatService();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  String? currentUserImageURL; // To store the current user's image URL
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUserImageURL().then((url) {
+      setState(() {
+        currentUserImageURL = url;
+      });
+    });
+  }
+
+  Future<String?> getCurrentUserImageURL() async {
+    final user = _firebaseAuth.currentUser;
+    if (user != null) {
+      // Fetch the user's image URL from your data source (e.g., Firebase Firestore)
+      final userData = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+      return userData['photoUrl'];
+    }
+    return null;
+  }
 
   void sendMessage() async {
     if (_messageController.text.isNotEmpty) {
-      await _chatService.sendMessage(
-          widget.recieverUserID, _messageController.text);
+      final String recipientUserId = widget.recieverUserID;
+      final String messageText = _messageController.text;
+
+      // Send the message
+      await _chatService.sendMessage(recipientUserId, messageText);
+      // Clear the message input field
       _messageController.clear();
     }
   }
@@ -34,15 +64,41 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.recieverUserEmail,
-          style: const TextStyle(color: Colors.deepOrange),
+        foregroundColor: Colors.deepOrange,
+        title: Row(
+          children: [
+            CircleAvatar(
+              backgroundImage: NetworkImage(widget.recieverUserImage),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              widget.recieverUserEmail[0].toUpperCase() +
+                  widget.recieverUserEmail.substring(1),
+              style: const TextStyle(color: Colors.deepOrange),
+            ),
+          ],
         ),
         backgroundColor: Colors.white,
         elevation: 1,
+        actions: [
+          IconButton(
+            onPressed: () {
+              // Add your logic for the dot menu here
+            },
+            icon: const Icon(
+              Icons.more_vert, // Vertical ellipsis icon
+              color: Colors.deepOrange,
+            ),
+          ),
+        ],
       ),
       body: Column(
         children: [
+          const SizedBox(
+            height: 15,
+          ),
           //message
           Expanded(
             child: _buildMessageList(),
@@ -50,7 +106,7 @@ class _ChatPageState extends State<ChatPage> {
           //user input
           _buildMessageInput(),
           const SizedBox(
-            height: 25,
+            height: 50,
           )
         ],
       ),
@@ -85,6 +141,7 @@ class _ChatPageState extends State<ChatPage> {
     var alignment = (data['senderId'] == _firebaseAuth.currentUser!.uid)
         ? Alignment.centerRight
         : Alignment.centerLeft;
+
     return Container(
       alignment: alignment,
       child: Padding(
@@ -99,14 +156,89 @@ class _ChatPageState extends State<ChatPage> {
                   ? MainAxisAlignment.end
                   : MainAxisAlignment.start,
           children: [
-            Text(
-              data['senderEmail'],
-              style: const TextStyle(color: Colors.black),
+            Row(
+              mainAxisAlignment:
+                  (data['senderId'] == _firebaseAuth.currentUser!.uid)
+                      ? MainAxisAlignment.end
+                      : MainAxisAlignment.start,
+              children: [
+                if (data['senderId'] != _firebaseAuth.currentUser!.uid)
+                  FutureBuilder<DocumentSnapshot>(
+                    future: FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(data['senderId'])
+                        .get(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<DocumentSnapshot> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator(); // Show a loading indicator while fetching data
+                      }
+                      if (snapshot.hasError) {
+                        return Text(
+                          'Error: ${snapshot.error}',
+                          style: const TextStyle(color: Colors.black),
+                        );
+                      }
+                      if (!snapshot.hasData || !snapshot.data!.exists) {
+                        return const Text(
+                          'User not found',
+                          style: TextStyle(color: Colors.black),
+                        );
+                      }
+                      final senderData =
+                          snapshot.data!.data() as Map<String, dynamic>;
+                      final senderImageUrl = senderData['photoUrl'];
+                      return CircleAvatar(
+                        backgroundImage: NetworkImage(senderImageUrl),
+                        radius: 15, // Adjust the radius as needed
+                      );
+                    },
+                  ),
+                const SizedBox(
+                  width: 10,
+                ),
+                ChatBubble(
+                    message: data['message'],
+                    color: (data['senderId'] == _firebaseAuth.currentUser!.uid)
+                        ? 'sender'
+                        : 'reciever'),
+                const SizedBox(
+                  width: 10,
+                ),
+                if (data['senderId'] == _firebaseAuth.currentUser!.uid)
+                  FutureBuilder<DocumentSnapshot>(
+                    future: FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(data['senderId'])
+                        .get(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<DocumentSnapshot> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator(); // Show a loading indicator while fetching data
+                      }
+                      if (snapshot.hasError) {
+                        return Text(
+                          'Error: ${snapshot.error}',
+                          style: const TextStyle(color: Colors.black),
+                        );
+                      }
+                      if (!snapshot.hasData || !snapshot.data!.exists) {
+                        return const Text(
+                          'User not found',
+                          style: TextStyle(color: Colors.black),
+                        );
+                      }
+                      final senderData =
+                          snapshot.data!.data() as Map<String, dynamic>;
+                      final senderImageUrl = senderData['photoUrl'];
+                      return CircleAvatar(
+                        backgroundImage: NetworkImage(senderImageUrl),
+                        radius: 15, // Adjust the radius as needed
+                      );
+                    },
+                  ),
+              ],
             ),
-            const SizedBox(
-              height: 5,
-            ),
-            ChatBubble(message: data['message']),
           ],
         ),
       ),
@@ -119,6 +251,19 @@ class _ChatPageState extends State<ChatPage> {
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: Row(
         children: [
+          IconButton(
+            onPressed: () {
+              // Add logic to handle photo button click here
+            },
+            icon: const Icon(
+              Icons.camera_alt_outlined,
+              size: 35,
+              color: Colors.deepOrange,
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
           Expanded(
             child: ChatTextField(
               controller: _messageController,
@@ -131,6 +276,7 @@ class _ChatPageState extends State<ChatPage> {
             icon: const Icon(
               Icons.send,
               size: 40,
+              color: Colors.deepOrange,
             ),
           ),
         ],
