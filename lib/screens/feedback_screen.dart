@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:parttimenow_flutter/resources/auth_method.dart';
+import 'package:parttimenow_flutter/utils/colors.dart';
 
 class FeedbackScreen extends StatefulWidget {
-  const FeedbackScreen({Key? key}) : super(key: key);
+  final String postID;
+  const FeedbackScreen({Key? key, required this.postID}) : super(key: key);
 
   @override
   State<FeedbackScreen> createState() => _FeedbackScreenState();
@@ -10,6 +12,14 @@ class FeedbackScreen extends StatefulWidget {
 
 class _FeedbackScreenState extends State<FeedbackScreen> {
   int? _rating;
+  late String _postUserId;
+
+  @override
+  void initState() {
+    super.initState();
+    _postUserId = widget.postID;
+  }
+
   final TextEditingController feedbackController = TextEditingController();
 
   @override
@@ -23,7 +33,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Leave Feedback'),
-        backgroundColor: const Color.fromARGB(255, 206, 124, 0),
+        backgroundColor: mobileBackgroundColor,
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -77,6 +87,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     await AuthMethod().submitFeedback(
                       rating: _rating!,
                       feedback: feedback,
+                      feedbackUserId: _postUserId,
                     );
 
                     // Handle successful submission
@@ -87,8 +98,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.orange,
-                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.white,
+                  backgroundColor: mobileBackgroundColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -144,7 +155,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
             borderRadius: BorderRadius.circular(10),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Color.fromARGB(255, 206, 124, 0)),
+            borderSide:
+                const BorderSide(color: Color.fromARGB(255, 206, 124, 0)),
             borderRadius: BorderRadius.circular(10),
           ),
         ),

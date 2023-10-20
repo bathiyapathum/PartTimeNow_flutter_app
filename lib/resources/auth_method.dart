@@ -132,6 +132,7 @@ class AuthMethod {
   Future<void> submitFeedback({
     required int rating,
     required String feedback,
+    required String feedbackUserId,
   }) async {
     try {
       // Check if the user is authenticated
@@ -140,13 +141,18 @@ class AuthMethod {
           userId: _auth.currentUser!.uid,
           rating: rating,
           feedback: feedback,
+          photoUrl: (await getUserDetails()).photoUrl,
+          username: (await getUserDetails()).username,
+          feedbackId: '',
+          feedbackReceiverId: feedbackUserId,
         );
 
         final firebaseFeedback = _firestore.collection('feedback');
+        final documentReference =
+            await firebaseFeedback.add(feedbackData.toJson());
 
-        await firebaseFeedback.add(feedbackData.toJson());
-
-        // Handle successful submission
+        feedbackData.feedbackId = documentReference.id;
+        await documentReference.update({'feedbackId': feedbackData.feedbackId});
       } else {
         // Handle the case where the user is not logged in
         throw Exception('User not logged in');
@@ -168,8 +174,8 @@ class AuthMethod {
     required String endTime,
   }) async {
     try {
-      () async {
-        if (_auth.currentUser != null) {
+      if (_auth.currentUser != null) {
+        getUserDetails().then((value) async {
           final jobData = PostModel(
               userId: _auth.currentUser!.uid,
               startDate: startDate,
@@ -179,21 +185,25 @@ class AuthMethod {
               description: description,
               startTime: startTime,
               endTime: endTime,
-              userName: _auth.currentUser!.displayName!,
+              userName: value.username,
               uid: _auth.currentUser!.uid,
-              photoUrl: _auth.currentUser!.photoURL!,
+              photoUrl: value.photoUrl,
               feedbacksId: [],
               saved: [],
               postId: "",
+              rating: 3,
               gender: "male");
 
-          final firebaseJobs = _firestore.collection('jobs');
+          final firebaseJobs = _firestore.collection('posts');
           await firebaseJobs.add(jobData.toJson());
+        });
 
-          // Handle successful job posting
-          logger.d('Job posted successfully');
-        }
-      }();
+        // Handle successful job posting
+        logger.d('Job posted successfully');
+      } else {
+        // Handle the case where the user is not logged in
+        throw Exception('User not logged in');
+      }
     } catch (e) {
       // Handle the error and print it for debugging
       logger.d('Job posting error: $e');

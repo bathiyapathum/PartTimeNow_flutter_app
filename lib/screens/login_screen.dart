@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:parttimenow_flutter/Widgets/text_field_input.dart';
 import 'package:parttimenow_flutter/resources/auth_method.dart';
 import 'package:parttimenow_flutter/responsive/mobile_screen_layout.dart';
@@ -95,18 +96,20 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Sign In',
-          style: TextStyle(
-            color: navActivaeColor,
-            fontSize: 28,
+          style: GoogleFonts.lato(
+              textStyle: const TextStyle(
+            color: postUserNameColor,
+            fontSize: 30,
             fontWeight: FontWeight.bold,
-          ),
+          )),
         ),
       ),
       body: SafeArea(
         top: false,
         bottom: false,
+
         child: SingleChildScrollView(
           child: Container(
             decoration: const BoxDecoration(
@@ -114,7 +117,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 image: AssetImage(
                   '',
                 ),
-                fit: BoxFit.cover,
+//                 fit: BoxFit.cover,
+// =======
+//         child: Container(
+//           decoration: const BoxDecoration(
+//             image: DecorationImage(
+//               image: AssetImage(
+//                 'assets/sign.png',
+// >>>>>>> main
               ),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -141,47 +151,107 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 32,
+// <<<<<<< feature/feedview
+//                 const SizedBox(
+//                   height: 32,
+//                 ),
+//                 const Text('Sign In to Continue',
+//                     style: TextStyle(
+//                       color: primaryColor,
+//                       fontSize: 24,
+//                       fontWeight: FontWeight.bold,
+//                     )),
+//                 const SizedBox(height: 44),
+//                 //text feild email
+//                 TextFieldInput(
+//                   textEditingController: emailController,
+//                   hintText: 'Email',
+//                   textInputType: TextInputType.emailAddress,
+//                 ),
+//                 const SizedBox(
+//                   height: 20,
+//                 ),
+//                 //text feild password
+//                 TextFieldInput(
+//                   textEditingController: passwordController,
+//                   hintText: 'Password',
+//                   textInputType: TextInputType.visiblePassword,
+//                   isPass: true,
+//                 ),
+//                 const SizedBox(
+//                   height: 18,
+//                 ),
+//                 Text(
+//                   _error,
+//                   style: const TextStyle(
+//                     color: Colors.red,
+//                     fontSize: 16,
+//                   ),
+//                 ),
+//                 const SizedBox(
+//                   height: 20,
+//                 ),
+//                 // button login
+//                 ElevatedButton(
+// =======
+              ),
+              const SizedBox(
+                height: 32,
+              ),
+              Text('Sign In to Continue',
+                  style: GoogleFonts.lato(
+                      textStyle: const TextStyle(
+                    color: postUserNameColor,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ))),
+              const SizedBox(height: 44),
+              //text feild email
+              TextFieldInput(
+                textEditingController: emailController,
+                hintText: 'Email ID',
+                label: 'Email',
+                textInputType: TextInputType.emailAddress,
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              //text feild password
+              TextFieldInput(
+                textEditingController: passwordController,
+                hintText: 'Password',
+                label: 'Password',
+                textInputType: TextInputType.visiblePassword,
+                isPass: true,
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              Text(
+                _error,
+                style: const TextStyle(
+                  color: Colors.red,
+                  fontSize: 16,
                 ),
-                const Text('Sign In to Continue',
-                    style: TextStyle(
-                      color: primaryColor,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    )),
-                const SizedBox(height: 44),
-                //text feild email
-                TextFieldInput(
-                  textEditingController: emailController,
-                  hintText: 'Email',
-                  textInputType: TextInputType.emailAddress,
+              ),
+              const SizedBox(
+                height: 34,
+              ),
+              // button login
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2), // Shadow color
+                      spreadRadius: 3, // Spread radius
+                      blurRadius: 5, // Blur radius
+                      offset: Offset(2, 6), // Offset
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                //text feild password
-                TextFieldInput(
-                  textEditingController: passwordController,
-                  hintText: 'Password',
-                  textInputType: TextInputType.visiblePassword,
-                  isPass: true,
-                ),
-                const SizedBox(
-                  height: 18,
-                ),
-                Text(
-                  _error,
-                  style: const TextStyle(
-                    color: Colors.red,
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                // button login
-                ElevatedButton(
+                child: ElevatedButton(
+// >>>>>>> main
                   onPressed: () {
                     loginInUser();
                   },
@@ -191,6 +261,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     backgroundColor: signInBtn,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
+
                     ),
                   ),
                   child: _isLoading
@@ -199,9 +270,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: primaryColor,
                           ),
                         )
-                      : const Text(
+                      : Text(
                           'Sign In',
-                          style: TextStyle(
+                          style: GoogleFonts.lato(
                             fontWeight: FontWeight.bold,
                             color: buttonText,
                             fontSize: 20,
@@ -209,11 +280,51 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                 ),
-                //go to signup
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
+              ),
+
+              Flexible(flex: 2, child: Container()),
+              //go to signup
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+// >>>>>>> main
+                    ),
+                  ),
+// <<<<<<< feature/feedview
+//                   child: _isLoading
+//                       ? const Center(
+//                           child: CircularProgressIndicator(
+//                             color: primaryColor,
+//                           ),
+//                         )
+//                       : const Text(
+//                           'Sign In',
+//                           style: TextStyle(
+//                             fontWeight: FontWeight.bold,
+//                             color: buttonText,
+//                             fontSize: 20,
+//                             letterSpacing: 1.5,
+//                           ),
+//                         ),
+//                 ),
+//                 //go to signup
+//                 Row(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   children: [
+//                     Container(
+// =======
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      navigateToSignup();
+                    },
+                    child: Container(
+// >>>>>>> main
                       padding: const EdgeInsets.symmetric(
                         vertical: 8,
                       ),

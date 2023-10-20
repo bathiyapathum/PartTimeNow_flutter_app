@@ -21,9 +21,8 @@ class ChatTextField extends StatelessWidget {
         color: const Color(0xFFFFE6DE),
       ),
       child: Padding(
-        padding: const EdgeInsets.only(left: 8),
+        padding: const EdgeInsets.only(left: 15),
         child: TextField(
-          
           controller: controller,
           obscureText: obscureText,
           decoration: InputDecoration(

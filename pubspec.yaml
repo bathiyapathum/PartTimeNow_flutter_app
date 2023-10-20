@@ -33,22 +33,29 @@ dependencies:
   firebase_auth: ^4.9.0
   firebase_core: ^2.15.1
   firebase_storage: ^11.2.6
+   
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.7
   image_picker: ^1.0.4
   logger: ^2.0.2+1
   provider: ^6.0.5
+
   searchfield: ^0.8.4
   shimmer: ^3.0.0
   uuid: ^4.1.0
   flutter_rating_bar: ^4.0.0
   intl: ^0.17.0
+  flutter_animated_button: ^2.0.3
+
+  google_fonts: ^6.1.0
+
 
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+    
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -76,6 +83,7 @@ flutter:
     - assets/message.svg
     - assets/saved.svg
     - assets/location.png
+    - assets/sign.png
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
