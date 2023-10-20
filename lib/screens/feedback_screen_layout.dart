@@ -11,7 +11,8 @@ import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:parttimenow_flutter/utils/utills.dart';
 
 class FeedbackScreenLayout extends StatefulWidget {
-  const FeedbackScreenLayout({super.key});
+  final String feedbackUserId;
+  const FeedbackScreenLayout({super.key, required this.feedbackUserId});
 
   @override
   State<FeedbackScreenLayout> createState() => _FeedbackScreenLayoutState();
@@ -20,6 +21,7 @@ class FeedbackScreenLayout extends StatefulWidget {
 class _FeedbackScreenLayoutState extends State<FeedbackScreenLayout> {
   Map<String, dynamic> filteredData = {};
   String gender = "male";
+  String postUserId = "";
   void navigateToFilter(context) {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -29,6 +31,12 @@ class _FeedbackScreenLayoutState extends State<FeedbackScreenLayout> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    postUserId = widget.feedbackUserId;
   }
 
   void navigateToSearch(context) {
@@ -136,7 +144,10 @@ class _FeedbackScreenLayoutState extends State<FeedbackScreenLayout> {
         ],
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('feedback').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('feedback')
+            .where("feedbackReceiverId", isEqualTo: postUserId)
+            .snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {

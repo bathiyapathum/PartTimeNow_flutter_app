@@ -132,6 +132,7 @@ class AuthMethod {
   Future<void> submitFeedback({
     required int rating,
     required String feedback,
+    required String feedbackUserId,
   }) async {
     try {
       // Check if the user is authenticated
@@ -143,6 +144,7 @@ class AuthMethod {
           photoUrl: (await getUserDetails()).photoUrl,
           username: (await getUserDetails()).username,
           feedbackId: '',
+          feedbackReceiverId: feedbackUserId,
         );
 
         final firebaseFeedback = _firestore.collection('feedback');
@@ -189,6 +191,7 @@ class AuthMethod {
               feedbacksId: [],
               saved: [],
               postId: "",
+              rating: 3,
               gender: "male");
 
           final firebaseJobs = _firestore.collection('posts');
