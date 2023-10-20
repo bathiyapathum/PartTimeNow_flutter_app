@@ -20,4 +20,16 @@ class FireStoreMethods {
       logger.e('heheheeh $e');
     }
   }
+
+  Future<void> updateUserPref(
+      String uId, String location, List categories) async {
+    try {
+      await _firestore.collection('users').doc(uId).update({
+        'location': location,
+        'categories': categories,
+      });
+    } catch (e) {
+      logger.e('heheheeh $e');
+    }
+  }
 }

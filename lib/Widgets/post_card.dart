@@ -263,7 +263,7 @@ class _PostCardState extends State<PostCard> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    widget.snap['startDate']?.toString() ??
+                                    widget.snap['startDate']?.toDate().toString().split(' ')[0] ??
                                         'N/A',
                                     style: const TextStyle(
                                       color: Colors.black,
@@ -279,7 +279,7 @@ class _PostCardState extends State<PostCard> {
                                     ),
                                   ),
                                   Text(
-                                    widget.snap['endDate']?.toString() ?? 'N/A',
+                                    widget.snap['endDate']?.toDate().toString().split(' ')[0] ?? 'N/A',
                                     style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,

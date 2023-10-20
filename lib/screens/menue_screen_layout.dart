@@ -280,7 +280,9 @@ class MenueScreen extends StatelessWidget {
                           // padding: const EdgeInsets.only(
                           //     left: 5, right: 5, top: 5, bottom: 5),
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              AuthMethod().signOut();
+                            },
                             style: ButtonStyle(
                               fixedSize: MaterialStateProperty.all<Size>(
                                   const Size(300, 50)),
