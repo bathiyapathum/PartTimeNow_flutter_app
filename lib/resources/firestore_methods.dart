@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logger/logger.dart';
 
-class FireStoreMethods{
+class FireStoreMethods {
   final logger = Logger();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-   Future<void> savePost(String postId, String uId, List saved) async {
+  Future<void> savePost(String postId, String uId, List saved) async {
     try {
       if (saved.contains(uId)) {
         await _firestore.collection('posts').doc(postId).update({
@@ -16,7 +16,7 @@ class FireStoreMethods{
           'saved': FieldValue.arrayUnion([uId]),
         });
       }
-    } catch (e) {      
+    } catch (e) {
       logger.e('heheheeh $e');
     }
   }
