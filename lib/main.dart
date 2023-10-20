@@ -40,8 +40,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Part Time Now',
-        theme: ThemeData.dark().copyWith(          
-          scaffoldBackgroundColor: Colors.white,          
+        theme: ThemeData.dark().copyWith(
+          scaffoldBackgroundColor: Colors.white,
         ),
         home: StreamBuilder(
             stream: FirebaseAuth.instance.authStateChanges(),

@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:parttimenow_flutter/models/user_model.dart';
 import 'package:parttimenow_flutter/providers/user_provider.dart';
 import 'package:parttimenow_flutter/resources/firestore_methods.dart';
+import 'package:parttimenow_flutter/screens/chat_page.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -48,6 +49,9 @@ class _PostCardState extends State<PostCard> {
       context,
       listen: false,
     ).userModel;
+    print('userName: ${widget.snap['userName']}');
+    print('userId: ${user.uid}');
+    print('photoUrl: ${widget.snap['photoUrl']}');
     return Center(
       child: Card(
         elevation: 20,
@@ -493,7 +497,18 @@ class _PostCardState extends State<PostCard> {
                       alignment: Alignment.bottomRight,
                       child: IconButton(
                         onPressed: () {
-                          logger.d('Message');
+                          if (user.uid != widget.snap['uid']) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChatPage(
+                                  recieverUserEmail: widget.snap['userName'],
+                                  recieverUserID: widget.snap['uid'],
+                                  recieverUserImage: widget.snap['photoUrl'],
+                                ),
+                              ),
+                            );
+                          }
                         },
                         icon: SvgPicture.asset(
                           'assets/message.svg',

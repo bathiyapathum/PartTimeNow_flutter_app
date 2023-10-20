@@ -50,8 +50,12 @@ class _ChatPageState extends State<ChatPage> {
 
   void sendMessage() async {
     if (_messageController.text.isNotEmpty) {
-      await _chatService.sendMessage(
-          widget.recieverUserID, _messageController.text);
+      final String recipientUserId = widget.recieverUserID;
+      final String messageText = _messageController.text;
+
+      // Send the message
+      await _chatService.sendMessage(recipientUserId, messageText);
+      // Clear the message input field
       _messageController.clear();
     }
   }
