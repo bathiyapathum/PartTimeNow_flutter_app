@@ -16,9 +16,11 @@ final logger = Logger();
 
 const homeScreenItems = [
   FeedScreenLayout(),
-  FeedbackScreenLayout(), // Text('Search'),
+  FeedbackScreenLayout(feedbackUserId: ""), // Text('Search'),
   PostJobScreen(),
-  FeedbackScreen(), // this is temporary for testing,
+  FeedbackScreen(
+    postID: '123',
+  ), // this is temporary for testing,
   // JobPostingPage(),
   // ChatHomePage(),
   MenueScreen(),

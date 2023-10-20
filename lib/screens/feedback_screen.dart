@@ -3,7 +3,8 @@ import 'package:parttimenow_flutter/resources/auth_method.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 
 class FeedbackScreen extends StatefulWidget {
-  const FeedbackScreen({Key? key}) : super(key: key);
+  final String postID;
+  const FeedbackScreen({Key? key, required this.postID}) : super(key: key);
 
   @override
   State<FeedbackScreen> createState() => _FeedbackScreenState();
@@ -11,6 +12,14 @@ class FeedbackScreen extends StatefulWidget {
 
 class _FeedbackScreenState extends State<FeedbackScreen> {
   int? _rating;
+  late String _postUserId;
+
+  @override
+  void initState() {
+    super.initState();
+    _postUserId = widget.postID;
+  }
+
   final TextEditingController feedbackController = TextEditingController();
 
   @override
@@ -78,6 +87,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     await AuthMethod().submitFeedback(
                       rating: _rating!,
                       feedback: feedback,
+                      feedbackUserId: _postUserId,
                     );
 
                     // Handle successful submission

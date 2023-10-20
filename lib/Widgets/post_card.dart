@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
@@ -5,6 +6,8 @@ import 'package:parttimenow_flutter/models/user_model.dart';
 import 'package:parttimenow_flutter/providers/user_provider.dart';
 import 'package:parttimenow_flutter/resources/firestore_methods.dart';
 import 'package:parttimenow_flutter/screens/feedback_screen.dart';
+import 'package:parttimenow_flutter/screens/feedback_screen_layout.dart';
+import 'package:parttimenow_flutter/screens/chat_page.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -24,6 +27,14 @@ class _PostCardState extends State<PostCard> {
   final logger = Logger();
   bool isSaved = false;
   int num = 1;
+
+  String postId = '';
+
+  @override
+  void initState() {
+    super.initState();
+    postId = widget.snap['uid'];
+  }
 
   void postSave(user) async {
     logger.d('user ${user.uid}');
@@ -45,10 +56,23 @@ class _PostCardState extends State<PostCard> {
     logger.d('saved');
   }
 
+  void clickRating({
+    required context,
+    required String postUserId,
+  }) {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) {
+        return SizedBox(
+            child: FeedbackScreenLayout(feedbackUserId: postUserId));
+      },
+    );
+  }
+
   void openFeedbackModel(context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const FeedbackScreen(),
+        builder: (context) => FeedbackScreen(postID: postId),
       ),
     );
   }
@@ -58,12 +82,30 @@ class _PostCardState extends State<PostCard> {
     return date != null ? formatter.format(date) : 'N/A';
   }
 
+  Widget buildStarRating(int rating) {
+    List<Widget> stars = [];
+
+    for (int i = 0; i < 5; i++) {
+      stars.add(Icon(
+        Icons.star,
+        color: i < rating ? Colors.yellow[700] : Colors.grey,
+        size: 16,
+      ));
+    }
+
+    return Row(
+      children: stars,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final rating = widget.snap['rating'] ?? 5;
     final UserModel user = Provider.of<UserProvider>(
       context,
       listen: false,
     ).userModel;
+
 
     final startDate = widget.snap['startDate'] is Timestamp
         ? (widget.snap['startDate'] as Timestamp).toDate()
@@ -71,6 +113,11 @@ class _PostCardState extends State<PostCard> {
     final endDate = widget.snap['endDate'] is Timestamp
         ? (widget.snap['endDate'] as Timestamp).toDate()
         : null;
+
+
+    print('userName: ${widget.snap['userName']}');
+    print('userId: ${user.uid}');
+    print('photoUrl: ${widget.snap['photoUrl']}');
 
     return Center(
       child: Card(
@@ -148,33 +195,26 @@ class _PostCardState extends State<PostCard> {
                                 fontSize: 18,
                               ),
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                  'Rating $num',
-                                  style: const TextStyle(
-                                    color: Color.fromARGB(255, 194, 188, 188),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
+                            GestureDetector(
+                              onTap: () => clickRating(
+                                  context: context,
+                                  postUserId: widget.snap['uid']),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    '$rating Star Rating',
+                                    style: const TextStyle(
+                                      color: Color.fromARGB(255, 194, 188, 188),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                    ),
                                   ),
-                                ),
-                                const Text(
-                                  "4.3",
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 194, 188, 188),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
+                                  const SizedBox(
+                                    width: 4,
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 4,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.yellow[700],
-                                  size: 16,
-                                ),
-                              ],
+                                  buildStarRating(rating),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -527,7 +567,18 @@ class _PostCardState extends State<PostCard> {
                       alignment: Alignment.bottomRight,
                       child: IconButton(
                         onPressed: () {
-                          logger.d('Message');
+                          if (user.uid != widget.snap['uid']) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChatPage(
+                                  recieverUserEmail: widget.snap['userName'],
+                                  recieverUserID: widget.snap['uid'],
+                                  recieverUserImage: widget.snap['photoUrl'],
+                                ),
+                              ),
+                            );
+                          }
                         },
                         icon: SvgPicture.asset(
                           'assets/message.svg',

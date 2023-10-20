@@ -40,12 +40,12 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Part Time Now',
-        theme: ThemeData.dark().copyWith(          
+        theme: ThemeData.dark().copyWith(
           dividerTheme: DividerThemeData(
             color: Colors.grey[300],
             thickness: 1,
           ),
-          scaffoldBackgroundColor: Colors.white,          
+          scaffoldBackgroundColor: Colors.white,
         ),
         home: StreamBuilder(
             stream: FirebaseAuth.instance.authStateChanges(),

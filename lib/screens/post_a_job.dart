@@ -41,6 +41,7 @@ class _JobPostingPageState extends State<JobPostingPage> {
         final job = PostModel(
           userId: user.uid,
           postId: UniqueKey().toString(),
+          rating: 0,
           userName: userSnapshot['username'] ??
               'User Name', // Replace with user's name if available
           gender: 'male', // Replace with user's gender if available

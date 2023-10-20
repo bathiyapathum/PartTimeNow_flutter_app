@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:parttimenow_flutter/Widgets/text_field_input.dart';
@@ -119,6 +120,21 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 60,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          'Sign Up',
+          style: GoogleFonts.lato(
+              textStyle: const TextStyle(
+            color: postUserNameColor,
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          )),
+        ),
+      ),
       body: SafeArea(
         top: false,
         bottom: false,
@@ -126,7 +142,7 @@ class _SignupScreenState extends State<SignupScreen> {
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage(
-                'assets/SignUp.jpg',
+                '',
               ),
               fit: BoxFit.cover,
             ),
@@ -137,7 +153,7 @@ class _SignupScreenState extends State<SignupScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Flexible(flex: 2, child: Container()),
-              const SizedBox(height: 184),
+              const SizedBox(height: 100),
               //circle avatar
               Stack(
                 children: [
@@ -172,6 +188,7 @@ class _SignupScreenState extends State<SignupScreen> {
               TextFieldInput(
                 textEditingController: usernameController,
                 hintText: 'Enter your username',
+                label: 'Username',
                 textInputType: TextInputType.text,
               ),
               const SizedBox(
@@ -181,6 +198,7 @@ class _SignupScreenState extends State<SignupScreen> {
               TextFieldInput(
                 textEditingController: emailController,
                 hintText: 'Enter your email',
+                label: 'Email',
                 textInputType: TextInputType.emailAddress,
               ),
               const SizedBox(
@@ -190,6 +208,7 @@ class _SignupScreenState extends State<SignupScreen> {
               TextFieldInput(
                 textEditingController: passwordController,
                 hintText: 'Enter your password',
+                label: 'Password',
                 textInputType: TextInputType.visiblePassword,
                 isPass: true,
               ),
@@ -200,6 +219,7 @@ class _SignupScreenState extends State<SignupScreen> {
               TextFieldInput(
                 textEditingController: bioController,
                 hintText: 'Enter your bio',
+                label: 'Bio',
                 textInputType: TextInputType.text,
               ),
               const SizedBox(
@@ -224,9 +244,9 @@ class _SignupScreenState extends State<SignupScreen> {
                           color: primaryColor,
                         ),
                       )
-                    : const Text(
+                    : Text(
                         'Sign Up',
-                        style: TextStyle(
+                        style: GoogleFonts.lato(
                           fontWeight: FontWeight.bold,
                           color: buttonText,
                           fontSize: 20,
@@ -247,6 +267,9 @@ class _SignupScreenState extends State<SignupScreen> {
                         style: TextStyle(
                           color: hintColor,
                         )),
+                  ),
+                  const SizedBox(
+                    width: 5,
                   ),
                   GestureDetector(
                     onTap: () {
