@@ -3,8 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:parttimenow_flutter/resources/auth_method.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:parttimenow_flutter/utils/global_variable.dart';
-// import 'package:parttimenow_flutter/utils/global_variable.dart';
-// import 'package:parttimenow_flutter/utils/utills.dart';
 
 class PostJobScreen extends StatefulWidget {
   const PostJobScreen({Key? key}) : super(key: key);
@@ -19,8 +17,37 @@ class _PostJobScreenState extends State<PostJobScreen> {
   final TextEditingController endDateController = TextEditingController();
   final TextEditingController endTimeController = TextEditingController();
   final TextEditingController salaryController = TextEditingController();
-  final TextEditingController locationController = TextEditingController();
+  String? location;
+
   final TextEditingController descriptionController = TextEditingController();
+
+  List<String> districtNames = [
+    'Colombo',
+    'Gampaha',
+    'Kalutara',
+    'Kandy',
+    'Matale',
+    'Nuwara Eliya',
+    'Galle',
+    'Matara',
+    'Hambantota',
+    'Jaffna',
+    'Kilinochchi',
+    'Mannar',
+    'Vavuniya',
+    'Mullaitivu',
+    'Batticaloa',
+    'Ampara',
+    'Trincomalee',
+    'Kurunegala',
+    'Puttalam',
+    'Anuradhapura',
+    'Polonnaruwa',
+    'Badulla',
+    'Monaragala',
+    'Ratnapura',
+    'Kegalle'
+  ];
 
   int descriptionLength = 0;
   bool isPosting = false;
@@ -50,7 +77,6 @@ class _PostJobScreenState extends State<PostJobScreen> {
     endDateController.dispose();
     endTimeController.dispose();
     salaryController.dispose();
-    locationController.dispose();
     descriptionController.dispose();
   }
 
@@ -196,14 +222,13 @@ class _PostJobScreenState extends State<PostJobScreen> {
           });
         } else {
           final salary = double.parse(salaryController.text);
-          final location = locationController.text;
           final description = descriptionController.text;
 
           await AuthMethod().postJob(
             startDate: startDate,
             endDate: endDate,
             salary: salary,
-            location: location,
+            location: location!,
             description: description,
             startTime: startTimeController.text,
             endTime: endTimeController.text,
@@ -218,8 +243,10 @@ class _PostJobScreenState extends State<PostJobScreen> {
           endDateController.clear();
           endTimeController.clear();
           salaryController.clear();
-          locationController.clear();
           descriptionController.clear();
+          setState(() {
+            location = null;
+          });
         }
       }
     }
@@ -240,7 +267,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
         endDateController.text.isEmpty ||
         endTimeController.text.isEmpty ||
         salaryController.text.isEmpty ||
-        locationController.text.isEmpty ||
+        location == null ||
         descriptionController.text.isEmpty) {
       return "All the fields are required";
     }
@@ -303,26 +330,65 @@ class _PostJobScreenState extends State<PostJobScreen> {
   }
 
   Widget buildLocationField() {
-    return TextField(
-      controller: locationController,
-      style: const TextStyle(color: Colors.black, fontSize: 14),
-      keyboardType: TextInputType.text,
+    return InputDecorator(
       decoration: InputDecoration(
         labelText: 'Location',
         labelStyle: const TextStyle(
           color: Colors.black,
           fontSize: 14,
         ),
-        hintText: 'Enter a location',
-        hintStyle: const TextStyle(color: Colors.grey),
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.black),
           borderRadius: BorderRadius.circular(15),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color.fromARGB(255, 206, 124, 0)),
+          borderSide:
+              const BorderSide(color: Color.fromARGB(255, 255, 168, 36)),
           borderRadius: BorderRadius.circular(15),
         ),
+      ),
+      child: DropdownButtonFormField<String>(
+        value: location,
+        decoration: const InputDecoration(
+          filled: false,
+          fillColor: Color.fromARGB(255, 134, 22, 129),
+          contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+        ),
+        dropdownColor: const Color.fromARGB(255, 53, 53, 52),
+        items: districtNames.map((String district) {
+          return DropdownMenuItem<String>(
+            value: district,
+            child: Text(
+              district,
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          );
+        }).toList(),
+        onChanged: (String? newValue) {
+          if (newValue != null) {
+            setState(() {
+              location = newValue;
+            });
+          }
+        },
+        style: const TextStyle(
+          color: Color.fromARGB(255, 0, 0, 0),
+        ),
+        selectedItemBuilder: (BuildContext context) {
+          return districtNames.map<Widget>((String item) {
+            return Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                item,
+                style: const TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+            );
+          }).toList();
+        },
       ),
     );
   }
