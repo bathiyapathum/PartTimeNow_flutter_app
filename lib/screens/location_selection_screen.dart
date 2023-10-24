@@ -69,7 +69,7 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: mobileBackgroundColor,
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
         title: const Text('Select Location'),
         toolbarHeight: 80,
@@ -79,7 +79,8 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
         actions: [
           SizedBox(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
+              margin: const EdgeInsets.only(top: 15),
               width: 100,
               height: 30,
               decoration: BoxDecoration(
@@ -87,7 +88,7 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
               ),
               child: ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.orange),
+                  backgroundColor: MaterialStateProperty.all(Colors.white),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
@@ -96,22 +97,25 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                 ),
                 onPressed: () {
                   logger.d(_location);
+                  if (_location == null) {
+                    showSnackBar('Please select location', context);
+                    return;
+                  }
+                  if (widget.selectedCategory.isEmpty) {
+                    showSnackBar('Please select category', context);
+                    return;
+                  }
                   updateUserPref(AuthMethod().currentUser?.uid, _location,
                       widget.selectedCategory);
                   navgateToHome();
                 },
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 2,
-                  ),
-                  child: Text(
-                    "Finish",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                      letterSpacing: 1.5,
-                    ),
+                child: Text(
+                  "Finish",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.5,
                   ),
                 ),
               ),
@@ -135,7 +139,6 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                 ),
                 Image(
                   image: AssetImage('assets/location.png'),
-                  color: Colors.white,
                   height: 200,
                   width: 200,
                 ),
@@ -161,6 +164,7 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                 _location != 'car'
                     ? SearchLocationField(
                         contentList: locations,
+                        initPadding: 0.0,
                         callback: (String nm) {
                           setState(() {
                             logger.e(nm);

@@ -52,7 +52,7 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: mobileBackgroundColor,
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const SizedBox(
@@ -83,20 +83,22 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
         actions: [
           SizedBox(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
+              margin: const EdgeInsets.only(top: 15),
               width: 90,
-              height: 30,
+              height: 25,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
               ),
               child: ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.orange),
+                  backgroundColor: MaterialStateProperty.all(Colors.white),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
                     ),
                   ),
+                  elevation: MaterialStateProperty.all(0.5),
                 ),
                 onPressed: () {
                   if (selectedCategory.isNotEmpty &&
@@ -118,14 +120,14 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                 },
                 child: const Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: 2,
+                    horizontal: 1,
                   ),
                   child: Text(
                     "Next",
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
                       letterSpacing: 1.5,
                     ),
                   ),
@@ -143,6 +145,7 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
           children: [
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              margin: const EdgeInsets.only(top: 20),
               alignment: Alignment.topCenter,
               child: Wrap(
                 alignment: WrapAlignment.spaceBetween,

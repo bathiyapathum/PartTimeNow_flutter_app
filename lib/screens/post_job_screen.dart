@@ -21,6 +21,8 @@ class _PostJobScreenState extends State<PostJobScreen> {
   final TextEditingController salaryController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController genderController = TextEditingController();
+  String? selectedGender;
 
   int descriptionLength = 0;
   bool isPosting = false;
@@ -52,6 +54,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
     salaryController.dispose();
     locationController.dispose();
     descriptionController.dispose();
+    genderController.dispose();
   }
 
   Future<void> _selectDate(
@@ -96,7 +99,11 @@ class _PostJobScreenState extends State<PostJobScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Post a Job'),
+        title: GestureDetector(
+            onTap: () {
+              logger.e(selectedGender);
+            },
+            child: const Text('Post a Job')),
         backgroundColor: mobileBackgroundColor,
       ),
       body: SingleChildScrollView(
@@ -146,6 +153,8 @@ class _PostJobScreenState extends State<PostJobScreen> {
               const SizedBox(height: 20),
               buildSalaryField(),
               const SizedBox(height: 20),
+              buildGenderField(),
+              const SizedBox(height: 20),
               buildLocationField(),
               const SizedBox(height: 20),
               buildDescriptionField(),
@@ -162,7 +171,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
                 ),
                 child: Text(
                   isPosting ? 'Posting...' : 'Post Job',
-                  style: TextStyle(fontSize: 18),
+                  style: const TextStyle(fontSize: 18),
                 ),
               ),
             ],
@@ -195,31 +204,37 @@ class _PostJobScreenState extends State<PostJobScreen> {
             isPosting = false;
           });
         } else {
-          final salary = double.parse(salaryController.text);
-          final location = locationController.text;
-          final description = descriptionController.text;
-
-          await AuthMethod().postJob(
-            startDate: startDate,
-            endDate: endDate,
-            salary: salary,
-            location: location,
-            description: description,
-            startTime: startTimeController.text,
-            endTime: endTimeController.text,
-          );
-
-          setState(() {
+          if (selectedGender == null) {
             isPosting = false;
-          });
+            showValidationError("Gender is required");
+          } else {
+            final salary = double.parse(salaryController.text);
+            final location = locationController.text;
+            final description = descriptionController.text;
 
-          startDateController.clear();
-          startTimeController.clear();
-          endDateController.clear();
-          endTimeController.clear();
-          salaryController.clear();
-          locationController.clear();
-          descriptionController.clear();
+            await AuthMethod().postJob(
+                startDate: startDate,
+                endDate: endDate,
+                salary: salary,
+                location: location,
+                description: description,
+                startTime: startTimeController.text,
+                endTime: endTimeController.text,
+                gender: selectedGender!);
+
+            setState(() {
+              isPosting = false;
+            });
+
+            startDateController.clear();
+            startTimeController.clear();
+            endDateController.clear();
+            endTimeController.clear();
+            salaryController.clear();
+            locationController.clear();
+            descriptionController.clear();
+            selectedGender = null;
+          }
         }
       }
     }
@@ -302,6 +317,86 @@ class _PostJobScreenState extends State<PostJobScreen> {
     );
   }
 
+  Widget buildGenderField() {
+    return Row(
+      children: [
+        Radio(
+          value: "male",
+          groupValue: selectedGender,
+          activeColor: Colors.orange,
+          onChanged: (String? value) {
+            setState(() {
+              selectedGender = value;
+            });
+          },
+          fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+            if (states.contains(MaterialState.selected)) {
+              return Colors.orange; // The selected color (orange)
+            }
+            return Colors.black; // The normal color (black)
+          }),
+        ),
+        const Text(
+          'Male',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Radio(
+          value: "female",
+          groupValue: selectedGender,
+          activeColor: Colors.orange,
+          onChanged: (String? value) {
+            setState(() {
+              selectedGender = value;
+            });
+          },
+          toggleable: true,
+          fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+            if (states.contains(MaterialState.selected)) {
+              return Colors.orange; // The selected color (orange)
+            }
+            return Colors.black; // The normal color (black)
+          }),
+        ),
+        const Text(
+          'Female',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Radio(
+          value: "both",
+          groupValue: selectedGender,
+          activeColor: Colors.orange,
+          onChanged: (String? value) {
+            setState(() {
+              selectedGender = value;
+            });
+          },
+          fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+            if (states.contains(MaterialState.selected)) {
+              return Colors.orange; // The selected color (orange)
+            }
+            return Colors.black; // The normal color (black)
+          }),
+        ),
+        const Text(
+          'Both',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget buildLocationField() {
     return TextField(
       controller: locationController,
@@ -349,7 +444,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: descriptionLength <= 200
-                    ? Color.fromARGB(255, 255, 162, 22)
+                    ? const Color.fromARGB(255, 255, 162, 22)
                     : Colors.red,
               ),
               borderRadius: BorderRadius.circular(15),

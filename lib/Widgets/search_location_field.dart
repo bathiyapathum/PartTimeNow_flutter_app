@@ -5,10 +5,14 @@ class SearchLocationField extends StatefulWidget {
   final List contentList;
   final Function(String)? callback;
   final double fieldWidth;
-  
+  final double initPadding;
 
   const SearchLocationField(
-      {super.key, required this.contentList, this.callback, this.fieldWidth = 0.4});
+      {super.key,
+      required this.contentList,
+      this.callback,
+      this.fieldWidth = 0.4,
+      this.initPadding = 20.0});
 
   @override
   State<SearchLocationField> createState() => _SearchLocationFieldState();
@@ -20,12 +24,14 @@ class _SearchLocationFieldState extends State<SearchLocationField> {
   final TextEditingController _searchTextController = TextEditingController();
   late List data;
   late Function callback;
+  late double _initPadding = 20.0;
 
   @override
   void initState() {
     data = widget.contentList;
     callback = widget.callback!;
     _fieldWidth = widget.fieldWidth;
+    _initPadding = widget.initPadding;
     super.initState();
   }
 
@@ -39,7 +45,7 @@ class _SearchLocationFieldState extends State<SearchLocationField> {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.only(left: 20.0),
+        padding: EdgeInsets.only(left: _initPadding),
         child: SizedBox(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +110,8 @@ class _SearchLocationFieldState extends State<SearchLocationField> {
                         (e) => SearchFieldListItem<String>(
                           e,
                           child: Container(
-                            width: MediaQuery.of(context).size.width * _fieldWidth,
+                            width:
+                                MediaQuery.of(context).size.width * _fieldWidth,
                             child: Padding(
                               padding:
                                   const EdgeInsets.only(left: 20, right: 20),
