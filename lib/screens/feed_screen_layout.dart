@@ -83,26 +83,14 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
         backgroundColor: mobileBackgroundColor,
         elevation: 0,
         centerTitle: false,
-
-        title: GestureDetector(
-          onTap: () {
-            logger.d(filterModel.category);
-            logger.d(filterModel.location);
-            logger.d(filterModel.male);
-            logger.d(filterModel.female);
-            logger.d(filterModel.startSal);
-            logger.d(filterModel.endSal);
-          },
-          child: const Text(
-            "Home",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
+        title: const Text(
+          "Home",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
           ),
         ),
-
         actions: [
           Card(
             elevation: 0,
