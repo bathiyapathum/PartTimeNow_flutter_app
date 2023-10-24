@@ -13,7 +13,7 @@ import 'package:parttimenow_flutter/utils/utills.dart';
 
 class LocationSelectionScreen extends StatefulWidget {
   final List selectedCategory;
-  LocationSelectionScreen({super.key, required this.selectedCategory});
+  const LocationSelectionScreen({super.key, required this.selectedCategory});
 
   @override
   State<LocationSelectionScreen> createState() =>

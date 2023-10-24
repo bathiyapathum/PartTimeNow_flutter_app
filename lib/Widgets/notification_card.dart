@@ -1,7 +1,4 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:parttimenow_flutter/utils/colors.dart';
 
 class NotificationCard extends StatelessWidget {
   const NotificationCard({super.key});
@@ -22,14 +19,13 @@ class NotificationCard extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 4,
                 ).copyWith(right: 0),
                 child: const Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [ 
+                  children: [
                     CircleAvatar(
                       radius: 22,
                       backgroundImage: NetworkImage(

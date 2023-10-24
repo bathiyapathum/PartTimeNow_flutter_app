@@ -115,9 +115,9 @@ class _PostCardState extends State<PostCard> {
         : null;
 
 
-    print('userName: ${widget.snap['userName']}');
-    print('userId: ${user.uid}');
-    print('photoUrl: ${widget.snap['photoUrl']}');
+    logger.d('userName: ${widget.snap['userName']}');
+    logger.d('userId: ${user.uid}');
+    logger.d('photoUrl: ${widget.snap['photoUrl']}');
 
     return Center(
       child: Card(
