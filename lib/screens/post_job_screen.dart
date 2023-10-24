@@ -233,6 +233,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
             salaryController.clear();
             locationController.clear();
             descriptionController.clear();
+            selectedGender = null;
           }
         }
       }
