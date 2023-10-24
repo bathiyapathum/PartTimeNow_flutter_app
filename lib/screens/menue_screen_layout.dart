@@ -14,7 +14,6 @@ class MenueScreen extends StatelessWidget {
       ),
     );
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -405,12 +404,10 @@ class MenueScreen extends StatelessWidget {
                 ),
               ),
 
-
               // ),
 
               //////////////////////////////////////////
               // ),
-
 
               const Card(
                 color: Colors.amber,
@@ -418,10 +415,7 @@ class MenueScreen extends StatelessWidget {
                   horizontal: 20,
                   vertical: 80,
                 ),
-                child: ButtonBar(
-                  
-                ),
-                
+                child: ButtonBar(),
               )
             ],
           ),
