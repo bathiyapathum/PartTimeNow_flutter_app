@@ -122,7 +122,14 @@ class _PostJobScreenState extends State<PostJobScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Post a Job'),
+        title: const Text(
+          'Post a Job',
+          style: TextStyle(
+            fontSize: 26,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
         backgroundColor: mobileBackgroundColor,
       ),
       body: SingleChildScrollView(
