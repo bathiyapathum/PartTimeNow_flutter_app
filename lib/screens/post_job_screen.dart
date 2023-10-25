@@ -3,8 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:parttimenow_flutter/resources/auth_method.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:parttimenow_flutter/utils/global_variable.dart';
-// import 'package:parttimenow_flutter/utils/global_variable.dart';
-// import 'package:parttimenow_flutter/utils/utills.dart';
 
 class PostJobScreen extends StatefulWidget {
   const PostJobScreen({Key? key}) : super(key: key);
@@ -19,10 +17,39 @@ class _PostJobScreenState extends State<PostJobScreen> {
   final TextEditingController endDateController = TextEditingController();
   final TextEditingController endTimeController = TextEditingController();
   final TextEditingController salaryController = TextEditingController();
-  final TextEditingController locationController = TextEditingController();
+  String? location;
+
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   String? selectedGender;
+
+  List<String> districtNames = [
+    'Colombo',
+    'Gampaha',
+    'Kalutara',
+    'Kandy',
+    'Matale',
+    'Nuwara Eliya',
+    'Galle',
+    'Matara',
+    'Hambantota',
+    'Jaffna',
+    'Kilinochchi',
+    'Mannar',
+    'Vavuniya',
+    'Mullaitivu',
+    'Batticaloa',
+    'Ampara',
+    'Trincomalee',
+    'Kurunegala',
+    'Puttalam',
+    'Anuradhapura',
+    'Polonnaruwa',
+    'Badulla',
+    'Monaragala',
+    'Ratnapura',
+    'Kegalle'
+  ];
 
   int descriptionLength = 0;
   bool isPosting = false;
@@ -52,7 +79,6 @@ class _PostJobScreenState extends State<PostJobScreen> {
     endDateController.dispose();
     endTimeController.dispose();
     salaryController.dispose();
-    locationController.dispose();
     descriptionController.dispose();
     genderController.dispose();
   }
@@ -99,11 +125,22 @@ class _PostJobScreenState extends State<PostJobScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
+        title: const Text(
+          'Post a Job',
+          style: TextStyle(
+            fontSize: 26,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+
         title: GestureDetector(
             onTap: () {
               logger.e(selectedGender);
             },
             child: const Text('Post a Job')),
+
         backgroundColor: mobileBackgroundColor,
       ),
       body: SingleChildScrollView(
@@ -204,6 +241,14 @@ class _PostJobScreenState extends State<PostJobScreen> {
             isPosting = false;
           });
         } else {
+
+
+         if (endDate.isBefore(startDate)) {
+          showValidationError("End date must be after or equal to start date");
+          setState(() {
+            isPosting = false;
+          });
+        } else {
           if (selectedGender == null) {
             isPosting = false;
             showValidationError("Gender is required");
@@ -222,9 +267,13 @@ class _PostJobScreenState extends State<PostJobScreen> {
                 endTime: endTimeController.text,
                 gender: selectedGender!);
 
+
+
             setState(() {
               isPosting = false;
             });
+
+
 
             startDateController.clear();
             startTimeController.clear();
@@ -234,7 +283,11 @@ class _PostJobScreenState extends State<PostJobScreen> {
             locationController.clear();
             descriptionController.clear();
             selectedGender = null;
+              setState(() {
+            location = null;
+          });
           }
+
         }
       }
     }
@@ -244,7 +297,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(error),
-        backgroundColor: Colors.red,
+        backgroundColor: mobileBackgroundColor,
       ),
     );
   }
@@ -255,7 +308,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
         endDateController.text.isEmpty ||
         endTimeController.text.isEmpty ||
         salaryController.text.isEmpty ||
-        locationController.text.isEmpty ||
+        location == null ||
         descriptionController.text.isEmpty) {
       return "All the fields are required";
     }
@@ -282,7 +335,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
           borderRadius: BorderRadius.circular(15),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color.fromARGB(255, 206, 124, 0)),
+          borderSide: const BorderSide(color: mobileBackgroundColor),
           borderRadius: BorderRadius.circular(15),
         ),
       ),
@@ -310,7 +363,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
           borderRadius: BorderRadius.circular(15),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color.fromARGB(255, 206, 124, 0)),
+          borderSide: const BorderSide(color: mobileBackgroundColor),
           borderRadius: BorderRadius.circular(15),
         ),
       ),
@@ -398,26 +451,59 @@ class _PostJobScreenState extends State<PostJobScreen> {
   }
 
   Widget buildLocationField() {
-    return TextField(
-      controller: locationController,
-      style: const TextStyle(color: Colors.black, fontSize: 14),
-      keyboardType: TextInputType.text,
+    return InputDecorator(
       decoration: InputDecoration(
         labelText: 'Location',
         labelStyle: const TextStyle(
           color: Colors.black,
           fontSize: 14,
         ),
-        hintText: 'Enter a location',
-        hintStyle: const TextStyle(color: Colors.grey),
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.black),
           borderRadius: BorderRadius.circular(15),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color.fromARGB(255, 206, 124, 0)),
+          borderSide:
+              const BorderSide(color: Color.fromARGB(255, 255, 168, 36)),
           borderRadius: BorderRadius.circular(15),
         ),
+      ),
+      child: PopupMenuButton<String>(
+        itemBuilder: (BuildContext context) {
+          return districtNames.map((String district) {
+            return PopupMenuItem<String>(
+              value: district,
+              child: Text(
+                district,
+                style: const TextStyle(
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
+              ),
+            );
+          }).toList();
+        },
+        onSelected: (String? newValue) {
+          if (newValue != null) {
+            setState(() {
+              location = newValue;
+            });
+          }
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+          decoration: BoxDecoration(
+            color: Colors.white, // Set the background color to white
+            borderRadius:
+                BorderRadius.circular(5), // Adjust the radius as needed
+          ),
+          child: Text(
+            location ?? 'Location',
+            style: const TextStyle(
+              color: Colors.black, // Set the text color to black
+            ),
+          ),
+        ),
+        offset: Offset(0, 30), // Adjust the vertical offset as needed
       ),
     );
   }
@@ -444,7 +530,10 @@ class _PostJobScreenState extends State<PostJobScreen> {
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: descriptionLength <= 200
-                    ? const Color.fromARGB(255, 255, 162, 22)
+
+                    ? mobileBackgroundColor
+
+
                     : Colors.red,
               ),
               borderRadius: BorderRadius.circular(15),
