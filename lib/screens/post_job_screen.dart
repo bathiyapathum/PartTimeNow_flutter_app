@@ -263,7 +263,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(error),
-        backgroundColor: Colors.red,
+        backgroundColor: mobileBackgroundColor,
       ),
     );
   }
@@ -301,7 +301,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
           borderRadius: BorderRadius.circular(15),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color.fromARGB(255, 206, 124, 0)),
+          borderSide: const BorderSide(color: mobileBackgroundColor),
           borderRadius: BorderRadius.circular(15),
         ),
       ),
@@ -329,7 +329,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
           borderRadius: BorderRadius.circular(15),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color.fromARGB(255, 206, 124, 0)),
+          borderSide: const BorderSide(color: mobileBackgroundColor),
           borderRadius: BorderRadius.circular(15),
         ),
       ),
@@ -416,7 +416,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: descriptionLength <= 200
-                    ? Color.fromARGB(255, 255, 162, 22)
+                    ? mobileBackgroundColor
                     : Colors.red,
               ),
               borderRadius: BorderRadius.circular(15),
