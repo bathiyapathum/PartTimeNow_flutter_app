@@ -7,6 +7,7 @@ import 'package:parttimenow_flutter/providers/user_provider.dart';
 import 'package:parttimenow_flutter/resources/firestore_methods.dart';
 import 'package:parttimenow_flutter/screens/feedback_screen.dart';
 import 'package:parttimenow_flutter/screens/feedback_screen_layout.dart';
+import 'package:parttimenow_flutter/screens/chat_page.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -105,12 +106,18 @@ class _PostCardState extends State<PostCard> {
       listen: false,
     ).userModel;
 
+
     final startDate = widget.snap['startDate'] is Timestamp
         ? (widget.snap['startDate'] as Timestamp).toDate()
         : null;
     final endDate = widget.snap['endDate'] is Timestamp
         ? (widget.snap['endDate'] as Timestamp).toDate()
         : null;
+
+
+    print('userName: ${widget.snap['userName']}');
+    print('userId: ${user.uid}');
+    print('photoUrl: ${widget.snap['photoUrl']}');
 
     return Center(
       child: Card(
@@ -304,7 +311,10 @@ class _PostCardState extends State<PostCard> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    formatDate(startDate),
+
+                                    widget.snap['startDate']?.toDate().toString().split(' ')[0] ??
+                                        'N/A',
+
                                     style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -319,7 +329,8 @@ class _PostCardState extends State<PostCard> {
                                     ),
                                   ),
                                   Text(
-                                    formatDate(endDate),
+                                    widget.snap['endDate']?.toDate().toString().split(' ')[0] ?? 'N/A',
+
                                     style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -560,7 +571,18 @@ class _PostCardState extends State<PostCard> {
                       alignment: Alignment.bottomRight,
                       child: IconButton(
                         onPressed: () {
-                          logger.d('Message');
+                          if (user.uid != widget.snap['uid']) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChatPage(
+                                  recieverUserEmail: widget.snap['userName'],
+                                  recieverUserID: widget.snap['uid'],
+                                  recieverUserImage: widget.snap['photoUrl'],
+                                ),
+                              ),
+                            );
+                          }
                         },
                         icon: SvgPicture.asset(
                           'assets/message.svg',
