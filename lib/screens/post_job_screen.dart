@@ -347,48 +347,42 @@ class _PostJobScreenState extends State<PostJobScreen> {
           borderRadius: BorderRadius.circular(15),
         ),
       ),
-      child: DropdownButtonFormField<String>(
-        value: location,
-        decoration: const InputDecoration(
-          filled: false,
-          fillColor: Color.fromARGB(255, 134, 22, 129),
-          contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-        ),
-        dropdownColor: const Color.fromARGB(255, 53, 53, 52),
-        items: districtNames.map((String district) {
-          return DropdownMenuItem<String>(
-            value: district,
-            child: Text(
-              district,
-              style: const TextStyle(
-                color: Colors.white,
+      child: PopupMenuButton<String>(
+        itemBuilder: (BuildContext context) {
+          return districtNames.map((String district) {
+            return PopupMenuItem<String>(
+              value: district,
+              child: Text(
+                district,
+                style: const TextStyle(
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
               ),
-            ),
-          );
-        }).toList(),
-        onChanged: (String? newValue) {
+            );
+          }).toList();
+        },
+        onSelected: (String? newValue) {
           if (newValue != null) {
             setState(() {
               location = newValue;
             });
           }
         },
-        style: const TextStyle(
-          color: Color.fromARGB(255, 0, 0, 0),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+          decoration: BoxDecoration(
+            color: Colors.white, // Set the background color to white
+            borderRadius:
+                BorderRadius.circular(5), // Adjust the radius as needed
+          ),
+          child: Text(
+            location ?? 'Location',
+            style: const TextStyle(
+              color: Colors.black, // Set the text color to black
+            ),
+          ),
         ),
-        selectedItemBuilder: (BuildContext context) {
-          return districtNames.map<Widget>((String item) {
-            return Container(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                item,
-                style: const TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-            );
-          }).toList();
-        },
+        offset: Offset(0, 30), // Adjust the vertical offset as needed
       ),
     );
   }
