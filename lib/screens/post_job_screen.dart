@@ -144,7 +144,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0).copyWith(top: 0),
           child: Column(
             children: [
               Row(
@@ -355,82 +355,106 @@ class _PostJobScreenState extends State<PostJobScreen> {
   }
 
   Widget buildGenderField() {
-    return Row(
-      children: [
-        Radio(
-          value: "male",
-          groupValue: selectedGender,
-          activeColor: mobileBackgroundColor,
-          onChanged: (String? value) {
-            setState(() {
-              selectedGender = value;
-            });
-          },
-          fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-            if (states.contains(MaterialState.selected)) {
-              return mobileBackgroundColor; // The selected color (orange)
-            }
-            return Colors.black; // The normal color (black)
-          }),
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.black, // Border color
         ),
-        const Text(
-          'Male',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.normal,
+        borderRadius:
+            BorderRadius.circular(15), // Smaller radius to reduce the size
+      ),
+      padding: EdgeInsets.all(8), // Smaller padding to reduce the size
+      child: Column(
+        crossAxisAlignment:
+            CrossAxisAlignment.start, // Align the label to the left
+        children: [
+          Text(
+            'Gender',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
+            ),
           ),
-        ),
-        Radio(
-          value: "female",
-          groupValue: selectedGender,
-          activeColor: mobileBackgroundColor,
-          onChanged: (String? value) {
-            setState(() {
-              selectedGender = value;
-            });
-          },
-          toggleable: true,
-          fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-            if (states.contains(MaterialState.selected)) {
-              return mobileBackgroundColor; // The selected color (orange)
-            }
-            return Colors.black; // The normal color (black)
-          }),
-        ),
-        const Text(
-          'Female',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.normal,
+          Row(
+            children: [
+              Radio(
+                value: "male",
+                groupValue: selectedGender,
+                activeColor: mobileBackgroundColor,
+                onChanged: (String? value) {
+                  setState(() {
+                    selectedGender = value;
+                  });
+                },
+                fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(MaterialState.selected)) {
+                    return mobileBackgroundColor; // The selected color (orange)
+                  }
+                  return Colors.black; // The normal color (black)
+                }),
+              ),
+              const Text(
+                'Male',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              Radio(
+                value: "female",
+                groupValue: selectedGender,
+                activeColor: mobileBackgroundColor,
+                onChanged: (String? value) {
+                  setState(() {
+                    selectedGender = value;
+                  });
+                },
+                toggleable: true,
+                fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(MaterialState.selected)) {
+                    return mobileBackgroundColor; // The selected color (orange)
+                  }
+                  return Colors.black; // The normal color (black)
+                }),
+              ),
+              const Text(
+                'Female',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              Radio(
+                value: "both",
+                groupValue: selectedGender,
+                activeColor: Colors.orange,
+                onChanged: (String? value) {
+                  setState(() {
+                    selectedGender = value;
+                  });
+                },
+                fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(MaterialState.selected)) {
+                    return Colors.orange; // The selected color (orange)
+                  }
+                  return Colors.black; // The normal color (black)
+                }),
+              ),
+              const Text(
+                'Both',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ],
           ),
-        ),
-        Radio(
-          value: "both",
-          groupValue: selectedGender,
-          activeColor: Colors.orange,
-          onChanged: (String? value) {
-            setState(() {
-              selectedGender = value;
-            });
-          },
-          fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-            if (states.contains(MaterialState.selected)) {
-              return Colors.orange; // The selected color (orange)
-            }
-            return Colors.black; // The normal color (black)
-          }),
-        ),
-        const Text(
-          'Both',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.normal,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
