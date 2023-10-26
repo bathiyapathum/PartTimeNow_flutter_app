@@ -194,7 +194,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
               buildLocationField(),
               const SizedBox(height: 20),
               buildDescriptionField(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 5),
               ElevatedButton(
                 onPressed: isPosting ? null : () => _postJob(),
                 style: ElevatedButton.styleFrom(
@@ -207,7 +207,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
                 ),
                 child: Text(
                   isPosting ? 'Posting...' : 'Post Job',
-                  style: const TextStyle(fontSize: 18),
+                  style: const TextStyle(fontSize: 20),
                 ),
               ),
             ],
