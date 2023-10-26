@@ -444,14 +444,21 @@ class _PostJobScreenState extends State<PostJobScreen> {
         ),
       ),
       child: PopupMenuButton<String>(
+        color: Colors
+            .white, // Set the background color of the dropdown menu to white
         itemBuilder: (BuildContext context) {
           return districtNames.map((String district) {
             return PopupMenuItem<String>(
               value: district,
-              child: Text(
-                district,
-                style: const TextStyle(
-                  color: Color.fromARGB(255, 255, 255, 255),
+              height: 4,
+              child: Padding(
+                padding:
+                    EdgeInsets.symmetric(vertical: 10), // Add vertical padding
+                child: Text(
+                  district,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
                 ),
               ),
             );
@@ -468,17 +475,16 @@ class _PostJobScreenState extends State<PostJobScreen> {
           padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
           decoration: BoxDecoration(
             color: Colors.white, // Set the background color to white
-            borderRadius:
-                BorderRadius.circular(5), // Adjust the radius as needed
+            borderRadius: BorderRadius.circular(5),
           ),
           child: Text(
             location ?? 'Location',
             style: const TextStyle(
-              color: Colors.black, // Set the text color to black
+              color: Colors.black,
             ),
           ),
         ),
-        offset: Offset(0, 30), // Adjust the vertical offset as needed
+        offset: Offset(0, 30),
       ),
     );
   }
