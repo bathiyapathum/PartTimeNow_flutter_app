@@ -127,10 +127,19 @@ class _PostJobScreenState extends State<PostJobScreen> {
     return Scaffold(
       appBar: AppBar(
         title: GestureDetector(
-            onTap: () {
-              logger.e(selectedGender);
-            },
-            child: const Text('Post a Job')),
+          onTap: () {
+            logger.e(selectedGender);
+          },
+          child: Center(
+            child: Text(
+              'Post a Job',
+              style: TextStyle(
+                fontSize: 26, // Set the desired font size
+                color: Colors.white, // Set the text color
+              ),
+            ),
+          ),
+        ),
         backgroundColor: mobileBackgroundColor,
       ),
       body: SingleChildScrollView(
