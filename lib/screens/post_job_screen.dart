@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:parttimenow_flutter/resources/auth_method.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:parttimenow_flutter/utils/global_variable.dart';
+// import 'package:vibration/vibration.dart';
+// import 'package:audioplayers/audioplayers.dart';
 // import 'package:parttimenow_flutter/utils/global_variable.dart';
 // import 'package:parttimenow_flutter/utils/utills.dart';
 
@@ -194,7 +196,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
               buildLocationField(),
               const SizedBox(height: 20),
               buildDescriptionField(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 5),
               ElevatedButton(
                 onPressed: isPosting ? null : () => _postJob(),
                 style: ElevatedButton.styleFrom(
@@ -207,7 +209,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
                 ),
                 child: Text(
                   isPosting ? 'Posting...' : 'Post Job',
-                  style: const TextStyle(fontSize: 18),
+                  style: const TextStyle(fontSize: 20),
                 ),
               ),
             ],
@@ -292,7 +294,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: const Color.fromARGB(255, 37, 177, 42),
+        backgroundColor: Color.fromARGB(255, 83, 184, 86),
       ),
     );
   }
@@ -415,6 +417,13 @@ class _PostJobScreenState extends State<PostJobScreen> {
                 }),
               ),
               const Text(
+                '👨', // Emoji-like icon for Male
+                style: TextStyle(
+                  fontSize: 16, // Adjust the emoji size
+                  color: Colors.black,
+                ),
+              ),
+              const Text(
                 'Male',
                 style: TextStyle(
                   color: Colors.black,
@@ -438,6 +447,13 @@ class _PostJobScreenState extends State<PostJobScreen> {
                   }
                   return Colors.black; // The normal color (black)
                 }),
+              ),
+              const Text(
+                '👩', // Emoji-like icon for Female
+                style: TextStyle(
+                  fontSize: 16, // Adjust the emoji size
+                  color: Colors.black,
+                ),
               ),
               const Text(
                 'Female',
@@ -464,10 +480,17 @@ class _PostJobScreenState extends State<PostJobScreen> {
                 }),
               ),
               const Text(
-                'Both',
+                '👨👩', // Emoji-like icon for Both
+                style: TextStyle(
+                  fontSize: 16, // Adjust the emoji size
+                  color: Colors.black,
+                ),
+              ),
+              const Text(
+                ' Both',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 14,
+                  fontSize: 16,
                   fontWeight: FontWeight.normal,
                 ),
               ),
@@ -509,7 +532,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
                     EdgeInsets.symmetric(vertical: 10), // Add vertical padding
                 child: Text(
                   district,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black,
                   ),
                 ),
