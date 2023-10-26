@@ -281,7 +281,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(error),
-        backgroundColor: Colors.red,
+        backgroundColor: mobileBackgroundColor,
       ),
     );
   }
