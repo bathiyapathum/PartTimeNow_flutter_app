@@ -247,7 +247,8 @@ class _PostJobScreenState extends State<PostJobScreen> {
             final salary = double.parse(salaryController.text);
             final description = descriptionController.text;
 
-            await AuthMethod().postJob(
+            try {
+              await AuthMethod().postJob(
                 startDate: startDate,
                 endDate: endDate,
                 salary: salary,
@@ -255,26 +256,45 @@ class _PostJobScreenState extends State<PostJobScreen> {
                 description: description,
                 startTime: startTimeController.text,
                 endTime: endTimeController.text,
-                gender: selectedGender!);
+                gender: selectedGender!,
+              );
 
-            setState(() {
-              isPosting = false;
-            });
+              // Show a success message
+              showSuccessMessage("Successfully posted a job");
 
-            startDateController.clear();
-            startTimeController.clear();
-            endDateController.clear();
-            endTimeController.clear();
-            salaryController.clear();
-            descriptionController.clear();
-            selectedGender = null;
-            setState(() {
-              location = null;
-            });
+              setState(() {
+                isPosting = false;
+              });
+
+              startDateController.clear();
+              startTimeController.clear();
+              endDateController.clear();
+              endTimeController.clear();
+              salaryController.clear();
+              descriptionController.clear();
+              selectedGender = null;
+              setState(() {
+                location = null;
+              });
+            } catch (e) {
+              showValidationError("An error occurred while posting the job");
+              setState(() {
+                isPosting = false;
+              });
+            }
           }
         }
       }
     }
+  }
+
+  void showSuccessMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: const Color.fromARGB(255, 37, 177, 42),
+      ),
+    );
   }
 
   void showValidationError(String error) {
