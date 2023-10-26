@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:parttimenow_flutter/Widgets/feedback_card.dart';
 // import 'package:parttimenow_flutter/screens/chat_home_page.dart';
+import 'package:parttimenow_flutter/screens/chat_home_page.dart';
 import 'package:parttimenow_flutter/screens/feed_screen_layout.dart';
 import 'package:parttimenow_flutter/screens/feedback_screen.dart';
 import 'package:parttimenow_flutter/screens/feedback_screen_layout.dart';
@@ -17,11 +18,9 @@ const homeScreenItems = [
   FeedScreenLayout(),
   FeedbackScreenLayout(feedbackUserId: ""), // Text('Search'),
   PostJobScreen(),
-  FeedbackScreen(
-    postID: '123',
-  ), // this is temporary for testing,
+  // this is temporary for testing,
   // JobPostingPage(),
-  // ChatHomePage(),
+  ChatHomePage(),
   MenueScreen(),
 ];
 
