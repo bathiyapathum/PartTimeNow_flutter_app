@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:parttimenow_flutter/Widgets/notification_card.dart';
 import 'package:parttimenow_flutter/Widgets/post_card.dart';
 
 import 'package:parttimenow_flutter/Widgets/shimmer_post_card.dart';
@@ -61,7 +62,7 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
   }) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const ShrimmerPostCard(),
+        builder: (context) => const NotificationCard(),
       ),
     );
   }

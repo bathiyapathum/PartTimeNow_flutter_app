@@ -1,20 +1,48 @@
+// import 'dart:js';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parttimenow_flutter/resources/auth_method.dart';
+import 'package:parttimenow_flutter/screens/edite_profile.dart';
 import 'package:parttimenow_flutter/screens/login_screen.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 
 class MenueScreen extends StatelessWidget {
   const MenueScreen({super.key});
 
-  void signOut(context) async {
-    await AuthMethod().signOut();
-    Navigator.of(context).pushReplacement(
+  // void signOut(context) async {
+  //   await AuthMethod().signOut();
+  //   Navigator.of(context).pushReplacement(
+  //     MaterialPageRoute(
+  //       builder: (context) => const LoginScreen(),
+  //     ),
+  //   );
+  // }
+  // ignore: non_constant_identifier_names
+  void ProfileEdite(BuildContext context) {
+    Navigator.push(
+      context,
       MaterialPageRoute(
-        builder: (context) => const LoginScreen(),
+        builder: (context) => const EditeProfile(),
       ),
     );
   }
-  
+
+  void _signOut(context) async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      // You can navigate to the login or home screen after signing out
+      // For example, you can use Navigator.pushReplacement to replace the current screen with a login screen.
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoginScreen(), // Replace with your login screen
+        ),
+      );
+    } catch (e) {
+      print('Error signing out: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +75,8 @@ class MenueScreen extends StatelessWidget {
         decoration: const BoxDecoration(
           color: Color.fromARGB(255, 223, 223, 223),
         ),
-        child: ListView(children: [
+        child: ListView(
+          children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -104,21 +133,22 @@ class MenueScreen extends StatelessWidget {
                             //   height: 2,
                             // ),
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                ProfileEdite(
+                                    context); // Call the function to navigate
+                              },
                               style: ButtonStyle(
                                 fixedSize: MaterialStateProperty.all<Size>(
-                                    const Size(110, 30)),
+                                  const Size(110, 30),
+                                ),
                                 elevation: MaterialStateProperty.all(12.0),
                                 backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                  signInBtn,
-                                ),
+                                    MaterialStateProperty.all<Color>(signInBtn),
                                 shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(
-                                      12.0,
-                                    ), // Adjust the radius as needed
+                                        12.0), // Adjust the radius as needed
                                   ),
                                 ),
                               ),
@@ -405,23 +435,47 @@ class MenueScreen extends StatelessWidget {
                 ),
               ),
 
-
               // ),
 
               //////////////////////////////////////////
               // ),
+              SizedBox(height: 0),
 
+              // const Card(
+              //   color: signInBtn,
+              //   margin: EdgeInsets.symmetric(
+              //     horizontal: 120,
+              //     vertical: 2,
+              //   ),
 
-              const Card(
-                color: Colors.amber,
-                margin: EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 80,
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    _signOut(context);
+                  },
+                  style: ButtonStyle(
+                    fixedSize: MaterialStateProperty.all<Size>(
+                      const Size(110, 30),
+                    ),
+                    elevation: MaterialStateProperty.all(12.0),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(signInBtn),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            12.0), // Adjust the radius as needed
+                      ),
+                    ),
+                  ),
+                  child: const Text(
+                    'Sign Out',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-                child: ButtonBar(
-                  
-                ),
-                
               )
             ],
           ),
