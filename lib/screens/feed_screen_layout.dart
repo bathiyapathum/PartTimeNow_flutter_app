@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:parttimenow_flutter/Widgets/notification_card.dart';
 import 'package:parttimenow_flutter/Widgets/post_card.dart';
 
 import 'package:parttimenow_flutter/Widgets/shimmer_post_card.dart';
 import 'package:parttimenow_flutter/models/filter_model.dart';
+import 'package:parttimenow_flutter/screens/category_selection_screen.dart';
 import 'package:parttimenow_flutter/screens/filter_feed_screen.dart';
+import 'package:parttimenow_flutter/screens/location_selection_screen.dart';
 import 'package:parttimenow_flutter/screens/select_location_screen.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:parttimenow_flutter/utils/global_variable.dart';
@@ -61,7 +64,11 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
   }) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const ShrimmerPostCard(),
+
+        builder: (context) => const CategorySelectionScreen(),
+
+//         builder: (context) => const NotificationCard(),
+
       ),
     );
   }
@@ -81,26 +88,14 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
         backgroundColor: mobileBackgroundColor,
         elevation: 0,
         centerTitle: false,
-
-        title: GestureDetector(
-          onTap: () {
-            logger.d(filterModel.category);
-            logger.d(filterModel.location);
-            logger.d(filterModel.male);
-            logger.d(filterModel.female);
-            logger.d(filterModel.startSal);
-            logger.d(filterModel.endSal);
-          },
-          child: const Text(
-            "Home",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
+        title: const Text(
+          "Home",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
           ),
         ),
-
         actions: [
           Card(
             elevation: 0,

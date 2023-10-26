@@ -84,6 +84,14 @@ class AuthMethod {
           res = "Some error occured";
         }
       }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        res = "The password provided is too weak";
+      } else if (e.code == 'email-already-in-use') {
+        res = "The account already exists for that email";
+      } else if (e.code == 'invalid-email') {
+        res = "Invalid email";
+      }
     } catch (e) {
       res = e.toString();
     }
@@ -172,30 +180,32 @@ class AuthMethod {
     required String description,
     required String startTime,
     required String endTime,
+    required String gender,
   }) async {
     try {
       if (_auth.currentUser != null) {
         getUserDetails().then((value) async {
           final jobData = PostModel(
-              userId: _auth.currentUser!.uid,
-              startDate: startDate,
-              endDate: endDate,
-              salary: salary,
-              location: location,
-              description: description,
-              startTime: startTime,
-              endTime: endTime,
-              userName: value.username,
-              uid: _auth.currentUser!.uid,
-              photoUrl: value.photoUrl,
-              feedbacksId: [],
-              saved: [],
-              postId: "",
-              rating: 3,
-              gender: "male");
+            userId: _auth.currentUser!.uid,
+            startDate: startDate,
+            endDate: endDate,
+            salary: salary,
+            location: location,
+            description: description,
+            startTime: startTime,
+            endTime: endTime,
+            userName: value.username,
+            uid: _auth.currentUser!.uid,
+            photoUrl: value.photoUrl,
+            feedbacksId: [],
+            saved: [],
+            postId: await generatePostId(),
+            rating: 3,
+            gender: gender,
+          );
 
           final firebaseJobs = _firestore.collection('posts');
-          await firebaseJobs.add(jobData.toJson());
+          await firebaseJobs.doc(jobData.postId).set(jobData.toJson());
         });
 
         // Handle successful job posting
@@ -210,5 +220,10 @@ class AuthMethod {
       throw Exception(
           'Job posting error: $e'); // Rethrow the exception with the error message
     }
+  }
+
+  Future<String> generatePostId() async {
+    final documentReference = await _firestore.collection('posts').doc();
+    return documentReference.id;
   }
 }
