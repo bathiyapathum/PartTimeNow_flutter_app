@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:parttimenow_flutter/Widgets/text_field_input.dart';
 import 'package:parttimenow_flutter/resources/auth_method.dart';
 import 'package:parttimenow_flutter/responsive/mobile_screen_layout.dart';
@@ -96,101 +95,95 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Sign In',
-          style: GoogleFonts.lato(
-              textStyle: const TextStyle(
-            color: postUserNameColor,
-            fontSize: 30,
+          style: TextStyle(
+            color: navActivaeColor,
+            fontSize: 28,
             fontWeight: FontWeight.bold,
-          )),
+          ),
         ),
       ),
       body: SafeArea(
         top: false,
         bottom: false,
-        child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(
-                'assets/sign.png',
-              ),
-              fit: BoxFit.cover,
-            ),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Flexible(flex: 2, child: Container()),
-              const CircleAvatar(
-                radius: 84,
-                backgroundColor: primaryColor,
-                child: CircleAvatar(
-                  radius: 74,
-                  //svg image
-                  backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1681811472561-801b008d75e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=60',
+        child: SingleChildScrollView(
+          child: Container(
+            // decoration: const BoxDecoration(
+            //   image: DecorationImage(
+            //     image: AssetImage(
+            //       '',
+            //     ),
+            //     fit: BoxFit.cover,
+            //   ),
+            // ),
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  height: 32,
+                ),
+                const Material(
+                  elevation: 10.2, // This elevation property adds a shadow
+                  shadowColor: postUserNameColor,
+                  shape: CircleBorder(),
+                  child: CircleAvatar(
+                    radius: 84,
+                    backgroundColor: Color.fromARGB(255, 255, 128, 8),
+                    child: CircleAvatar(
+                      radius: 82,
+                      //svg image
+                      backgroundImage: NetworkImage(
+                        'https://images.unsplash.com/photo-1681811472561-801b008d75e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=60',
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              Text('Sign In to Continue',
-                  style: GoogleFonts.lato(
-                      textStyle: const TextStyle(
-                    color: postUserNameColor,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ))),
-              const SizedBox(height: 44),
-              //text feild email
-              TextFieldInput(
-                textEditingController: emailController,
-                hintText: 'Email ID',
-                label: 'Email',
-                textInputType: TextInputType.emailAddress,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              //text feild password
-              TextFieldInput(
-                textEditingController: passwordController,
-                hintText: 'Password',
-                label: 'Password',
-                textInputType: TextInputType.visiblePassword,
-                isPass: true,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              Text(
-                _error,
-                style: const TextStyle(
-                  color: Colors.red,
-                  fontSize: 16,
+                const SizedBox(
+                  height: 32,
                 ),
-              ),
-              const SizedBox(
-                height: 34,
-              ),
-              // button login
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2), // Shadow color
-                      spreadRadius: 3, // Spread radius
-                      blurRadius: 5, // Blur radius
-                      offset: Offset(2, 6), // Offset
-                    ),
-                  ],
+                const Text('Sign In to Continue',
+                    style: TextStyle(
+                      color: primaryColor,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    )),
+                const SizedBox(height: 44),
+                //text feild email
+                TextFieldInput(
+                  textEditingController: emailController,
+                  hintText: 'Email',
+                  textInputType: TextInputType.emailAddress,
+                  label: 'Email',
                 ),
-                child: ElevatedButton(
+                const SizedBox(
+                  height: 20,
+                ),
+                //text feild password
+                TextFieldInput(
+                  textEditingController: passwordController,
+                  hintText: 'Password',
+                  textInputType: TextInputType.visiblePassword,
+                  isPass: true,
+                  label: 'Password',
+                ),
+                const SizedBox(
+                  height: 18,
+                ),
+                Text(
+                  _error,
+                  style: const TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                // button login
+                ElevatedButton(
                   onPressed: () {
                     loginInUser();
                   },
@@ -208,9 +201,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: primaryColor,
                           ),
                         )
-                      : Text(
+                      : const Text(
                           'Sign In',
-                          style: GoogleFonts.lato(
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: buttonText,
                             fontSize: 20,
@@ -218,48 +211,46 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                 ),
-              ),
-
-              Flexible(flex: 2, child: Container()),
-              //go to signup
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8,
-                    ),
-                    child: const Text("Don't have an account?",
-                        style: TextStyle(
-                          color: hintColor,
-                        )),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      navigateToSignup();
-                    },
-                    child: Container(
+                //go to signup
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
                       padding: const EdgeInsets.symmetric(
                         vertical: 8,
                       ),
-                      child: const Text(
-                        "Sign Up ",
-                        style: TextStyle(
-                          color: postUserNameColor,
-                          fontWeight: FontWeight.bold,
+                      child: const Text("Don't have an account?",
+                          style: TextStyle(
+                            color: hintColor,
+                          )),
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        navigateToSignup();
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                        ),
+                        child: const Text(
+                          "Sign Up ",
+                          style: TextStyle(
+                            color: postUserNameColor,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 64,
-              )
-            ],
+                  ],
+                ),
+                const SizedBox(
+                  height: 64,
+                )
+              ],
+            ),
           ),
         ),
       ),
