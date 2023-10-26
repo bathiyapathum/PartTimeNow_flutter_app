@@ -10,6 +10,7 @@ import 'package:parttimenow_flutter/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'utils/colors.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
