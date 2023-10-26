@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:parttimenow_flutter/resources/auth_method.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:parttimenow_flutter/utils/global_variable.dart';
+// import 'package:parttimenow_flutter/utils/global_variable.dart';
+// import 'package:parttimenow_flutter/utils/utills.dart';
 
 class PostJobScreen extends StatefulWidget {
   const PostJobScreen({Key? key}) : super(key: key);
@@ -17,11 +19,10 @@ class _PostJobScreenState extends State<PostJobScreen> {
   final TextEditingController endDateController = TextEditingController();
   final TextEditingController endTimeController = TextEditingController();
   final TextEditingController salaryController = TextEditingController();
-  String? location;
-
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   String? selectedGender;
+  String? location;
 
   List<String> districtNames = [
     'Colombo',
@@ -125,22 +126,11 @@ class _PostJobScreenState extends State<PostJobScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
-        title: const Text(
-          'Post a Job',
-          style: TextStyle(
-            fontSize: 26,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-
         title: GestureDetector(
             onTap: () {
               logger.e(selectedGender);
             },
             child: const Text('Post a Job')),
-
         backgroundColor: mobileBackgroundColor,
       ),
       body: SingleChildScrollView(
@@ -241,53 +231,38 @@ class _PostJobScreenState extends State<PostJobScreen> {
             isPosting = false;
           });
         } else {
-
-
-         if (endDate.isBefore(startDate)) {
-          showValidationError("End date must be after or equal to start date");
-          setState(() {
-            isPosting = false;
-          });
-        } else {
           if (selectedGender == null) {
             isPosting = false;
             showValidationError("Gender is required");
           } else {
             final salary = double.parse(salaryController.text);
-            final location = locationController.text;
             final description = descriptionController.text;
 
             await AuthMethod().postJob(
                 startDate: startDate,
                 endDate: endDate,
                 salary: salary,
-                location: location,
+                location: location!,
                 description: description,
                 startTime: startTimeController.text,
                 endTime: endTimeController.text,
                 gender: selectedGender!);
 
-
-
             setState(() {
               isPosting = false;
             });
-
-
 
             startDateController.clear();
             startTimeController.clear();
             endDateController.clear();
             endTimeController.clear();
             salaryController.clear();
-            locationController.clear();
             descriptionController.clear();
             selectedGender = null;
-              setState(() {
-            location = null;
-          });
+            setState(() {
+              location = null;
+            });
           }
-
         }
       }
     }
@@ -297,7 +272,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(error),
-        backgroundColor: mobileBackgroundColor,
+        backgroundColor: Colors.red,
       ),
     );
   }
@@ -335,7 +310,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
           borderRadius: BorderRadius.circular(15),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: mobileBackgroundColor),
+          borderSide: const BorderSide(color: Color.fromARGB(255, 206, 124, 0)),
           borderRadius: BorderRadius.circular(15),
         ),
       ),
@@ -363,7 +338,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
           borderRadius: BorderRadius.circular(15),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: mobileBackgroundColor),
+          borderSide: const BorderSide(color: Color.fromARGB(255, 206, 124, 0)),
           borderRadius: BorderRadius.circular(15),
         ),
       ),
@@ -530,10 +505,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: descriptionLength <= 200
-
-                    ? mobileBackgroundColor
-
-
+                    ? const Color.fromARGB(255, 255, 162, 22)
                     : Colors.red,
               ),
               borderRadius: BorderRadius.circular(15),
