@@ -360,7 +360,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
         Radio(
           value: "male",
           groupValue: selectedGender,
-          activeColor: Colors.orange,
+          activeColor: mobileBackgroundColor,
           onChanged: (String? value) {
             setState(() {
               selectedGender = value;
@@ -368,7 +368,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
           },
           fillColor: MaterialStateProperty.resolveWith<Color>((states) {
             if (states.contains(MaterialState.selected)) {
-              return Colors.orange; // The selected color (orange)
+              return mobileBackgroundColor; // The selected color (orange)
             }
             return Colors.black; // The normal color (black)
           }),
@@ -378,13 +378,13 @@ class _PostJobScreenState extends State<PostJobScreen> {
           style: TextStyle(
             color: Colors.black,
             fontSize: 14,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.normal,
           ),
         ),
         Radio(
           value: "female",
           groupValue: selectedGender,
-          activeColor: Colors.orange,
+          activeColor: mobileBackgroundColor,
           onChanged: (String? value) {
             setState(() {
               selectedGender = value;
@@ -393,7 +393,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
           toggleable: true,
           fillColor: MaterialStateProperty.resolveWith<Color>((states) {
             if (states.contains(MaterialState.selected)) {
-              return Colors.orange; // The selected color (orange)
+              return mobileBackgroundColor; // The selected color (orange)
             }
             return Colors.black; // The normal color (black)
           }),
@@ -403,7 +403,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
           style: TextStyle(
             color: Colors.black,
             fontSize: 14,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.normal,
           ),
         ),
         Radio(
@@ -427,7 +427,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
           style: TextStyle(
             color: Colors.black,
             fontSize: 14,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.normal,
           ),
         ),
       ],
