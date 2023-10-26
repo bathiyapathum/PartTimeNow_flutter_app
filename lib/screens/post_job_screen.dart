@@ -127,15 +127,24 @@ class _PostJobScreenState extends State<PostJobScreen> {
     return Scaffold(
       appBar: AppBar(
         title: GestureDetector(
-            onTap: () {
-              logger.e(selectedGender);
-            },
-            child: const Text('Post a Job')),
+          onTap: () {
+            logger.e(selectedGender);
+          },
+          child: Center(
+            child: Text(
+              'Post a Job',
+              style: TextStyle(
+                fontSize: 26, // Set the desired font size
+                color: Colors.white, // Set the text color
+              ),
+            ),
+          ),
+        ),
         backgroundColor: mobileBackgroundColor,
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0).copyWith(top: 0),
           child: Column(
             children: [
               Row(
@@ -272,7 +281,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(error),
-        backgroundColor: Colors.red,
+        backgroundColor: mobileBackgroundColor,
       ),
     );
   }
@@ -346,82 +355,106 @@ class _PostJobScreenState extends State<PostJobScreen> {
   }
 
   Widget buildGenderField() {
-    return Row(
-      children: [
-        Radio(
-          value: "male",
-          groupValue: selectedGender,
-          activeColor: Colors.orange,
-          onChanged: (String? value) {
-            setState(() {
-              selectedGender = value;
-            });
-          },
-          fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-            if (states.contains(MaterialState.selected)) {
-              return Colors.orange; // The selected color (orange)
-            }
-            return Colors.black; // The normal color (black)
-          }),
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.black, // Border color
         ),
-        const Text(
-          'Male',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
+        borderRadius:
+            BorderRadius.circular(15), // Smaller radius to reduce the size
+      ),
+      padding: EdgeInsets.all(8), // Smaller padding to reduce the size
+      child: Column(
+        crossAxisAlignment:
+            CrossAxisAlignment.start, // Align the label to the left
+        children: [
+          Text(
+            'Gender',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
+            ),
           ),
-        ),
-        Radio(
-          value: "female",
-          groupValue: selectedGender,
-          activeColor: Colors.orange,
-          onChanged: (String? value) {
-            setState(() {
-              selectedGender = value;
-            });
-          },
-          toggleable: true,
-          fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-            if (states.contains(MaterialState.selected)) {
-              return Colors.orange; // The selected color (orange)
-            }
-            return Colors.black; // The normal color (black)
-          }),
-        ),
-        const Text(
-          'Female',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
+          Row(
+            children: [
+              Radio(
+                value: "male",
+                groupValue: selectedGender,
+                activeColor: mobileBackgroundColor,
+                onChanged: (String? value) {
+                  setState(() {
+                    selectedGender = value;
+                  });
+                },
+                fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(MaterialState.selected)) {
+                    return mobileBackgroundColor; // The selected color (orange)
+                  }
+                  return Colors.black; // The normal color (black)
+                }),
+              ),
+              const Text(
+                'Male',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              Radio(
+                value: "female",
+                groupValue: selectedGender,
+                activeColor: mobileBackgroundColor,
+                onChanged: (String? value) {
+                  setState(() {
+                    selectedGender = value;
+                  });
+                },
+                toggleable: true,
+                fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(MaterialState.selected)) {
+                    return mobileBackgroundColor; // The selected color (orange)
+                  }
+                  return Colors.black; // The normal color (black)
+                }),
+              ),
+              const Text(
+                'Female',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              Radio(
+                value: "both",
+                groupValue: selectedGender,
+                activeColor: Colors.orange,
+                onChanged: (String? value) {
+                  setState(() {
+                    selectedGender = value;
+                  });
+                },
+                fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(MaterialState.selected)) {
+                    return Colors.orange; // The selected color (orange)
+                  }
+                  return Colors.black; // The normal color (black)
+                }),
+              ),
+              const Text(
+                'Both',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ],
           ),
-        ),
-        Radio(
-          value: "both",
-          groupValue: selectedGender,
-          activeColor: Colors.orange,
-          onChanged: (String? value) {
-            setState(() {
-              selectedGender = value;
-            });
-          },
-          fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-            if (states.contains(MaterialState.selected)) {
-              return Colors.orange; // The selected color (orange)
-            }
-            return Colors.black; // The normal color (black)
-          }),
-        ),
-        const Text(
-          'Both',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -444,14 +477,21 @@ class _PostJobScreenState extends State<PostJobScreen> {
         ),
       ),
       child: PopupMenuButton<String>(
+        color: Colors
+            .white, // Set the background color of the dropdown menu to white
         itemBuilder: (BuildContext context) {
           return districtNames.map((String district) {
             return PopupMenuItem<String>(
               value: district,
-              child: Text(
-                district,
-                style: const TextStyle(
-                  color: Color.fromARGB(255, 255, 255, 255),
+              height: 4,
+              child: Padding(
+                padding:
+                    EdgeInsets.symmetric(vertical: 10), // Add vertical padding
+                child: Text(
+                  district,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
                 ),
               ),
             );
@@ -468,17 +508,16 @@ class _PostJobScreenState extends State<PostJobScreen> {
           padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
           decoration: BoxDecoration(
             color: Colors.white, // Set the background color to white
-            borderRadius:
-                BorderRadius.circular(5), // Adjust the radius as needed
+            borderRadius: BorderRadius.circular(5),
           ),
           child: Text(
             location ?? 'Location',
             style: const TextStyle(
-              color: Colors.black, // Set the text color to black
+              color: Colors.black,
             ),
           ),
         ),
-        offset: Offset(0, 30), // Adjust the vertical offset as needed
+        offset: Offset(0, 30),
       ),
     );
   }
