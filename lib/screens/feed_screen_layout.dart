@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:parttimenow_flutter/Widgets/post_card.dart';
 import 'package:parttimenow_flutter/Widgets/shimmer_post_card.dart';
 import 'package:parttimenow_flutter/models/filter_model.dart';
-import 'package:parttimenow_flutter/screens/category_selection_screen.dart';
+// import 'package:parttimenow_flutter/screens/category_selection_screen.dart';
 import 'package:parttimenow_flutter/screens/filter_feed_screen.dart';
+import 'package:parttimenow_flutter/screens/notification_screen.dart';
 import 'package:parttimenow_flutter/screens/select_location_screen.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 
@@ -19,6 +20,7 @@ class FeedScreenLayout extends StatefulWidget {
 class _FeedScreenLayoutState extends State<FeedScreenLayout> {
   Map<String, dynamic> filteredData = {};
   String gender = "male";
+
   void navigateToFilter(context) {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -59,11 +61,9 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
   }) {
     Navigator.of(context).push(
       MaterialPageRoute(
+        // builder: (context) => const CategorySelectionScreen(),
 
-        builder: (context) => const CategorySelectionScreen(),
-
-//         builder: (context) => const NotificationCard(),
-
+        builder: (context) => const NotificationScreen(),
       ),
     );
   }
@@ -79,7 +79,7 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
     FilterModel filterModel = FilterModel.fromList(filteredData);
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 80,
+        toolbarHeight: 70,
         backgroundColor: mobileBackgroundColor,
         elevation: 0,
         centerTitle: false,
@@ -92,37 +92,45 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
           ),
         ),
         actions: [
-          Card(
-            elevation: 0,
-            shape: const CircleBorder(),
-            color: Colors.white,
-            child: IconButton(
-              onPressed: () {
-                // navigateToFilter(context);
-                showDialog(context: context);
-              },
-              icon: const Icon(
-                color: navActivaeColor,
-                Icons.format_indent_increase_outlined,
+          SizedBox(
+            width: 45,
+            height: 45,
+            child: Card(
+              elevation: 0,
+              shape: const CircleBorder(),
+              color: Colors.white,
+              child: IconButton(
+                onPressed: () {
+                  showDialog(context: context);
+                },
+                icon: const Icon(
+                  color: navActivaeColor,
+                  Icons.format_indent_increase_outlined,
+                  size: 20,
+                ),
               ),
             ),
           ),
           const SizedBox(
-            width: 10,
+            width: 6,
           ),
-          Card(
-            margin: const EdgeInsets.only(right: 10),
-            elevation: 0,
-            shape: const CircleBorder(),
-            color: Colors.white,
-            child: IconButton(
-              onPressed: () {
-                // navigateToSearch(context);
-                showShrim(context: context);
-              },
-              icon: const Icon(
-                color: navActivaeColor,
-                Icons.notifications,
+          SizedBox(
+            width: 45,
+            height: 45,
+            child: Card(
+              margin: const EdgeInsets.only(right: 10),
+              elevation: 0,
+              shape: const CircleBorder(),
+              color: Colors.white,
+              child: IconButton(
+                onPressed: () {
+                  showShrim(context: context);
+                },
+                icon: const Icon(
+                  color: navActivaeColor,
+                  Icons.notifications,
+                  size: 20,
+                ),
               ),
             ),
           )

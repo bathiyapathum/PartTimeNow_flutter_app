@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parttimenow_flutter/Widgets/notification_card.dart';
+import 'package:parttimenow_flutter/Widgets/shimmer_post_card.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 
 class NotificationScreen extends StatelessWidget {
@@ -10,78 +11,85 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 50,
-        backgroundColor: Colors.white,
+        toolbarHeight: 70,
+        backgroundColor: mobileBackgroundColor,
         elevation: 0,
         centerTitle: false,
         title: const Text(
-          'PartTimeNow',
+          "Notifications",
           style: TextStyle(
-            color: signInBtn,
-            fontSize: 28,
-            fontWeight: FontWeight.w500,
-            fontFamily: 'Roboto',
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        // title: Card(
-        //   elevation: 0,
-        //   shape: const CircleBorder(),
-        //   color: Colors.white,
-        //   child: IconButton(
-        //     onPressed: () {},
-        //     icon: const Icon(
-        //       color: navActivaeColor,
-        //       Icons.format_indent_increase_outlined,
-        //     ),
-        //   ),
-        // ),
-        actions: [
-          Card(
-            margin: const EdgeInsets.only(right: 10),
-            elevation: 0,
-            shape: const CircleBorder(),
-            color: Colors.white,
-            child: IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                color: navActivaeColor,
-                Icons.notifications,
-              ),
-            ),
-          )
-        ],
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 223, 223, 223),
-          // image: DecorationImage(
-          //   image: AssetImage(
-          //     'assets/background.jpg',
-          //   ),
-          //   fit: BoxFit.cover,
-          // ),
-        ),
-        child: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('posts').snapshots(),
-          builder: (context,
-              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+        builder: (context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return ListView.builder(
-              itemCount: snapshot.data!.docs.length,
+              itemCount: 2,
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) => Container(
                 margin: const EdgeInsets.symmetric(
-                  horizontal: 0,
-                  vertical: 5,
+                  horizontal: 10,
+                  vertical: 10,
                 ),
-                child: const NotificationCard(),
+                child: const ShrimmerPostCard(),
               ),
             );
-          },
-        ),
+          }
+          if (!snapshot.hasData ||
+              snapshot.data != null && snapshot.data!.docs.isEmpty) {
+            return const Center(
+              child: Text(
+                "No Data",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          }
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text(
+                "Error",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          }
+          if (snapshot.hasData &&
+              snapshot.connectionState == ConnectionState.active) {
+            return ListView.builder(
+              itemCount: snapshot.data?.docs.length,
+              itemBuilder: (context, index) => Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 10,
+                  ),
+                  child: const NotificationCard()),
+            );
+          }
+          return ListView.builder(
+            itemCount: 2,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) => Container(
+              margin: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 10,
+              ),
+              child: const ShrimmerPostCard(),
+            ),
+          );
+        },
       ),
     );
   }

@@ -130,25 +130,22 @@ class _PostJobScreenState extends State<PostJobScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: GestureDetector(
-          onTap: () {
-            logger.e(selectedGender);
-          },
-          child: const Center(
-            child: Text(
-              'Post a Job',
-              style: TextStyle(
-                fontSize: 26, // Set the desired font size
-                color: Colors.white, // Set the text color
-              ),
-            ),
+        toolbarHeight: 70,
+        backgroundColor: mobileBackgroundColor,
+        elevation: 0,
+        centerTitle: false,
+        title: const Text(
+          "Post a Job",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: mobileBackgroundColor,
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0).copyWith(top: 0),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
               Row(
@@ -402,99 +399,93 @@ class _PostJobScreenState extends State<PostJobScreen> {
           ),
           Row(
             children: [
-              Radio(
-                value: "male",
-                groupValue: selectedGender,
-                activeColor: mobileBackgroundColor,
-                onChanged: (String? value) {
-                  setState(() {
-                    selectedGender = value;
-                  });
-                },
-                fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-                  if (states.contains(MaterialState.selected)) {
-                    return mobileBackgroundColor; // The selected color (orange)
-                  }
-                  return Colors.black; // The normal color (black)
-                }),
+              Row(
+                children: [
+                  Radio(
+                    value: "male",
+                    groupValue: selectedGender,
+                    activeColor: mobileBackgroundColor,
+                    onChanged: (String? value) {
+                      setState(() {
+                        selectedGender = value;
+                      });
+                    },
+                    fillColor:
+                        MaterialStateProperty.resolveWith<Color>((states) {
+                      if (states.contains(MaterialState.selected)) {
+                        return mobileBackgroundColor; // The selected color (orange)
+                      }
+                      return Colors.black; // The normal color (black)
+                    }),
+                  ),
+                  const Text(
+                    'Male👨',
+                    style: TextStyle(
+                      color: Color(0xFF584D4D),
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ],
               ),
-              const Text(
-                '👨', // Emoji-like icon for Male
-                style: TextStyle(
-                  fontSize: 16, // Adjust the emoji size
-                  color: Colors.black,
-                ),
+              Row(
+                children: [
+                  Radio(
+                    value: "female",
+                    groupValue: selectedGender,
+                    activeColor: mobileBackgroundColor,
+                    onChanged: (String? value) {
+                      setState(() {
+                        selectedGender = value;
+                      });
+                    },
+                    toggleable: true,
+                    fillColor:
+                        MaterialStateProperty.resolveWith<Color>((states) {
+                      if (states.contains(MaterialState.selected)) {
+                        return mobileBackgroundColor; // The selected color (orange)
+                      }
+                      return Colors.black; // The normal color (black)
+                    }),
+                  ),
+                  const Text(
+                    'Female👩',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ],
               ),
-              const Text(
-                'Male',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              Radio(
-                value: "female",
-                groupValue: selectedGender,
-                activeColor: mobileBackgroundColor,
-                onChanged: (String? value) {
-                  setState(() {
-                    selectedGender = value;
-                  });
-                },
-                toggleable: true,
-                fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-                  if (states.contains(MaterialState.selected)) {
-                    return mobileBackgroundColor; // The selected color (orange)
-                  }
-                  return Colors.black; // The normal color (black)
-                }),
-              ),
-              const Text(
-                '👩', // Emoji-like icon for Female
-                style: TextStyle(
-                  fontSize: 16, // Adjust the emoji size
-                  color: Colors.black,
-                ),
-              ),
-              const Text(
-                'Female',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              Radio(
-                value: "both",
-                groupValue: selectedGender,
-                activeColor: Colors.orange,
-                onChanged: (String? value) {
-                  setState(() {
-                    selectedGender = value;
-                  });
-                },
-                fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-                  if (states.contains(MaterialState.selected)) {
-                    return Colors.orange; // The selected color (orange)
-                  }
-                  return Colors.black; // The normal color (black)
-                }),
-              ),
-              const Text(
-                '👨👩', // Emoji-like icon for Both
-                style: TextStyle(
-                  fontSize: 16, // Adjust the emoji size
-                  color: Colors.black,
-                ),
-              ),
-              const Text(
-                ' Both',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.normal,
-                ),
+              Row(
+                children: [
+                  Radio(
+                    value: "both",
+                    groupValue: selectedGender,
+                    activeColor: Colors.orange,
+                    onChanged: (String? value) {
+                      setState(() {
+                        selectedGender = value;
+                      });
+                    },
+                    fillColor:
+                        MaterialStateProperty.resolveWith<Color>((states) {
+                      if (states.contains(MaterialState.selected)) {
+                        return Colors.orange; // The selected color (orange)
+                      }
+                      return Colors.black; // The normal color (black)
+                    }),
+                  ),
+                  const Text(
+                    'Both👨👩',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -530,8 +521,8 @@ class _PostJobScreenState extends State<PostJobScreen> {
               value: district,
               height: 4,
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10), // Add vertical padding
+                padding: const EdgeInsets.symmetric(
+                    vertical: 10), // Add vertical padding
                 child: Text(
                   district,
                   style: const TextStyle(

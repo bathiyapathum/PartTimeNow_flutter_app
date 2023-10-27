@@ -17,7 +17,7 @@ class _JobRequestScreenState extends State<JobRequestScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 60,
+        toolbarHeight: 70,
         backgroundColor: mobileBackgroundColor,
         elevation: 0,
         centerTitle: false,
