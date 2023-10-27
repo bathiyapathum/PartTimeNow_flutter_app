@@ -187,7 +187,7 @@ class _FilterFeedScreenState extends State<FilterFeedScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 80,
+        toolbarHeight: 70,
         backgroundColor: mobileBackgroundColor,
         elevation: 0,
         centerTitle: false,
@@ -205,36 +205,28 @@ class _FilterFeedScreenState extends State<FilterFeedScreen> {
           ),
         ),
         actions: [
-          Card(
-            elevation: 0,
-            shape: const CircleBorder(),
-            color: Colors.white,
-            child: IconButton(
-              onPressed: () {
-                navigateToFeed(context);
-              },
-              icon: const Icon(
-                color: navActivaeColor,
-                Icons.format_indent_increase_outlined,
+          SizedBox(
+            width: 45,
+            height: 45,
+            child: Card(
+              elevation: 0,
+              shape: const CircleBorder(),
+              color: Colors.white,
+              child: IconButton(
+                onPressed: () {
+                  navigateToFeed(context);
+                },
+                icon: const Icon(
+                  color: navActivaeColor,
+                  Icons.close_rounded,
+                  size: 20,
+                ),
               ),
             ),
           ),
           const SizedBox(
-            width: 10,
+            width: 6,
           ),
-          Card(
-            margin: const EdgeInsets.only(right: 10),
-            elevation: 0,
-            shape: const CircleBorder(),
-            color: Colors.white,
-            child: IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                color: navActivaeColor,
-                Icons.notifications,
-              ),
-            ),
-          )
         ],
       ),
       body: SingleChildScrollView(

@@ -224,7 +224,7 @@ class AuthMethod {
   }
 
   Future<String> generatePostId() async {
-    final documentReference = await _firestore.collection('posts').doc();
+    final documentReference = _firestore.collection('posts').doc();
     return documentReference.id;
   }
 }
