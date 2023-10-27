@@ -22,7 +22,7 @@ const homeScreenItems = [
   ), // this is temporary for testing,
   // JobPostingPage(),
   // ChatHomePage(),
-  MenueScreen(),
+  MenuScreen(),
 ];
 
 const categories = [

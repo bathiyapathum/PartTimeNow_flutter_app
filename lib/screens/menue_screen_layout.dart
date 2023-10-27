@@ -1,12 +1,47 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:parttimenow_flutter/models/user_model.dart';
 import 'package:parttimenow_flutter/resources/auth_method.dart';
 import 'package:parttimenow_flutter/screens/edite_profile.dart';
 import 'package:parttimenow_flutter/screens/login_screen.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
+import 'package:parttimenow_flutter/utils/global_variable.dart';
 
-class MenueScreen extends StatelessWidget {
-  const MenueScreen({super.key});
+class MenuScreen extends StatefulWidget {
+  const MenuScreen({Key? key}) : super(key: key);
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _MenuScreenState createState() => _MenuScreenState();
+}
+
+class _MenuScreenState extends State<MenuScreen> {
+  Map<String, dynamic>? userData;
+  UserModel? userDetails;
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch user data when the widget is initialized
+    getUserData();
+  }
+
+  Future<void> getUserData() async {
+    try {
+      // Assuming AuthMethod().getUserDetails() returns a UserModel instance
+      final user = await AuthMethod().getUserDetails();
+      // ignore: unnecessary_null_comparison
+      if (user != null) {
+        setState(() {
+          userDetails = user;
+        });
+        logger.e(user.email);
+      } else {
+      }
+    } catch (e) {
+      userDetails = null; // Set userDetails to null in case of an error
+    }
+  }
 
   // void signOut(context) async {
   //   await AuthMethod().signOut();
@@ -26,6 +61,8 @@ class MenueScreen extends StatelessWidget {
     );
   }
 
+  // final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
   void _signOut(context) async {
     try {
       await FirebaseAuth.instance.signOut();
@@ -34,11 +71,11 @@ class MenueScreen extends StatelessWidget {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => LoginScreen(), // Replace with your login screen
+          builder: (context) => const LoginScreen(), // Replace with your login screen
         ),
       );
     } catch (e) {
-      print('Error signing out: $e');
+      logger.e('Error signing out: $e');
     }
   }
 
@@ -73,8 +110,7 @@ class MenueScreen extends StatelessWidget {
         decoration: const BoxDecoration(
           color: Color.fromARGB(255, 223, 223, 223),
         ),
-        child: ListView(
-          children: [
+        child: ListView(children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -98,7 +134,7 @@ class MenueScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const CircleAvatar(
-                          backgroundColor: navActivaeColor,
+                          backgroundColor: Colors.black,
                           radius: 42,
                           child: CircleAvatar(
                             radius: 40,
@@ -113,9 +149,9 @@ class MenueScreen extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Perara Dilshan Dinal',
-                              style: TextStyle(
+                            Text(
+                              userDetails!.username,
+                              style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black),
@@ -214,7 +250,7 @@ class MenueScreen extends StatelessWidget {
 
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                  Colors.black,
+                                  Colors.deepOrangeAccent,
                                 ),
 
                                 shape: MaterialStateProperty.all<
@@ -261,7 +297,7 @@ class MenueScreen extends StatelessWidget {
 
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                  Colors.black,
+                                  Colors.deepOrangeAccent,
                                 ),
 
                                 shape: MaterialStateProperty.all<
@@ -308,7 +344,7 @@ class MenueScreen extends StatelessWidget {
 
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                  Colors.black,
+                                  Colors.deepOrangeAccent,
                                 ),
 
                                 shape: MaterialStateProperty.all<
@@ -355,7 +391,7 @@ class MenueScreen extends StatelessWidget {
 
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                  Colors.black,
+                                  Colors.deepOrangeAccent,
                                 ),
 
                                 shape: MaterialStateProperty.all<
@@ -402,7 +438,7 @@ class MenueScreen extends StatelessWidget {
 
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                  Colors.black,
+                                  Colors.deepOrangeAccent,
                                 ),
 
                                 shape: MaterialStateProperty.all<
@@ -437,7 +473,7 @@ class MenueScreen extends StatelessWidget {
 
               //////////////////////////////////////////
               // ),
-              SizedBox(height: 0),
+              const SizedBox(height: 0),
 
               // const Card(
               //   color: signInBtn,
