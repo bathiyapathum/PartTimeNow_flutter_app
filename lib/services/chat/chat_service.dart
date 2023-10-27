@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parttimenow_flutter/models/message.dart';
+import 'package:parttimenow_flutter/utils/global_variable.dart';
 
 class ChatService extends ChangeNotifier {
   //get instance auth and firestore
@@ -62,39 +63,39 @@ class ChatService extends ChangeNotifier {
         'unreadCount': FieldValue.increment(1),
       }, SetOptions(merge: true));
 
-      print('Unread count incremented by 1');
+      logger.d('Unread count incremented by 1');
     } catch (e) {
-      print('Error incrementing unread count: $e');
+      logger.d('Error incrementing unread count: $e');
     }
   }
 
   // Get the unreadCount for a specific chat room
   Future<int> getUnreadCount(String chatRoomId) async {
     try {
-      print('Fetching unread count for chat room ID: $chatRoomId');
+      logger.d('Fetching unread count for chat room ID: $chatRoomId');
 
       final chatRoomSnapshot = await FirebaseFirestore.instance
           .collection('chat_rooms')
           .doc(chatRoomId)
           .get();
-      print('Chat room snapshot: $chatRoomSnapshot');
-      print('Chat room snapshot exists: ${chatRoomSnapshot.exists}');
+      logger.d('Chat room snapshot: $chatRoomSnapshot');
+      logger.d('Chat room snapshot exists: ${chatRoomSnapshot.exists}');
       if (chatRoomSnapshot.exists) {
         final data = chatRoomSnapshot.data();
         if (data != null && data.containsKey('unreadCount')) {
           final unreadCount = data['unreadCount'] as int;
-          print('Unread count for $chatRoomId: $unreadCount');
+          logger.d('Unread count for $chatRoomId: $unreadCount');
           return unreadCount;
         } else {
-          print('No "unreadCount" field found for $chatRoomId');
+          logger.d('No "unreadCount" field found for $chatRoomId');
           return 0; // Return a default value if 'unreadCount' field is missing
         }
       } else {
-        print('Chat room document $chatRoomId does not exist');
+        logger.d('Chat room document $chatRoomId does not exist');
         return 0; // Return a default value if the document does not exist
       }
     } catch (e) {
-      print('Error getting unread count for $chatRoomId: $e');
+      logger.d('Error getting unread count for $chatRoomId: $e');
       return 0; // Return a default value if there's an error
     }
   }

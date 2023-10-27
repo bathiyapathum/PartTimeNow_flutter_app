@@ -19,12 +19,13 @@ class _ChatHomePageState extends State<ChatHomePage> {
   void _signOut() async {
     try {
       await FirebaseAuth.instance.signOut();
-      // You can navigate to the login or home screen after signing out
-      // For example, you can use Navigator.pushReplacement to replace the current screen with a login screen.
+
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const LoginScreen(), // Replace with your login screen
+          builder: (context) =>
+              const LoginScreen(), // Replace with your login screen
         ),
       );
     } catch (e) {

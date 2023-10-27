@@ -19,18 +19,19 @@ class TextFieldInput extends StatefulWidget {
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _TextFieldInputState createState() => _TextFieldInputState();
 }
 
 class _TextFieldInputState extends State<TextFieldInput> {
   final inputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(25),
-    borderSide: BorderSide(color: signInBtn),
+    borderSide: const BorderSide(color: signInBtn),
     gapPadding: 10,
   );
   final enableBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(25),
-    borderSide: BorderSide(color: inputField),
+    borderSide: const BorderSide(color: inputField),
     gapPadding: 10,
   );
 
@@ -57,7 +58,7 @@ class _TextFieldInputState extends State<TextFieldInput> {
             color: Colors.grey.withOpacity(0.2), // Shadow color
             spreadRadius: 1, // Spread radius
             blurRadius: 8, // Blur radius
-            offset: Offset(2, 6),
+            offset: const Offset(2, 6),
             // Offset
           ),
         ],

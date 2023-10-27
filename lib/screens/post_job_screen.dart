@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:parttimenow_flutter/resources/auth_method.dart';
@@ -132,7 +134,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
           onTap: () {
             logger.e(selectedGender);
           },
-          child: Center(
+          child: const Center(
             child: Text(
               'Post a Job',
               style: TextStyle(
@@ -294,7 +296,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: Color.fromARGB(255, 83, 184, 86),
+        backgroundColor: const Color.fromARGB(255, 83, 184, 86),
       ),
     );
   }
@@ -385,12 +387,12 @@ class _PostJobScreenState extends State<PostJobScreen> {
         borderRadius:
             BorderRadius.circular(15), // Smaller radius to reduce the size
       ),
-      padding: EdgeInsets.all(8), // Smaller padding to reduce the size
+      padding: const EdgeInsets.all(8), // Smaller padding to reduce the size
       child: Column(
         crossAxisAlignment:
             CrossAxisAlignment.start, // Align the label to the left
         children: [
-          Text(
+          const Text(
             'Gender',
             style: TextStyle(
               color: Colors.black,
@@ -529,7 +531,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
               height: 4,
               child: Padding(
                 padding:
-                    EdgeInsets.symmetric(vertical: 10), // Add vertical padding
+                    const EdgeInsets.symmetric(vertical: 10), // Add vertical padding
                 child: Text(
                   district,
                   style: const TextStyle(
@@ -547,8 +549,9 @@ class _PostJobScreenState extends State<PostJobScreen> {
             });
           }
         },
+        offset: const Offset(0, 30),
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
           decoration: BoxDecoration(
             color: Colors.white, // Set the background color to white
             borderRadius: BorderRadius.circular(5),
@@ -560,7 +563,6 @@ class _PostJobScreenState extends State<PostJobScreen> {
             ),
           ),
         ),
-        offset: Offset(0, 30),
       ),
     );
   }

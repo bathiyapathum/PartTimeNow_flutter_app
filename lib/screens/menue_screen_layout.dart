@@ -4,6 +4,7 @@ import 'package:parttimenow_flutter/screens/edite_profile.dart';
 import 'package:parttimenow_flutter/screens/job_request_screen.dart';
 import 'package:parttimenow_flutter/screens/login_screen.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
+import 'package:parttimenow_flutter/utils/global_variable.dart';
 
 class MenueScreen extends StatelessWidget {
   const MenueScreen({super.key});
@@ -34,11 +35,12 @@ class MenueScreen extends StatelessWidget {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => LoginScreen(), // Replace with your login screen
+          builder: (context) =>
+              const LoginScreen(), // Replace with your login screen
         ),
       );
     } catch (e) {
-      print('Error signing out: $e');
+      logger.d('Error signing out: $e');
     }
   }
 
@@ -169,11 +171,6 @@ class MenueScreen extends StatelessWidget {
                       ]),
                 ),
               ),
-              /////////////////////////////////////////////////////////
-
-              // Container(
-              //   //////////////////////
-              //   child: Container(
               Card(
                 margin: const EdgeInsets.symmetric(
                   horizontal: 7,
@@ -183,7 +180,7 @@ class MenueScreen extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Container(
+                child: SizedBox(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -446,7 +443,7 @@ class MenueScreen extends StatelessWidget {
 
               //////////////////////////////////////////
               // ),
-              SizedBox(height: 0),
+              const SizedBox(height: 0),
 
               // const Card(
               //   color: signInBtn,
