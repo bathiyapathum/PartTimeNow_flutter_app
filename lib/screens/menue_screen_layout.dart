@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:parttimenow_flutter/resources/auth_method.dart';
 import 'package:parttimenow_flutter/screens/edite_profile.dart';
+import 'package:parttimenow_flutter/screens/job_request_screen.dart';
 import 'package:parttimenow_flutter/screens/login_screen.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 
@@ -73,8 +73,7 @@ class MenueScreen extends StatelessWidget {
         decoration: const BoxDecoration(
           color: Color.fromARGB(255, 223, 223, 223),
         ),
-        child: ListView(
-          children: [
+        child: ListView(children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -413,15 +412,25 @@ class MenueScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              child: const Row(children: [
-                                Icon(Icons.request_page_outlined),
-                                SizedBox(width: 50),
-                                Text('Job Request'),
-                                SizedBox(width: 80),
-                                Icon(
-                                  Icons.arrow_forward_ios_outlined,
-                                ),
-                              ]),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const JobRequestScreen(),
+                                    ),
+                                  );
+                                },
+                                child: const Row(children: [
+                                  Icon(Icons.request_page_outlined),
+                                  SizedBox(width: 50),
+                                  Text('Job Request'),
+                                  SizedBox(width: 80),
+                                  Icon(
+                                    Icons.arrow_forward_ios_outlined,
+                                  ),
+                                ]),
+                              ),
                               // child: const Text('hay'),
                             ),
                           ),
