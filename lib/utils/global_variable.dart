@@ -15,7 +15,7 @@ const homeScreenItems = [
   SearchScreenLayout(),
   PostJobScreen(),
   ChatHomePage(),
-  MenueScreen(),
+  MenuScreen(),
 ];
 
 const categories = [
