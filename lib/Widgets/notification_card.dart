@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 
 class NotificationCard extends StatefulWidget {
-  const NotificationCard({super.key});
+  const NotificationCard({super.key, required this.NotificationType});
+  final String NotificationType;
 
   @override
   State<NotificationCard> createState() => _NotificationCardState();
 }
 
 class _NotificationCardState extends State<NotificationCard> {
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -69,6 +71,7 @@ class _NotificationCardState extends State<NotificationCard> {
               ),
             ),
           ),
+          widget.NotificationType == 'request' ?
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -115,7 +118,7 @@ class _NotificationCardState extends State<NotificationCard> {
                 ),
               ),
             ],
-          ),
+          ) : Container(),
           const SizedBox(
             height: 15,
           ),

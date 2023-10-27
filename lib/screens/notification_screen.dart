@@ -75,7 +75,9 @@ class NotificationScreen extends StatelessWidget {
                     horizontal: 10,
                     vertical: 10,
                   ),
-                  child: const NotificationCard()),
+                  child: const NotificationCard(NotificationType: 'request',)),
+                  // child: const NotificationCard(NotificationType: '',)),
+
             );
           }
           return ListView.builder(

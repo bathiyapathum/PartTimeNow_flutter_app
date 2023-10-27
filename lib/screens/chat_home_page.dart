@@ -29,7 +29,9 @@ class _ChatHomePageState extends State<ChatHomePage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
+
           builder: (context) => const LoginScreen(), // Replace with your login screen
+
         ),
       );
     } catch (e) {

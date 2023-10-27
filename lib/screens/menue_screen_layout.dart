@@ -40,6 +40,8 @@ class _MenuScreenState extends State<MenuScreen> {
           userDetails = user;
         });
         logger.e(user.email);
+        user.photoUrl;
+
       } else {}
     } catch (e) {
       userDetails = null; // Set userDetails to null in case of an error
@@ -137,13 +139,14 @@ class _MenuScreenState extends State<MenuScreen> {
                   child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const CircleAvatar(
+                        CircleAvatar(
                           backgroundColor: Colors.black,
                           radius: 42,
                           child: CircleAvatar(
                             radius: 40,
                             backgroundImage: NetworkImage(
-                                'https://images.unsplash.com/photo-1694284028434-2872aa51337b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0Nnx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60'),
+                              userDetails?.photoUrl ?? 'N/A',
+                            ),
                             // fit: BoxFit.cover,
                           ),
                         ),
