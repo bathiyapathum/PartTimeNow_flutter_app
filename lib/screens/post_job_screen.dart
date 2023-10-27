@@ -534,8 +534,8 @@ class _PostJobScreenState extends State<PostJobScreen> {
         ),
       ),
       child: PopupMenuButton<String>(
-        color: Colors
-            .white, // Set the background color of the dropdown menu to white
+        color: Color.fromARGB(255, 73, 70,
+            70), // Set the background color of the dropdown menu to white
         itemBuilder: (BuildContext context) {
           return districtNames.map((String district) {
             return PopupMenuItem<String>(
@@ -547,7 +547,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
                 child: Text(
                   district,
                   style: const TextStyle(
-                    color: Colors.black,
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
                 ),
               ),
