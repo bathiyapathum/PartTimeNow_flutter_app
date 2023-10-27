@@ -63,6 +63,7 @@ class AuthMethod {
           photoUrl: photoUrl,
           followers: [],
           following: [],
+          categories: [],
         );
 
         //save user details to db
@@ -201,7 +202,7 @@ class AuthMethod {
             saved: [],
             requests: [],
             postId: await generatePostId(),
-            rating: 3,
+            rating: 5,
             gender: gender,
           );
 

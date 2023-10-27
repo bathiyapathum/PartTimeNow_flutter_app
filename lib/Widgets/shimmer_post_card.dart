@@ -3,7 +3,8 @@ import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShrimmerPostCard extends StatelessWidget {
-  const ShrimmerPostCard({super.key});
+  final double yheight;
+  const ShrimmerPostCard({super.key, this.yheight = 400});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class ShrimmerPostCard extends StatelessWidget {
               vertical: 10,
             ),
             width: double.infinity,
-            height: 400,
+            height: yheight,
             child: Column(
               children: [
                 Container(

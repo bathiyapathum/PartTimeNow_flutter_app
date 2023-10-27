@@ -2,9 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parttimenow_flutter/models/user_model.dart';
 import 'package:parttimenow_flutter/resources/auth_method.dart';
+import 'package:parttimenow_flutter/screens/change_category_screen.dart';
+import 'package:parttimenow_flutter/screens/change_location_screen.dart';
 import 'package:parttimenow_flutter/screens/edite_profile.dart';
 import 'package:parttimenow_flutter/screens/job_request_screen.dart';
 import 'package:parttimenow_flutter/screens/login_screen.dart';
+import 'package:parttimenow_flutter/screens/saved_post_screen.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:parttimenow_flutter/utils/global_variable.dart';
 
@@ -38,6 +41,7 @@ class _MenuScreenState extends State<MenuScreen> {
         });
         logger.e(user.email);
         user.photoUrl;
+
       } else {}
     } catch (e) {
       userDetails = null; // Set userDetails to null in case of an error
@@ -228,29 +232,28 @@ class _MenuScreenState extends State<MenuScreen> {
                           Card(
                             shadowColor: Colors.transparent,
                             color: Colors.white,
-
                             margin: const EdgeInsets.symmetric(
                               horizontal: 7,
                               vertical: 0,
                             ),
-                            // padding: const EdgeInsets.only(
-                            //     left: 5, right: 5, top: 5, bottom: 5),
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                logger.e('Saved Post');
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const SavedPostScreen(),
+                                  ),
+                                );
+                              },
                               style: ButtonStyle(
-                                // overlayColor: MaterialStateProperty.all<Color>(
-                                //   Colors.white
-                                // ),
-
                                 fixedSize: MaterialStateProperty.all<Size>(
                                     const Size(300, 50)),
                                 elevation: MaterialStateProperty.all(12.0),
-
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
                                   Colors.deepOrangeAccent,
                                 ),
-
                                 shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
@@ -283,7 +286,16 @@ class _MenuScreenState extends State<MenuScreen> {
                             // padding: const EdgeInsets.only(
                             //     left: 5, right: 5, top: 5, bottom: 5),
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                 Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                         ChangeCategoryScreen(
+                                          selectedCategory: userDetails?.categories ?? [],
+                                        ),
+                                  ),
+                                );
+                              },
                               style: ButtonStyle(
                                 // overlayColor: MaterialStateProperty.all<Color>(
                                 //   Colors.white
@@ -330,7 +342,14 @@ class _MenuScreenState extends State<MenuScreen> {
                             // padding: const EdgeInsets.only(
                             //     left: 5, right: 5, top: 5, bottom: 5),
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ChangeLocationScreen(selectedCategory: [],),
+                                  ),
+                                );
+                              },
                               style: ButtonStyle(
                                 // overlayColor: MaterialStateProperty.all<Color>(
                                 //   Colors.white
