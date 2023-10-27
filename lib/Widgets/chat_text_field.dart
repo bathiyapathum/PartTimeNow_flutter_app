@@ -32,6 +32,9 @@ class ChatTextField extends StatelessWidget {
             ),
             border: InputBorder.none,
           ),
+          style: const TextStyle(
+            color: Colors.black,
+          ),
         ),
       ),
     );

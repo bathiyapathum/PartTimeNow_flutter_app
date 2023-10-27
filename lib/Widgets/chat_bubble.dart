@@ -16,10 +16,10 @@ class ChatBubble extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: const Color.fromARGB(255, 228, 228, 228).withOpacity(0.5),
-            spreadRadius: 0.8,
-            blurRadius: 0.5,
-            offset: const Offset(0, 0.4), // changes position of shadow
+            color: Color.fromARGB(255, 165, 165, 165).withOpacity(0.5),
+            spreadRadius: 0.2,
+            blurRadius: 2,
+            offset: const Offset(0, 2), // changes position of shadow
           ),
         ],
       ),

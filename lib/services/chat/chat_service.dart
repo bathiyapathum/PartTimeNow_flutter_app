@@ -10,7 +10,8 @@ class ChatService extends ChangeNotifier {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   //send message
-  Future<void> sendMessage(String recieverId, String message) async {
+  Future<void> sendMessage(
+      String recieverId, String message, String type) async {
     //get current user info
     final String currentUserId = _firebase.currentUser!.uid;
     final String currentUserEmail = _firebase.currentUser!.email!;
@@ -22,6 +23,7 @@ class ChatService extends ChangeNotifier {
       senderEmail: currentUserEmail,
       recieverId: recieverId,
       message: message,
+      type: type,
       timestamp: timestamp,
     );
 
@@ -63,39 +65,39 @@ class ChatService extends ChangeNotifier {
         'unreadCount': FieldValue.increment(1),
       }, SetOptions(merge: true));
 
-      logger.d('Unread count incremented by 1');
+      logger.e('Unread count incremented by 1');
     } catch (e) {
-      logger.d('Error incrementing unread count: $e');
+      logger.e('Error incrementing unread count: $e');
     }
   }
 
   // Get the unreadCount for a specific chat room
   Future<int> getUnreadCount(String chatRoomId) async {
     try {
-      logger.d('Fetching unread count for chat room ID: $chatRoomId');
+      logger.e('Fetching unread count for chat room ID: $chatRoomId');
 
       final chatRoomSnapshot = await FirebaseFirestore.instance
           .collection('chat_rooms')
           .doc(chatRoomId)
           .get();
-      logger.d('Chat room snapshot: $chatRoomSnapshot');
-      logger.d('Chat room snapshot exists: ${chatRoomSnapshot.exists}');
+      logger.e('Chat room snapshot: $chatRoomSnapshot');
+      logger.e('Chat room snapshot exists: ${chatRoomSnapshot.exists}');
       if (chatRoomSnapshot.exists) {
         final data = chatRoomSnapshot.data();
         if (data != null && data.containsKey('unreadCount')) {
           final unreadCount = data['unreadCount'] as int;
-          logger.d('Unread count for $chatRoomId: $unreadCount');
+          logger.e('Unread count for $chatRoomId: $unreadCount');
           return unreadCount;
         } else {
-          logger.d('No "unreadCount" field found for $chatRoomId');
+          logger.e('No "unreadCount" field found for $chatRoomId');
           return 0; // Return a default value if 'unreadCount' field is missing
         }
       } else {
-        logger.d('Chat room document $chatRoomId does not exist');
+        logger.e('Chat room document $chatRoomId does not exist');
         return 0; // Return a default value if the document does not exist
       }
     } catch (e) {
-      logger.d('Error getting unread count for $chatRoomId: $e');
+      logger.e('Error getting unread count for $chatRoomId: $e');
       return 0; // Return a default value if there's an error
     }
   }
