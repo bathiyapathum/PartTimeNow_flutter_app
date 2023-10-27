@@ -68,13 +68,15 @@ class NotificationCard extends StatelessWidget {
                         Text(
                           'cdascasdcasd sdcdsac dscasd sdcadsc scasd sdcdas dvcads sdcsd sdc',
                           style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.black),
-                          overflow: TextOverflow
-                              .ellipsis, // Or TextOverflow.fade or TextOverflow.visible
-                          maxLines: 3, // Adjust the maximum number of lines
-                        ),
+                            fontSize: 15,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black,
+                          ),
+                          textAlign: TextAlign.start, // or TextAlign.center
+                          softWrap: true,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        )
                       ],
                     ),
                   ],

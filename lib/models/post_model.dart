@@ -13,6 +13,7 @@ class PostModel {
   final String photoUrl;
   final List feedbacksId;
   final List saved;
+  final List requests;
   final DateTime startDate;
   final DateTime endDate;
   final double salary;
@@ -25,6 +26,7 @@ class PostModel {
     required this.userName,
     required this.endDate,
     required this.salary,
+    required this.requests,
     required this.location,
     required this.description,
     required this.endTime,
@@ -46,6 +48,7 @@ class PostModel {
         'startTime': startTime,
         'salary': salary.toDouble(),
         'location': location,
+        'requests': requests,
         'description': description,
         'endTime': endTime,
         'uid': uid,
@@ -65,6 +68,7 @@ class PostModel {
       startDate: snapshot['startDate'],
       endDate: snapshot['endDate'],
       startTime: snapshot['startTime'],
+      requests: snapshot['requests'],
       salary: snapshot['salary'],
       location: snapshot['location'],
       description: snapshot['description'],
