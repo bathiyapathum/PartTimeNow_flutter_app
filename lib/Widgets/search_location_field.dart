@@ -109,7 +109,7 @@ class _SearchLocationFieldState extends State<SearchLocationField> {
                       .map(
                         (e) => SearchFieldListItem<String>(
                           e,
-                          child: Container(
+                          child: SizedBox(
                             width:
                                 MediaQuery.of(context).size.width * _fieldWidth,
                             child: Padding(

@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:parttimenow_flutter/screens/chat_page.dart';
 import 'package:parttimenow_flutter/screens/login_screen.dart';
 import 'package:parttimenow_flutter/services/chat/chat_service.dart';
+import 'package:parttimenow_flutter/utils/colors.dart';
+import 'package:parttimenow_flutter/utils/global_variable.dart';
 
 class ChatHomePage extends StatefulWidget {
   const ChatHomePage({Key? key}) : super(key: key);
@@ -18,16 +22,17 @@ class _ChatHomePageState extends State<ChatHomePage> {
   void _signOut() async {
     try {
       await FirebaseAuth.instance.signOut();
-      // You can navigate to the login or home screen after signing out
-      // For example, you can use Navigator.pushReplacement to replace the current screen with a login screen.
+
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => LoginScreen(), // Replace with your login screen
+          builder: (context) =>
+              const LoginScreen(), // Replace with your login screen
         ),
       );
     } catch (e) {
-      print('Error signing out: $e');
+      logger.e('Error signing out: $e');
     }
   }
 
@@ -45,21 +50,33 @@ class _ChatHomePageState extends State<ChatHomePage> {
     );
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 80,
+        backgroundColor: mobileBackgroundColor,
         elevation: 1,
-        title: const Text(
-          'Messages',
-          style:
-              TextStyle(color: Colors.deepOrange, fontWeight: FontWeight.bold),
+        centerTitle: false,
+        title: Container(
+          margin: EdgeInsets.only(left: 10),
+          child: Text(
+            'Messages',
+            style: GoogleFonts.lato(
+              color: Colors.white,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
-        backgroundColor: Colors.white,
         actions: [
-          IconButton(
-            onPressed: () {
-              _signOut();
-            },
-            icon: const Icon(
-              Icons.search,
-              color: Colors.deepOrange,
+          Container(
+            margin: EdgeInsets.only(right: 20),
+            child: IconButton(
+              onPressed: () {
+                _signOut();
+              },
+              icon: const Icon(
+                Icons.search,
+                color: Colors.white,
+                size: 30,
+              ),
             ),
           ),
         ],
@@ -105,22 +122,33 @@ class _ChatHomePageState extends State<ChatHomePage> {
       final CollectionReference chatRoomsCollection =
           firestore.collection('chat_rooms');
 
-      final chatRoomId = chatRoomsCollection
-          .doc(_firebaseAuth.currentUser!.uid)
-          .collection('chat_rooms')
-          .doc(document.id)
-          .id;
+      chatRoomsCollection.get().then((QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((doc) {
+          // Here, 'doc.id' will give you the ID of each document in the collection
+          String documentID = doc.id;
+          logger.e('Document ID: $documentID');
+          // Now, you can use the document ID to get the unreadCount
+        });
+      }).catchError((error) {
+        logger.e("Error getting documents: $error");
+      });
 
       return FutureBuilder<int>(
-          future: _chatService.getUnreadCount(chatRoomId),
+          future: _chatService.getUnreadCount(document.id),
           builder: (context, unreadCountSnapshot) {
             if (unreadCountSnapshot.connectionState ==
                 ConnectionState.waiting) {
-              return const CircularProgressIndicator(); // You can show a loading indicator while fetching data
+              return const SpinKitWanderingCubes(
+                color: Color.fromARGB(255, 247, 193,
+                    193), // You can set the color of the animation
+                size: 80.0,
+                // You can set the size of the animation
+              );
             }
 
             final int unreadCount = unreadCountSnapshot.data ?? 0;
-            print('Unread count for $chatRoomId: $unreadCount');
+            logger.d('Unread count for $chatRoomId: $unreadCount');
+
 
             return Column(
               children: [
@@ -160,11 +188,13 @@ class _ChatHomePageState extends State<ChatHomePage> {
                               ),
                               title: Text(
                                 capitalize(userData['username']),
-                                style: const TextStyle(color: Colors.black),
+                                style: GoogleFonts.lato(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
                               ),
-                              subtitle: const Text(
-                                'huuuu', // Display the last reply message here
-                                style: TextStyle(color: Colors.black),
+                              subtitle: Text(
+                                'hnsana', // Display the last reply message here
+                                style: GoogleFonts.lato(color: Colors.black),
                               ),
                               onTap: () {
                                 Navigator.push(

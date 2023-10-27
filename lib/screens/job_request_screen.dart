@@ -1,12 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:parttimenow_flutter/Widgets/notification_card.dart';
+import 'package:parttimenow_flutter/Widgets/request_card.dart';
 import 'package:parttimenow_flutter/Widgets/shimmer_post_card.dart';
+import 'package:parttimenow_flutter/resources/auth_method.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 
-class NotificationScreen extends StatelessWidget {
-  const NotificationScreen({super.key});
+class JobRequestScreen extends StatefulWidget {
+  const JobRequestScreen({super.key});
 
+  @override
+  State<JobRequestScreen> createState() => _JobRequestScreenState();
+}
+
+class _JobRequestScreenState extends State<JobRequestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +22,7 @@ class NotificationScreen extends StatelessWidget {
         elevation: 0,
         centerTitle: false,
         title: const Text(
-          "Notifications",
+          "Requests",
           style: TextStyle(
             color: Colors.white,
             fontSize: 22,
@@ -25,7 +31,11 @@ class NotificationScreen extends StatelessWidget {
         ),
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('jobrequests')
+            .where('postOwner', isEqualTo: AuthMethod().currentUser?.uid)
+            .where('status', isEqualTo: 'pending')
+            .snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -45,7 +55,7 @@ class NotificationScreen extends StatelessWidget {
               snapshot.data != null && snapshot.data!.docs.isEmpty) {
             return const Center(
               child: Text(
-                "No Data",
+                "No Requests Found",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 22,
@@ -69,13 +79,16 @@ class NotificationScreen extends StatelessWidget {
           if (snapshot.hasData &&
               snapshot.connectionState == ConnectionState.active) {
             return ListView.builder(
-              itemCount: snapshot.data?.docs.length,
+              itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) => Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 10,
-                  ),
-                  child: const NotificationCard()),
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
+                ),
+                child: RequestCard(
+                  snap: snapshot.data!.docs[index].data(),
+                ),
+              ),
             );
           }
           return ListView.builder(

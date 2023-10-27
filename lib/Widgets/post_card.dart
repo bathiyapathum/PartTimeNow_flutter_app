@@ -12,7 +12,6 @@ import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:intl/intl.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostCard extends StatefulWidget {
   final dynamic snap;
@@ -20,12 +19,14 @@ class PostCard extends StatefulWidget {
   const PostCard({Key? key, required this.snap}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _PostCardState createState() => _PostCardState();
 }
 
 class _PostCardState extends State<PostCard> {
   final logger = Logger();
   bool isSaved = false;
+  bool isReq = false;
   int num = 1;
 
   String postId = '';
@@ -106,18 +107,20 @@ class _PostCardState extends State<PostCard> {
       listen: false,
     ).userModel;
 
-
-    final startDate = widget.snap['startDate'] is Timestamp
-        ? (widget.snap['startDate'] as Timestamp).toDate()
-        : null;
-    final endDate = widget.snap['endDate'] is Timestamp
-        ? (widget.snap['endDate'] as Timestamp).toDate()
-        : null;
-
-
-    print('userName: ${widget.snap['userName']}');
-    print('userId: ${user.uid}');
-    print('photoUrl: ${widget.snap['photoUrl']}');
+    void makeRequest(String postId, String uId, List req, String owner) async {
+      if (widget.snap['requests'].contains(user.uid)) {
+        isReq = true;
+      } else {
+        isReq = false;
+      }
+      await FireStoreMethods().makeRequest(
+        postId,
+        uId,
+        req,
+        widget.snap['description'],
+        owner,
+      );
+    }
 
     return Center(
       child: Card(
@@ -139,7 +142,6 @@ class _PostCardState extends State<PostCard> {
                 ).copyWith(right: 0),
                 child: Row(
                   children: [
-
                     widget.snap['photoUrl']?.toString() == null
                         ? Shimmer.fromColors(
                             baseColor: Colors.grey[300]!,
@@ -185,7 +187,6 @@ class _PostCardState extends State<PostCard> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
-
                           children: [
                             Text(
                               widget.snap['userName']?.toString() ?? 'N/A',
@@ -248,7 +249,6 @@ class _PostCardState extends State<PostCard> {
                         Icons.more_vert,
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -274,7 +274,12 @@ class _PostCardState extends State<PostCard> {
                             ),
                             TableCell(
                               child: Text(
-                                widget.snap['gender']?.toString() ?? 'N/A',
+                                widget.snap['gender']!
+                                        .toString()[0]
+                                        .toUpperCase() +
+                                    widget.snap['gender']
+                                        .toString()
+                                        .substring(1),
                                 style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 14,
@@ -311,10 +316,11 @@ class _PostCardState extends State<PostCard> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-
-                                    widget.snap['startDate']?.toDate().toString().split(' ')[0] ??
+                                    widget.snap['startDate']
+                                            ?.toDate()
+                                            .toString()
+                                            .split(' ')[0] ??
                                         'N/A',
-
                                     style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -329,8 +335,11 @@ class _PostCardState extends State<PostCard> {
                                     ),
                                   ),
                                   Text(
-                                    widget.snap['endDate']?.toDate().toString().split(' ')[0] ?? 'N/A',
-
+                                    widget.snap['endDate']
+                                            ?.toDate()
+                                            .toString()
+                                            .split(' ')[0] ??
+                                        'N/A',
                                     style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -556,14 +565,24 @@ class _PostCardState extends State<PostCard> {
                   Align(
                     alignment: Alignment.bottomRight,
                     child: IconButton(
-                      onPressed: () {},
-                      icon: SvgPicture.asset(
-                        'assets/addRequest.svg',
-                        colorFilter: const ColorFilter.mode(
-                          Colors.black,
-                          BlendMode.srcIn,
-                        ),
-                      ),
+                      onPressed: () {
+                        makeRequest(widget.snap['postId'], user.uid,
+                            widget.snap['requests'], widget.snap['uid']);
+                        logger.d('fine');
+                      },
+                      icon: widget.snap['requests'].contains(user.uid)
+                          ? SvgPicture.asset(
+                              'assets/addRequest.svg',
+                              colorFilter: const ColorFilter.mode(
+                                  Colors.blue, BlendMode.srcIn),
+                            )
+                          : SvgPicture.asset(
+                              'assets/addRequest.svg',
+                              colorFilter: const ColorFilter.mode(
+                                Colors.black,
+                                BlendMode.srcIn,
+                              ),
+                            ),
                     ),
                   ),
                   Expanded(

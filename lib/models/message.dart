@@ -5,6 +5,7 @@ class Message {
   final String senderEmail;
   final String recieverId;
   final String message;
+  final String type;
   final Timestamp timestamp;
 
   Message({
@@ -12,6 +13,7 @@ class Message {
     required this.senderEmail,
     required this.recieverId,
     required this.message,
+    required this.type,
     required this.timestamp,
   });
   Message.fromMap(Map<String, dynamic> map)
@@ -19,6 +21,7 @@ class Message {
         senderEmail = map['senderEmail'],
         recieverId = map['recieverId'],
         message = map['message'],
+        type = map['type'],
         timestamp = map['timestamp'];
 
   Map<String, dynamic> toMap() {
@@ -27,6 +30,7 @@ class Message {
       'senderEmail': senderEmail,
       'recieverId': recieverId,
       'message': message,
+      'type': type,
       'timestamp': timestamp,
     };
   }

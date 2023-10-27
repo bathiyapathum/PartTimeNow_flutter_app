@@ -1,18 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:parttimenow_flutter/Widgets/notification_card.dart';
 import 'package:parttimenow_flutter/Widgets/post_card.dart';
-
 import 'package:parttimenow_flutter/Widgets/shimmer_post_card.dart';
 import 'package:parttimenow_flutter/models/filter_model.dart';
-import 'package:parttimenow_flutter/screens/category_selection_screen.dart';
+// import 'package:parttimenow_flutter/screens/category_selection_screen.dart';
 import 'package:parttimenow_flutter/screens/filter_feed_screen.dart';
-import 'package:parttimenow_flutter/screens/location_selection_screen.dart';
+import 'package:parttimenow_flutter/screens/notification_screen.dart';
 import 'package:parttimenow_flutter/screens/select_location_screen.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
-import 'package:parttimenow_flutter/utils/global_variable.dart';
-import 'package:parttimenow_flutter/utils/utills.dart';
 
 class FeedScreenLayout extends StatefulWidget {
   const FeedScreenLayout({super.key});
@@ -24,6 +20,7 @@ class FeedScreenLayout extends StatefulWidget {
 class _FeedScreenLayoutState extends State<FeedScreenLayout> {
   Map<String, dynamic> filteredData = {};
   String gender = "male";
+
   void navigateToFilter(context) {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -64,9 +61,9 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
   }) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const CategorySelectionScreen(),
+        // builder: (context) => const CategorySelectionScreen(),
 
-//         builder: (context) => const NotificationCard(),
+        builder: (context) => const NotificationScreen(),
       ),
     );
   }
@@ -82,7 +79,7 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
     FilterModel filterModel = FilterModel.fromList(filteredData);
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 80,
+        toolbarHeight: 70,
         backgroundColor: mobileBackgroundColor,
         elevation: 0,
         centerTitle: false,
@@ -95,37 +92,45 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
           ),
         ),
         actions: [
-          Card(
-            elevation: 0,
-            shape: const CircleBorder(),
-            color: Colors.white,
-            child: IconButton(
-              onPressed: () {
-                // navigateToFilter(context);
-                showDialog(context: context);
-              },
-              icon: const Icon(
-                color: navActivaeColor,
-                Icons.format_indent_increase_outlined,
+          SizedBox(
+            width: 45,
+            height: 45,
+            child: Card(
+              elevation: 0,
+              shape: const CircleBorder(),
+              color: Colors.white,
+              child: IconButton(
+                onPressed: () {
+                  showDialog(context: context);
+                },
+                icon: const Icon(
+                  color: navActivaeColor,
+                  Icons.format_indent_increase_outlined,
+                  size: 20,
+                ),
               ),
             ),
           ),
           const SizedBox(
-            width: 10,
+            width: 6,
           ),
-          Card(
-            margin: const EdgeInsets.only(right: 10),
-            elevation: 0,
-            shape: const CircleBorder(),
-            color: Colors.white,
-            child: IconButton(
-              onPressed: () {
-                // navigateToSearch(context);
-                showShrim(context: context);
-              },
-              icon: const Icon(
-                color: navActivaeColor,
-                Icons.notifications,
+          SizedBox(
+            width: 45,
+            height: 45,
+            child: Card(
+              margin: const EdgeInsets.only(right: 10),
+              elevation: 0,
+              shape: const CircleBorder(),
+              color: Colors.white,
+              child: IconButton(
+                onPressed: () {
+                  showShrim(context: context);
+                },
+                icon: const Icon(
+                  color: navActivaeColor,
+                  Icons.notifications,
+                  size: 20,
+                ),
               ),
             ),
           )
@@ -135,12 +140,13 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
         stream: FirebaseFirestore.instance
             .collection('posts')
             .where("gender",
-                isEqualTo:
-                    filterModel.male != null && filterModel.female != null
-                        ? null
-                        : (filterModel.male != null
-                            ? "male"
-                            : (filterModel.female != null ? "female" : null)))
+                whereIn: filterModel.male != null && filterModel.female != null
+                    ? null
+                    : (filterModel.male != null
+                        ? ["male", "both"]
+                        : (filterModel.female != null
+                            ? ["female", "both"]
+                            : null)))
             .where("location",
                 isEqualTo: filterModel.location != null
                     ? filterModel.location?.toLowerCase()
@@ -201,14 +207,14 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
           if (snapshot.hasData &&
               snapshot.connectionState == ConnectionState.active) {
             return ListView.builder(
-              itemCount: snapshot.data!.docs.length,
+              itemCount: snapshot.data?.docs.length,
               itemBuilder: (context, index) => Container(
                 margin: const EdgeInsets.symmetric(
                   horizontal: 10,
                   vertical: 10,
                 ),
                 child: PostCard(
-                  snap: snapshot.data!.docs[index].data(),
+                  snap: snapshot.data?.docs[index].data(),
                 ),
               ),
             );
