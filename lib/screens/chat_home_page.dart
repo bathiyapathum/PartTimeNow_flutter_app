@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,13 +24,12 @@ class _ChatHomePageState extends State<ChatHomePage> {
   void _signOut() async {
     try {
       await FirebaseAuth.instance.signOut();
-
-      // ignore: use_build_context_synchronously
+      // You can navigate to the login or home screen after signing out
+      // For example, you can use Navigator.pushReplacement to replace the current screen with a login screen.
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              const LoginScreen(), // Replace with your login screen
+          builder: (context) => const LoginScreen(), // Replace with your login screen
         ),
       );
     } catch (e) {
@@ -55,7 +56,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
         elevation: 1,
         centerTitle: false,
         title: Container(
-          margin: EdgeInsets.only(left: 10),
+          margin: const EdgeInsets.only(left: 10),
           child: Text(
             'Messages',
             style: GoogleFonts.lato(
@@ -67,7 +68,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
         ),
         actions: [
           Container(
-            margin: EdgeInsets.only(right: 20),
+            margin: const EdgeInsets.only(right: 20),
             child: IconButton(
               onPressed: () {
                 _signOut();
@@ -147,8 +148,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
             }
 
             final int unreadCount = unreadCountSnapshot.data ?? 0;
-            logger.d('Unread count for $chatRoomId: $unreadCount');
-
+            //logger.e('Unread count for $document: $unreadCount');
 
             return Column(
               children: [

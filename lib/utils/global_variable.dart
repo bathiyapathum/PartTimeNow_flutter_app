@@ -4,7 +4,7 @@ import 'package:parttimenow_flutter/screens/feed_screen_layout.dart';
 import 'package:parttimenow_flutter/screens/menue_screen_layout.dart';
 import 'package:logger/logger.dart';
 import 'package:parttimenow_flutter/screens/post_job_screen.dart';
-import 'package:parttimenow_flutter/screens/search_screen-layout.dart';
+import 'package:parttimenow_flutter/screens/search_screen_layout.dart';
 
 const mobileScreenSize = 600;
 const webScreenSize = 600;
@@ -15,7 +15,7 @@ const homeScreenItems = [
   SearchScreenLayout(),
   PostJobScreen(),
   ChatHomePage(),
-  MenueScreen(),
+  MenuScreen(),
 ];
 
 const categories = [

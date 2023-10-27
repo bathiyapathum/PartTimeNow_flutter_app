@@ -63,6 +63,7 @@ class AuthMethod {
           photoUrl: photoUrl,
           followers: [],
           following: [],
+          categories: [],
         );
 
         //save user details to db
