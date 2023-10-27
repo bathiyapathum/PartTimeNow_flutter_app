@@ -7,6 +7,7 @@ import 'package:parttimenow_flutter/screens/feedback_screen.dart';
 import 'package:parttimenow_flutter/screens/feedback_screen_layout.dart';
 import 'package:parttimenow_flutter/screens/menue_screen_layout.dart';
 import 'package:logger/logger.dart';
+import 'package:parttimenow_flutter/screens/post_a_job.dart';
 
 import 'package:parttimenow_flutter/screens/post_job_screen.dart';
 
@@ -17,9 +18,9 @@ final logger = Logger();
 const homeScreenItems = [
   FeedScreenLayout(),
   FeedbackScreenLayout(feedbackUserId: ""), // Text('Search'),
-  PostJobScreen(),
+  //PostJobScreen(),
   // this is temporary for testing,
-  // JobPostingPage(),
+  JobPostingPage(),
   ChatHomePage(),
   MenueScreen(),
 ];

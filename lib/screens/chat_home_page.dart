@@ -7,6 +7,7 @@ import 'package:parttimenow_flutter/screens/chat_page.dart';
 import 'package:parttimenow_flutter/screens/login_screen.dart';
 import 'package:parttimenow_flutter/services/chat/chat_service.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
+import 'package:parttimenow_flutter/utils/global_variable.dart';
 
 class ChatHomePage extends StatefulWidget {
   const ChatHomePage({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
         ),
       );
     } catch (e) {
-      print('Error signing out: $e');
+      logger.e('Error signing out: $e');
     }
   }
 
@@ -124,11 +125,11 @@ class _ChatHomePageState extends State<ChatHomePage> {
         querySnapshot.docs.forEach((doc) {
           // Here, 'doc.id' will give you the ID of each document in the collection
           String documentID = doc.id;
-          print('Document ID: $documentID');
+          logger.e('Document ID: $documentID');
           // Now, you can use the document ID to get the unreadCount
         });
       }).catchError((error) {
-        print("Error getting documents: $error");
+        logger.e("Error getting documents: $error");
       });
 
       return FutureBuilder<int>(
@@ -145,7 +146,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
             }
 
             final int unreadCount = unreadCountSnapshot.data ?? 0;
-            //print('Unread count for $document: $unreadCount');
+            //logger.e('Unread count for $document: $unreadCount');
 
             return Column(
               children: [
