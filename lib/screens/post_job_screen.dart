@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:parttimenow_flutter/resources/auth_method.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:parttimenow_flutter/utils/global_variable.dart';
+// import 'package:vibration/vibration.dart';
+// import 'package:audioplayers/audioplayers.dart';
 // import 'package:parttimenow_flutter/utils/global_variable.dart';
 // import 'package:parttimenow_flutter/utils/utills.dart';
 
@@ -19,10 +21,38 @@ class _PostJobScreenState extends State<PostJobScreen> {
   final TextEditingController endDateController = TextEditingController();
   final TextEditingController endTimeController = TextEditingController();
   final TextEditingController salaryController = TextEditingController();
-  final TextEditingController locationController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   String? selectedGender;
+  String? location;
+
+  List<String> districtNames = [
+    'Colombo',
+    'Gampaha',
+    'Kalutara',
+    'Kandy',
+    'Matale',
+    'Nuwara Eliya',
+    'Galle',
+    'Matara',
+    'Hambantota',
+    'Jaffna',
+    'Kilinochchi',
+    'Mannar',
+    'Vavuniya',
+    'Mullaitivu',
+    'Batticaloa',
+    'Ampara',
+    'Trincomalee',
+    'Kurunegala',
+    'Puttalam',
+    'Anuradhapura',
+    'Polonnaruwa',
+    'Badulla',
+    'Monaragala',
+    'Ratnapura',
+    'Kegalle'
+  ];
 
   int descriptionLength = 0;
   bool isPosting = false;
@@ -52,7 +82,6 @@ class _PostJobScreenState extends State<PostJobScreen> {
     endDateController.dispose();
     endTimeController.dispose();
     salaryController.dispose();
-    locationController.dispose();
     descriptionController.dispose();
     genderController.dispose();
   }
@@ -100,15 +129,24 @@ class _PostJobScreenState extends State<PostJobScreen> {
     return Scaffold(
       appBar: AppBar(
         title: GestureDetector(
-            onTap: () {
-              logger.e(selectedGender);
-            },
-            child: const Text('Post a Job')),
+          onTap: () {
+            logger.e(selectedGender);
+          },
+          child: Center(
+            child: Text(
+              'Post a Job',
+              style: TextStyle(
+                fontSize: 26, // Set the desired font size
+                color: Colors.white, // Set the text color
+              ),
+            ),
+          ),
+        ),
         backgroundColor: mobileBackgroundColor,
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0).copyWith(top: 0),
           child: Column(
             children: [
               Row(
@@ -158,7 +196,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
               buildLocationField(),
               const SizedBox(height: 20),
               buildDescriptionField(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 5),
               ElevatedButton(
                 onPressed: isPosting ? null : () => _postJob(),
                 style: ElevatedButton.styleFrom(
@@ -171,7 +209,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
                 ),
                 child: Text(
                   isPosting ? 'Posting...' : 'Post Job',
-                  style: const TextStyle(fontSize: 18),
+                  style: const TextStyle(fontSize: 20),
                 ),
               ),
             ],
@@ -209,42 +247,63 @@ class _PostJobScreenState extends State<PostJobScreen> {
             showValidationError("Gender is required");
           } else {
             final salary = double.parse(salaryController.text);
-            final location = locationController.text;
             final description = descriptionController.text;
 
-            await AuthMethod().postJob(
+            try {
+              await AuthMethod().postJob(
                 startDate: startDate,
                 endDate: endDate,
                 salary: salary,
-                location: location,
+                location: location!,
                 description: description,
                 startTime: startTimeController.text,
                 endTime: endTimeController.text,
-                gender: selectedGender!);
+                gender: selectedGender!,
+              );
 
-            setState(() {
-              isPosting = false;
-            });
+              // Show a success message
+              showSuccessMessage("Successfully posted a job");
 
-            startDateController.clear();
-            startTimeController.clear();
-            endDateController.clear();
-            endTimeController.clear();
-            salaryController.clear();
-            locationController.clear();
-            descriptionController.clear();
-            selectedGender = null;
+              setState(() {
+                isPosting = false;
+              });
+
+              startDateController.clear();
+              startTimeController.clear();
+              endDateController.clear();
+              endTimeController.clear();
+              salaryController.clear();
+              descriptionController.clear();
+              selectedGender = null;
+              setState(() {
+                location = null;
+              });
+            } catch (e) {
+              showValidationError("An error occurred while posting the job");
+              setState(() {
+                isPosting = false;
+              });
+            }
           }
         }
       }
     }
   }
 
+  void showSuccessMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Color.fromARGB(255, 83, 184, 86),
+      ),
+    );
+  }
+
   void showValidationError(String error) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(error),
-        backgroundColor: Colors.red,
+        backgroundColor: mobileBackgroundColor,
       ),
     );
   }
@@ -255,7 +314,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
         endDateController.text.isEmpty ||
         endTimeController.text.isEmpty ||
         salaryController.text.isEmpty ||
-        locationController.text.isEmpty ||
+        location == null ||
         descriptionController.text.isEmpty) {
       return "All the fields are required";
     }
@@ -318,106 +377,190 @@ class _PostJobScreenState extends State<PostJobScreen> {
   }
 
   Widget buildGenderField() {
-    return Row(
-      children: [
-        Radio(
-          value: "male",
-          groupValue: selectedGender,
-          activeColor: Colors.orange,
-          onChanged: (String? value) {
-            setState(() {
-              selectedGender = value;
-            });
-          },
-          fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-            if (states.contains(MaterialState.selected)) {
-              return Colors.orange; // The selected color (orange)
-            }
-            return Colors.black; // The normal color (black)
-          }),
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.black, // Border color
         ),
-        const Text(
-          'Male',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
+        borderRadius:
+            BorderRadius.circular(15), // Smaller radius to reduce the size
+      ),
+      padding: EdgeInsets.all(8), // Smaller padding to reduce the size
+      child: Column(
+        crossAxisAlignment:
+            CrossAxisAlignment.start, // Align the label to the left
+        children: [
+          Text(
+            'Gender',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
+            ),
           ),
-        ),
-        Radio(
-          value: "female",
-          groupValue: selectedGender,
-          activeColor: Colors.orange,
-          onChanged: (String? value) {
-            setState(() {
-              selectedGender = value;
-            });
-          },
-          toggleable: true,
-          fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-            if (states.contains(MaterialState.selected)) {
-              return Colors.orange; // The selected color (orange)
-            }
-            return Colors.black; // The normal color (black)
-          }),
-        ),
-        const Text(
-          'Female',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
+          Row(
+            children: [
+              Radio(
+                value: "male",
+                groupValue: selectedGender,
+                activeColor: mobileBackgroundColor,
+                onChanged: (String? value) {
+                  setState(() {
+                    selectedGender = value;
+                  });
+                },
+                fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(MaterialState.selected)) {
+                    return mobileBackgroundColor; // The selected color (orange)
+                  }
+                  return Colors.black; // The normal color (black)
+                }),
+              ),
+              const Text(
+                '👨', // Emoji-like icon for Male
+                style: TextStyle(
+                  fontSize: 16, // Adjust the emoji size
+                  color: Colors.black,
+                ),
+              ),
+              const Text(
+                'Male',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              Radio(
+                value: "female",
+                groupValue: selectedGender,
+                activeColor: mobileBackgroundColor,
+                onChanged: (String? value) {
+                  setState(() {
+                    selectedGender = value;
+                  });
+                },
+                toggleable: true,
+                fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(MaterialState.selected)) {
+                    return mobileBackgroundColor; // The selected color (orange)
+                  }
+                  return Colors.black; // The normal color (black)
+                }),
+              ),
+              const Text(
+                '👩', // Emoji-like icon for Female
+                style: TextStyle(
+                  fontSize: 16, // Adjust the emoji size
+                  color: Colors.black,
+                ),
+              ),
+              const Text(
+                'Female',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              Radio(
+                value: "both",
+                groupValue: selectedGender,
+                activeColor: Colors.orange,
+                onChanged: (String? value) {
+                  setState(() {
+                    selectedGender = value;
+                  });
+                },
+                fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(MaterialState.selected)) {
+                    return Colors.orange; // The selected color (orange)
+                  }
+                  return Colors.black; // The normal color (black)
+                }),
+              ),
+              const Text(
+                '👨👩', // Emoji-like icon for Both
+                style: TextStyle(
+                  fontSize: 16, // Adjust the emoji size
+                  color: Colors.black,
+                ),
+              ),
+              const Text(
+                ' Both',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ],
           ),
-        ),
-        Radio(
-          value: "both",
-          groupValue: selectedGender,
-          activeColor: Colors.orange,
-          onChanged: (String? value) {
-            setState(() {
-              selectedGender = value;
-            });
-          },
-          fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-            if (states.contains(MaterialState.selected)) {
-              return Colors.orange; // The selected color (orange)
-            }
-            return Colors.black; // The normal color (black)
-          }),
-        ),
-        const Text(
-          'Both',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget buildLocationField() {
-    return TextField(
-      controller: locationController,
-      style: const TextStyle(color: Colors.black, fontSize: 14),
-      keyboardType: TextInputType.text,
+    return InputDecorator(
       decoration: InputDecoration(
         labelText: 'Location',
         labelStyle: const TextStyle(
           color: Colors.black,
           fontSize: 14,
         ),
-        hintText: 'Enter a location',
-        hintStyle: const TextStyle(color: Colors.grey),
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.black),
           borderRadius: BorderRadius.circular(15),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color.fromARGB(255, 206, 124, 0)),
+          borderSide:
+              const BorderSide(color: Color.fromARGB(255, 255, 168, 36)),
           borderRadius: BorderRadius.circular(15),
         ),
+      ),
+      child: PopupMenuButton<String>(
+        color: Colors
+            .white, // Set the background color of the dropdown menu to white
+        itemBuilder: (BuildContext context) {
+          return districtNames.map((String district) {
+            return PopupMenuItem<String>(
+              value: district,
+              height: 4,
+              child: Padding(
+                padding:
+                    EdgeInsets.symmetric(vertical: 10), // Add vertical padding
+                child: Text(
+                  district,
+                  style: const TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            );
+          }).toList();
+        },
+        onSelected: (String? newValue) {
+          if (newValue != null) {
+            setState(() {
+              location = newValue;
+            });
+          }
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+          decoration: BoxDecoration(
+            color: Colors.white, // Set the background color to white
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Text(
+            location ?? 'Location',
+            style: const TextStyle(
+              color: Colors.black,
+            ),
+          ),
+        ),
+        offset: Offset(0, 30),
       ),
     );
   }

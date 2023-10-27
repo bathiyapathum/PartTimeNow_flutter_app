@@ -33,7 +33,8 @@ dependencies:
   firebase_auth: ^4.9.0
   firebase_core: ^2.15.1
   firebase_storage: ^11.2.6
-   
+  stacked_notification_cards: ^0.1.0-dev.4
+ 
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.7
@@ -45,10 +46,13 @@ dependencies:
   shimmer: ^3.0.0
   uuid: ^4.1.0
   flutter_rating_bar: ^4.0.0
-  intl: ^0.17.0
+  intl: ^0.18.1
   flutter_animated_button: ^2.0.3
 
   google_fonts: ^6.1.0
+  vibration: ^1.8.3
+  audioplayers: ^5.2.0
+  
 
 
 dev_dependencies:
