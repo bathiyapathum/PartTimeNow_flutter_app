@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:parttimenow_flutter/screens/chat_page.dart';
 import 'package:parttimenow_flutter/screens/login_screen.dart';
 import 'package:parttimenow_flutter/services/chat/chat_service.dart';
+import 'package:parttimenow_flutter/utils/global_variable.dart';
 
 class ChatHomePage extends StatefulWidget {
   const ChatHomePage({Key? key}) : super(key: key);
@@ -23,11 +24,11 @@ class _ChatHomePageState extends State<ChatHomePage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => LoginScreen(), // Replace with your login screen
+          builder: (context) => const LoginScreen(), // Replace with your login screen
         ),
       );
     } catch (e) {
-      print('Error signing out: $e');
+      logger.e('Error signing out: $e');
     }
   }
 
@@ -120,7 +121,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
             }
 
             final int unreadCount = unreadCountSnapshot.data ?? 0;
-            print('Unread count for $chatRoomId: $unreadCount');
+            logger.d('Unread count for $chatRoomId: $unreadCount');
 
             return Column(
               children: [

@@ -1,8 +1,14 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:parttimenow_flutter/resources/auth_method.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:parttimenow_flutter/utils/global_variable.dart';
+// import 'package:vibration/vibration.dart';
+// import 'package:audioplayers/audioplayers.dart';
+// import 'package:parttimenow_flutter/utils/global_variable.dart';
+// import 'package:parttimenow_flutter/utils/utills.dart';
 
 class PostJobScreen extends StatefulWidget {
   const PostJobScreen({Key? key}) : super(key: key);
@@ -17,9 +23,10 @@ class _PostJobScreenState extends State<PostJobScreen> {
   final TextEditingController endDateController = TextEditingController();
   final TextEditingController endTimeController = TextEditingController();
   final TextEditingController salaryController = TextEditingController();
-  String? location;
-
   final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController genderController = TextEditingController();
+  String? selectedGender;
+  String? location;
 
   List<String> districtNames = [
     'Colombo',
@@ -78,6 +85,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
     endTimeController.dispose();
     salaryController.dispose();
     descriptionController.dispose();
+    genderController.dispose();
   }
 
   Future<void> _selectDate(
@@ -122,19 +130,22 @@ class _PostJobScreenState extends State<PostJobScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 70,
+        backgroundColor: mobileBackgroundColor,
+        elevation: 0,
+        centerTitle: false,
         title: const Text(
-          'Post a Job',
+          "Post a Job",
           style: TextStyle(
-            fontSize: 26,
+            color: Colors.white,
+            fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
         ),
-        centerTitle: true,
-        backgroundColor: mobileBackgroundColor,
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
               Row(
@@ -179,10 +190,12 @@ class _PostJobScreenState extends State<PostJobScreen> {
               const SizedBox(height: 20),
               buildSalaryField(),
               const SizedBox(height: 20),
+              buildGenderField(),
+              const SizedBox(height: 20),
               buildLocationField(),
               const SizedBox(height: 20),
               buildDescriptionField(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 5),
               ElevatedButton(
                 onPressed: isPosting ? null : () => _postJob(),
                 style: ElevatedButton.styleFrom(
@@ -195,7 +208,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
                 ),
                 child: Text(
                   isPosting ? 'Posting...' : 'Post Job',
-                  style: TextStyle(fontSize: 18),
+                  style: const TextStyle(fontSize: 20),
                 ),
               ),
             ],
@@ -228,36 +241,61 @@ class _PostJobScreenState extends State<PostJobScreen> {
             isPosting = false;
           });
         } else {
-          final salary = double.parse(salaryController.text);
-          final description = descriptionController.text;
-
-          await AuthMethod().postJob(
-            startDate: startDate,
-            endDate: endDate,
-            salary: salary,
-            location: location!,
-            description: description,
-            startTime: startTimeController.text,
-            endTime: endTimeController.text,
-            gender: "",
-          );
-
-          setState(() {
+          if (selectedGender == null) {
             isPosting = false;
-          });
+            showValidationError("Gender is required");
+          } else {
+            final salary = double.parse(salaryController.text);
+            final description = descriptionController.text;
 
-          startDateController.clear();
-          startTimeController.clear();
-          endDateController.clear();
-          endTimeController.clear();
-          salaryController.clear();
-          descriptionController.clear();
-          setState(() {
-            location = null;
-          });
+            try {
+              await AuthMethod().postJob(
+                startDate: startDate,
+                endDate: endDate,
+                salary: salary,
+                location: location!,
+                description: description,
+                startTime: startTimeController.text,
+                endTime: endTimeController.text,
+                gender: selectedGender!,
+              );
+
+              // Show a success message
+              showSuccessMessage("Successfully posted a job");
+
+              setState(() {
+                isPosting = false;
+              });
+
+              startDateController.clear();
+              startTimeController.clear();
+              endDateController.clear();
+              endTimeController.clear();
+              salaryController.clear();
+              descriptionController.clear();
+              selectedGender = null;
+              setState(() {
+                location = null;
+              });
+            } catch (e) {
+              showValidationError("An error occurred while posting the job");
+              setState(() {
+                isPosting = false;
+              });
+            }
+          }
         }
       }
     }
+  }
+
+  void showSuccessMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: const Color.fromARGB(255, 83, 184, 86),
+      ),
+    );
   }
 
   void showValidationError(String error) {
@@ -302,7 +340,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
           borderRadius: BorderRadius.circular(15),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: mobileBackgroundColor),
+          borderSide: const BorderSide(color: Color.fromARGB(255, 206, 124, 0)),
           borderRadius: BorderRadius.circular(15),
         ),
       ),
@@ -330,9 +368,128 @@ class _PostJobScreenState extends State<PostJobScreen> {
           borderRadius: BorderRadius.circular(15),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: mobileBackgroundColor),
+          borderSide: const BorderSide(color: Color.fromARGB(255, 206, 124, 0)),
           borderRadius: BorderRadius.circular(15),
         ),
+      ),
+    );
+  }
+
+  Widget buildGenderField() {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.black, // Border color
+        ),
+        borderRadius:
+            BorderRadius.circular(15), // Smaller radius to reduce the size
+      ),
+      padding: const EdgeInsets.all(8), // Smaller padding to reduce the size
+      child: Column(
+        crossAxisAlignment:
+            CrossAxisAlignment.start, // Align the label to the left
+        children: [
+          const Text(
+            'Gender',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
+            ),
+          ),
+          Row(
+            children: [
+              Row(
+                children: [
+                  Radio(
+                    value: "male",
+                    groupValue: selectedGender,
+                    activeColor: mobileBackgroundColor,
+                    onChanged: (String? value) {
+                      setState(() {
+                        selectedGender = value;
+                      });
+                    },
+                    fillColor:
+                        MaterialStateProperty.resolveWith<Color>((states) {
+                      if (states.contains(MaterialState.selected)) {
+                        return mobileBackgroundColor; // The selected color (orange)
+                      }
+                      return Colors.black; // The normal color (black)
+                    }),
+                  ),
+                  const Text(
+                    'Male👨',
+                    style: TextStyle(
+                      color: Color(0xFF584D4D),
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Radio(
+                    value: "female",
+                    groupValue: selectedGender,
+                    activeColor: mobileBackgroundColor,
+                    onChanged: (String? value) {
+                      setState(() {
+                        selectedGender = value;
+                      });
+                    },
+                    toggleable: true,
+                    fillColor:
+                        MaterialStateProperty.resolveWith<Color>((states) {
+                      if (states.contains(MaterialState.selected)) {
+                        return mobileBackgroundColor; // The selected color (orange)
+                      }
+                      return Colors.black; // The normal color (black)
+                    }),
+                  ),
+                  const Text(
+                    'Female👩',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Radio(
+                    value: "both",
+                    groupValue: selectedGender,
+                    activeColor: Colors.orange,
+                    onChanged: (String? value) {
+                      setState(() {
+                        selectedGender = value;
+                      });
+                    },
+                    fillColor:
+                        MaterialStateProperty.resolveWith<Color>((states) {
+                      if (states.contains(MaterialState.selected)) {
+                        return Colors.orange; // The selected color (orange)
+                      }
+                      return Colors.black; // The normal color (black)
+                    }),
+                  ),
+                  const Text(
+                    'Both👨👩',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -356,14 +513,21 @@ class _PostJobScreenState extends State<PostJobScreen> {
         ),
       ),
       child: PopupMenuButton<String>(
+        color: Colors
+            .white, // Set the background color of the dropdown menu to white
         itemBuilder: (BuildContext context) {
           return districtNames.map((String district) {
             return PopupMenuItem<String>(
               value: district,
-              child: Text(
-                district,
-                style: const TextStyle(
-                  color: Color.fromARGB(255, 255, 255, 255),
+              height: 4,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 10), // Add vertical padding
+                child: Text(
+                  district,
+                  style: const TextStyle(
+                    color: Colors.black,
+                  ),
                 ),
               ),
             );
@@ -376,21 +540,20 @@ class _PostJobScreenState extends State<PostJobScreen> {
             });
           }
         },
+        offset: const Offset(0, 30),
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
           decoration: BoxDecoration(
             color: Colors.white, // Set the background color to white
-            borderRadius:
-                BorderRadius.circular(5), // Adjust the radius as needed
+            borderRadius: BorderRadius.circular(5),
           ),
           child: Text(
             location ?? 'Location',
             style: const TextStyle(
-              color: Colors.black, // Set the text color to black
+              color: Colors.black,
             ),
           ),
         ),
-        offset: Offset(0, 30), // Adjust the vertical offset as needed
       ),
     );
   }
@@ -417,7 +580,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: descriptionLength <= 200
-                    ? mobileBackgroundColor
+                    ? const Color.fromARGB(255, 255, 162, 22)
                     : Colors.red,
               ),
               borderRadius: BorderRadius.circular(15),

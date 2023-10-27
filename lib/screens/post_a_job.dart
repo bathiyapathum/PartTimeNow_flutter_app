@@ -57,6 +57,7 @@ class _JobPostingPageState extends State<JobPostingPage> {
               'photo', // Replace with user's photo URL if available
           feedbacksId: [], // Initialize with an empty list of feedbacks
           saved: [],
+          requests: [],
         );
 
         await jobs.add(job.toJson());
