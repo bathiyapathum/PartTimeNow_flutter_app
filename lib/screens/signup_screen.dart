@@ -64,7 +64,7 @@ class _SignupScreenState extends State<SignupScreen> {
       return;
     }
 
-    logger.d('isssssssssssssssssssssssssaaaa  ${res}');
+    logger.d('isssssssssssssssssssssssssaaaa  $res');
 
     if (res == 'Success') {
       setState(() {

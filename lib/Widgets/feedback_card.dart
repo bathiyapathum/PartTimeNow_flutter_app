@@ -5,6 +5,7 @@ import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 class FeedbackCard extends StatefulWidget {
+  // ignore: prefer_typing_uninitialized_variables
   final snap;
 
   const FeedbackCard({super.key, required this.snap});
@@ -81,7 +82,7 @@ class _FeedbackCardState extends State<FeedbackCard> {
                       Shimmer.fromColors(
                         baseColor: Colors.grey[300]!,
                         highlightColor: Colors.grey[100]!,
-                        child: CircleAvatar(
+                        child: const CircleAvatar(
                           radius: 22,
                           backgroundColor: Colors.grey,
                         ),
@@ -109,7 +110,7 @@ class _FeedbackCardState extends State<FeedbackCard> {
                             return Shimmer.fromColors(
                               baseColor: Colors.grey[300]!,
                               highlightColor: Colors.grey[100]!,
-                              child: CircleAvatar(
+                              child: const CircleAvatar(
                                 radius: 22,
                                 backgroundColor: Colors.grey,
                               ),
