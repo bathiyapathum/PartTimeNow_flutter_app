@@ -1,30 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parttimenow_flutter/Widgets/notification_card.dart';
-import 'package:parttimenow_flutter/Widgets/post_card.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 
-class NotificationScreen extends StatelessWidget{
+class NotificationScreen extends StatelessWidget {
   const NotificationScreen({super.key});
 
-@override
-  Widget build(BuildContext context){
-
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 50,
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: false,
-                  title: const Text(
-            'PartTimeNow',
-            style: TextStyle(
-              color: signInBtn,
-              fontSize: 28,
-              fontWeight: FontWeight.w500,
-              fontFamily: 'Roboto',
-            ),
+        title: const Text(
+          'PartTimeNow',
+          style: TextStyle(
+            color: signInBtn,
+            fontSize: 28,
+            fontWeight: FontWeight.w500,
+            fontFamily: 'Roboto',
           ),
+        ),
         // title: Card(
         //   elevation: 0,
         //   shape: const CircleBorder(),
@@ -53,8 +51,6 @@ class NotificationScreen extends StatelessWidget{
           )
         ],
       ),
-
-
       body: Container(
         decoration: const BoxDecoration(
           color: Color.fromARGB(255, 223, 223, 223),
@@ -87,16 +83,6 @@ class NotificationScreen extends StatelessWidget{
           },
         ),
       ),
-    
-
-
-
-
     );
-      
-
   }
-  
-
-
 }

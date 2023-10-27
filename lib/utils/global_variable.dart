@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-// import 'package:parttimenow_flutter/Widgets/feedback_card.dart';
-// import 'package:parttimenow_flutter/screens/chat_home_page.dart';
 import 'package:parttimenow_flutter/screens/chat_home_page.dart';
 import 'package:parttimenow_flutter/screens/feed_screen_layout.dart';
-import 'package:parttimenow_flutter/screens/feedback_screen.dart';
-import 'package:parttimenow_flutter/screens/feedback_screen_layout.dart';
 import 'package:parttimenow_flutter/screens/menue_screen_layout.dart';
 import 'package:logger/logger.dart';
-import 'package:parttimenow_flutter/screens/post_a_job.dart';
-
 import 'package:parttimenow_flutter/screens/post_job_screen.dart';
+import 'package:parttimenow_flutter/screens/search_screen-layout.dart';
 
 const mobileScreenSize = 600;
 const webScreenSize = 600;
@@ -17,10 +12,8 @@ final logger = Logger();
 
 const homeScreenItems = [
   FeedScreenLayout(),
-  FeedbackScreenLayout(feedbackUserId: ""), // Text('Search'),
-  //PostJobScreen(),
-  // this is temporary for testing,
-  JobPostingPage(),
+  SearchScreenLayout(),
+  PostJobScreen(),
   ChatHomePage(),
   MenueScreen(),
 ];

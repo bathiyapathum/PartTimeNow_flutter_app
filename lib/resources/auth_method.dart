@@ -199,6 +199,7 @@ class AuthMethod {
             photoUrl: value.photoUrl,
             feedbacksId: [],
             saved: [],
+            requests: [],
             postId: await generatePostId(),
             rating: 3,
             gender: gender,

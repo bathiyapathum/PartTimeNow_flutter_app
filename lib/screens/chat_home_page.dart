@@ -27,7 +27,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => LoginScreen(), // Replace with your login screen
+          builder: (context) => const LoginScreen(), // Replace with your login screen
         ),
       );
     } catch (e) {
@@ -146,7 +146,8 @@ class _ChatHomePageState extends State<ChatHomePage> {
             }
 
             final int unreadCount = unreadCountSnapshot.data ?? 0;
-            //logger.e('Unread count for $document: $unreadCount');
+            logger.d('Unread count for $chatRoomId: $unreadCount');
+
 
             return Column(
               children: [

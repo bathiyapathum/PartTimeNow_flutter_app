@@ -3,16 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parttimenow_flutter/Widgets/notification_card.dart';
 import 'package:parttimenow_flutter/Widgets/post_card.dart';
-
 import 'package:parttimenow_flutter/Widgets/shimmer_post_card.dart';
 import 'package:parttimenow_flutter/models/filter_model.dart';
 import 'package:parttimenow_flutter/screens/category_selection_screen.dart';
 import 'package:parttimenow_flutter/screens/filter_feed_screen.dart';
-import 'package:parttimenow_flutter/screens/location_selection_screen.dart';
 import 'package:parttimenow_flutter/screens/select_location_screen.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
-import 'package:parttimenow_flutter/utils/global_variable.dart';
-import 'package:parttimenow_flutter/utils/utills.dart';
 
 class FeedScreenLayout extends StatefulWidget {
   const FeedScreenLayout({super.key});
@@ -137,12 +133,13 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
         stream: FirebaseFirestore.instance
             .collection('posts')
             .where("gender",
-                isEqualTo:
-                    filterModel.male != null && filterModel.female != null
-                        ? null
-                        : (filterModel.male != null
-                            ? "male"
-                            : (filterModel.female != null ? "female" : null)))
+                whereIn: filterModel.male != null && filterModel.female != null
+                    ? null
+                    : (filterModel.male != null
+                        ? ["male", "both"]
+                        : (filterModel.female != null
+                            ? ["female", "both"]
+                            : null)))
             .where("location",
                 isEqualTo: filterModel.location != null
                     ? filterModel.location?.toLowerCase()
@@ -203,14 +200,14 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
           if (snapshot.hasData &&
               snapshot.connectionState == ConnectionState.active) {
             return ListView.builder(
-              itemCount: snapshot.data!.docs.length,
+              itemCount: snapshot.data?.docs.length,
               itemBuilder: (context, index) => Container(
                 margin: const EdgeInsets.symmetric(
                   horizontal: 10,
                   vertical: 10,
                 ),
                 child: PostCard(
-                  snap: snapshot.data!.docs[index].data(),
+                  snap: snapshot.data?.docs[index].data(),
                 ),
               ),
             );

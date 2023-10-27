@@ -55,6 +55,7 @@ final job = PostModel(
   photoUrl: userSnapshot['photoUrl'] ?? 'photo',
   feedbacksId: [], 
   saved: [],
+  requests: [],
   rating: 0, // Set the rating value as needed
 );
 

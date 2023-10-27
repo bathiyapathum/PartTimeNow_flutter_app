@@ -5,8 +5,6 @@ import 'package:parttimenow_flutter/Widgets/show_item_chip.dart';
 import 'package:parttimenow_flutter/models/filter_model.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 import 'package:parttimenow_flutter/utils/global_variable.dart';
-import 'package:parttimenow_flutter/utils/utills.dart';
-
 
 class FilterFeedScreen extends StatefulWidget {
   final Map<String, dynamic> filterStat;
