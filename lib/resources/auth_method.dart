@@ -202,7 +202,7 @@ class AuthMethod {
             saved: [],
             requests: [],
             postId: await generatePostId(),
-            rating: 3,
+            rating: 5,
             gender: gender,
           );
 

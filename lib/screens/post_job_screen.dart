@@ -290,11 +290,32 @@ class _PostJobScreenState extends State<PostJobScreen> {
   }
 
   void showSuccessMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: const Color.fromARGB(255, 83, 184, 86),
-      ),
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Icon(
+            Icons.check_circle, // You can use a different icon here
+            color: Colors.green, // Icon color
+            size: 48.0, // Icon size
+          ),
+          content: Text(
+            message,
+            style: const TextStyle(
+              color: Colors.green, // Text color
+              fontSize: 18,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -513,8 +534,8 @@ class _PostJobScreenState extends State<PostJobScreen> {
         ),
       ),
       child: PopupMenuButton<String>(
-        color: Colors
-            .white, // Set the background color of the dropdown menu to white
+        color: Color.fromARGB(255, 73, 70,
+            70), // Set the background color of the dropdown menu to white
         itemBuilder: (BuildContext context) {
           return districtNames.map((String district) {
             return PopupMenuItem<String>(
@@ -526,7 +547,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
                 child: Text(
                   district,
                   style: const TextStyle(
-                    color: Colors.black,
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
                 ),
               ),
