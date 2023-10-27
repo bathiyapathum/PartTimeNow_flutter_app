@@ -290,11 +290,32 @@ class _PostJobScreenState extends State<PostJobScreen> {
   }
 
   void showSuccessMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: const Color.fromARGB(255, 83, 184, 86),
-      ),
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Icon(
+            Icons.check_circle, // You can use a different icon here
+            color: Colors.green, // Icon color
+            size: 48.0, // Icon size
+          ),
+          content: Text(
+            message,
+            style: const TextStyle(
+              color: Colors.green, // Text color
+              fontSize: 18,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
     );
   }
 
