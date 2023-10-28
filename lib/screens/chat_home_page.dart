@@ -1,10 +1,12 @@
-// ignore_for_file: use_build_context_synchronously
+import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:parttimenow_flutter/Widgets/shimmer_message_card.dart';
+import 'package:parttimenow_flutter/screens/category_selection_screen.dart';
 import 'package:parttimenow_flutter/screens/chat_page.dart';
 import 'package:parttimenow_flutter/screens/login_screen.dart';
 import 'package:parttimenow_flutter/services/chat/chat_service.dart';
@@ -26,17 +28,45 @@ class _ChatHomePageState extends State<ChatHomePage> {
       await FirebaseAuth.instance.signOut();
       // You can navigate to the login or home screen after signing out
       // For example, you can use Navigator.pushReplacement to replace the current screen with a login screen.
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-
-          builder: (context) => const LoginScreen(), // Replace with your login screen
-
+          builder: (context) =>
+              const LoginScreen(), // Replace with your login screen
         ),
       );
     } catch (e) {
       logger.e('Error signing out: $e');
     }
+  }
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  void initState() {
+    super.initState();
+    // getChatRoomID();
+  }
+
+  // Future<void> getChatRoomID() async {
+  //   DocumentSnapshot chatRoomID = await _firestore
+  //       .collection('chat_rooms')
+  //       .doc(_auth.currentUser!.uid)
+  //       .get();
+
+  //   logger.e(chatRoomID);
+  // }
+  void showShrim({
+    required context,
+  }) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const CategorySelectionScreen(),
+
+//         builder: (context) => const NotificationCard(),
+      ),
+    );
   }
 
   @override
@@ -73,7 +103,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
             margin: const EdgeInsets.only(right: 20),
             child: IconButton(
               onPressed: () {
-                _signOut();
+                showShrim(context: context);
               },
               icon: const Icon(
                 Icons.search,
@@ -86,7 +116,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
       ),
       body: Container(
         decoration: backgroundGradient,
-        margin: const EdgeInsets.only(top: 10),
+        margin: const EdgeInsets.only(top: 2),
         child: _buildUserList(),
       ),
     );
@@ -121,36 +151,43 @@ class _ChatHomePageState extends State<ChatHomePage> {
 
     if (_firebaseAuth.currentUser!.email != userData['email']) {
       // Get the 'unreadCount' for this chat room
-      final FirebaseFirestore firestore = FirebaseFirestore.instance;
-      final CollectionReference chatRoomsCollection =
-          firestore.collection('chat_rooms');
+      List<String> userIds = [_firebaseAuth.currentUser!.uid, document.id];
+      userIds.sort();
+      String chatRoomId = userIds.join('_');
 
-      chatRoomsCollection.get().then((QuerySnapshot querySnapshot) {
-        querySnapshot.docs.forEach((doc) {
-          // Here, 'doc.id' will give you the ID of each document in the collection
-          String documentID = doc.id;
-          logger.e('Document ID: $documentID');
-          // Now, you can use the document ID to get the unreadCount
-        });
-      }).catchError((error) {
-        logger.e("Error getting documents: $error");
-      });
+      logger.e('Chat room ID: $chatRoomId');
+
+      // chatRoomsCollection.get().then((QuerySnapshot querySnapshot) {
+      //   querySnapshot.docs.forEach((doc) {
+      //     // Here, 'doc.id' will give you the ID of each document in the collection
+      //     String documentID = doc.id;
+      //     logger.e('Document ID: $documentID');
+      //     // Now, you can use the document ID to get the unreadCount
+      //   });
+      // }).catchError((error) {
+      //   // logger.e("Error getting documents: $error");
+      // });
 
       return FutureBuilder<int>(
-          future: _chatService.getUnreadCount(document.id),
+          future: _chatService.getUnreadCount(chatRoomId),
           builder: (context, unreadCountSnapshot) {
             if (unreadCountSnapshot.connectionState ==
                 ConnectionState.waiting) {
-              return const SpinKitWanderingCubes(
-                color: Color.fromARGB(255, 247, 193,
-                    193), // You can set the color of the animation
-                size: 80.0,
-                // You can set the size of the animation
+              return ListView.builder(
+                itemCount: 2,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) => Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 10,
+                  ),
+                  child: const ShrimmerMessageCard(),
+                ),
               );
             }
 
             final int unreadCount = unreadCountSnapshot.data ?? 0;
-            //logger.e('Unread count for $document: $unreadCount');
+            logger.d('Unread count for $chatRoomId: $unreadCount');
 
             return Column(
               children: [
@@ -161,79 +198,128 @@ class _ChatHomePageState extends State<ChatHomePage> {
                     height: 80,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: const Color.fromARGB(255, 247, 193, 193)
-                          .withOpacity(0.3),
                     ),
-                    child: Row(
+                    child: Stack(
                       children: [
-                        Expanded(
-                          child: Center(
-                            child: ListTile(
-                              tileColor: Colors.transparent,
-                              leading: ClipOval(
-                                child: Container(
-                                  width: 48,
-                                  height: 48,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.transparent,
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: userData['photoUrl'] != null
-                                          ? NetworkImage(userData['photoUrl'])
-                                          : const AssetImage(
-                                                  'assets/default_profile_image.png')
-                                              as ImageProvider,
+                        Positioned.fill(
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(
+                                    0.3), // Adjust opacity as needed
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Center(
+                                child: ListTile(
+                                  tileColor: Colors.transparent,
+                                  leading: ClipOval(
+                                    child: Container(
+                                      width: 48,
+                                      height: 48,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.transparent,
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: userData['photoUrl'] != null
+                                              ? NetworkImage(
+                                                  userData['photoUrl'])
+                                              : const AssetImage(
+                                                      'assets/default_profile_image.png')
+                                                  as ImageProvider,
+                                        ),
+                                      ),
                                     ),
                                   ),
+                                  title: Text(
+                                    capitalize(userData['username']),
+                                    style: GoogleFonts.lato(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  subtitle: StreamBuilder<DocumentSnapshot>(
+                                    stream:
+                                        _chatService.getLastMessage(chatRoomId),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const CircularProgressIndicator();
+                                      } else if (snapshot.hasError) {
+                                        return Text('Error: ${snapshot.error}');
+                                      } else if (!snapshot.hasData ||
+                                          !snapshot.data!.exists) {
+                                        return const Text('No messages found');
+                                      } else {
+                                        final data = snapshot.data?.data()
+                                            as Map<String, dynamic>;
+                                        var lastMessage = data['message'];
+                                        final type = data['type'];
+
+                                        type == 'img'
+                                            ? lastMessage = 'Image'
+                                            : lastMessage = lastMessage;
+                                        return Text(
+                                          lastMessage,
+                                          style: const TextStyle(
+                                              color:
+                                                  Color.fromARGB(255, 0, 0, 0)),
+                                        );
+                                      }
+                                    },
+                                  ),
+                                  onTap: () async {
+                                    await _chatService
+                                        .resetUnreadCount(chatRoomId);
+
+                                    // ignore: use_build_context_synchronously
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ChatPage(
+                                          recieverUserEmail:
+                                              userData['username'],
+                                          recieverUserID: document.id,
+                                          recieverUserImage:
+                                              userData['photoUrl'],
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
-                              title: Text(
-                                capitalize(userData['username']),
-                                style: GoogleFonts.lato(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: Text(
-                                'hnsana', // Display the last reply message here
-                                style: GoogleFonts.lato(color: Colors.black),
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ChatPage(
-                                      recieverUserEmail: userData['username'],
-                                      recieverUserID: document.id,
-                                      recieverUserImage: userData['photoUrl'],
+                            ),
+                            unreadCountSnapshot.data == 0
+                                ? const SizedBox()
+                                : Container(
+                                    width: 20, // Adjust the width as needed
+                                    height: 20, // Adjust the height as needed
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color:
+                                          mobileBackgroundColor, // You can change the color
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        unreadCount
+                                            .toString(), // Replace with your unread message count
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                );
-                              },
-                            ),
-                          ),
+                            const SizedBox(width: 20),
+                            // Add spacing between the card and the count circle
+                          ],
                         ),
-                        Container(
-                          width: 20, // Adjust the width as needed
-                          height: 20, // Adjust the height as needed
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.red, // You can change the color
-                          ),
-                          child: Center(
-                            child: Text(
-                              unreadCount
-                                  .toString(), // Replace with your unread message count
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                            width:
-                                20), // Add spacing between the card and the count circle
                       ],
                     ),
                   ),
