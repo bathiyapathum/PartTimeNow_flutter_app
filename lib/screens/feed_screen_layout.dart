@@ -63,7 +63,7 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
       MaterialPageRoute(
         // builder: (context) => const CategorySelectionScreen(),
 
-        builder: (context) => const NotificationScreen(),
+        builder: (context) =>  NotificationScreen(),
       ),
     );
   }
