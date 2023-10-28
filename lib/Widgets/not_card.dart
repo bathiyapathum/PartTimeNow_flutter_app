@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 
-class NotificationCard extends StatefulWidget {
-  const NotificationCard({super.key, required this.NotificationType});
+class NotCard extends StatefulWidget {
+  const NotCard({super.key, required this.NotificationType});
   final String NotificationType;
 
   @override
-  State<NotificationCard> createState() => _NotificationCardState();
+  State<NotCard> createState() => _NotificationCardState();
 }
 
-class _NotificationCardState extends State<NotificationCard> {
+class _NotificationCardState extends State<NotCard> {
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class _NotificationCardState extends State<NotificationCard> {
                   child: CircleAvatar(
                     radius: 20,
                     backgroundImage: NetworkImage(
-                        'https://images.unsplash.com/photo-1694284028434-2872aa51337b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0Nnx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60'),
+                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3HWiMNcayzEoGFI70CWs-4GRnFFMgIcR4Ig&usqp=CAU'),
                     // fit: BoxFit.cover,
                   ),
                 ),
@@ -47,7 +47,7 @@ class _NotificationCardState extends State<NotificationCard> {
                 Column(
                   children: [
                     Text(
-                      'Perara Dilshan Dinal',
+                      'Dilshan Perera',
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -63,7 +63,7 @@ class _NotificationCardState extends State<NotificationCard> {
             child: Container(
               alignment: Alignment.topCenter,
               child: const Text(
-                'Lorum Last long time agoLorum Last vfdsfvs sdavds long time agoLorum Last long time ago ',
+                ' agoLorum Last long time agoLorum Last long time ago ',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 14,
