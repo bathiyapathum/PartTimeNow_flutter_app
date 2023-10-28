@@ -19,6 +19,8 @@ class FeedScreenLayout extends StatefulWidget {
 
 class _FeedScreenLayoutState extends State<FeedScreenLayout> {
   Map<String, dynamic> filteredData = {};
+  List notilist =[1,2,3,4];
+
   String gender = "male";
 
   void navigateToFilter(context) {
@@ -58,12 +60,15 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
 
   void showShrim({
     required context,
+    required List notilist
   }) {
+    notilist.add(9);
     Navigator.of(context).push(
       MaterialPageRoute(
         // builder: (context) => const CategorySelectionScreen(),
+        
 
-        builder: (context) =>  NotificationScreen(),
+        builder: (context) =>   NotificationScreen(notificationsList: notilist,),
       ),
     );
   }
@@ -124,7 +129,7 @@ class _FeedScreenLayoutState extends State<FeedScreenLayout> {
               color: Colors.white,
               child: IconButton(
                 onPressed: () {
-                  showShrim(context: context);
+                  showShrim(context: context, notilist: notilist);
                 },
                 icon: const Icon(
                   color: navActivaeColor,

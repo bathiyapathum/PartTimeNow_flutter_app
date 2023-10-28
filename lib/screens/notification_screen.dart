@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parttimenow_flutter/Widgets/not_card.dart';
@@ -5,8 +7,25 @@ import 'package:parttimenow_flutter/Widgets/notification_card.dart';
 import 'package:parttimenow_flutter/Widgets/shimmer_post_card.dart';
 import 'package:parttimenow_flutter/utils/colors.dart';
 
-class NotificationScreen extends StatelessWidget {
-const NotificationScreen({Key? key}) : super(key: key);
+class NotificationScreen extends StatefulWidget {
+  final List notificationsList;
+   
+  const NotificationScreen({Key? key,this.notificationsList = const [1,2,3,4,5,6] }) : super(key: key);
+
+  @override
+  State<NotificationScreen> createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends State<NotificationScreen> {
+
+  List notificationsList = [1,2,3,4,5,6];
+
+ @override
+  void initState() {
+    notificationsList = widget.notificationsList;
+    super.initState();
+    // Fetch user data when the widget is initialized
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +86,7 @@ const NotificationScreen({Key? key}) : super(key: key);
           }
           if (snapshot.hasData && snapshot.connectionState == ConnectionState.active) {
             return ListView.builder(
-              itemCount: 4,
+              itemCount: notificationsList.length,
               itemBuilder: (context, index) {
                 // You can customize the data or use different widgets here
                 if (index % 2 == 0) {
