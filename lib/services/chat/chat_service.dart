@@ -24,6 +24,8 @@ class ChatService extends ChangeNotifier {
       recieverId: recieverId,
       message: message,
       type: type,
+      read: 'false',
+      sent: 'true',
       timestamp: timestamp,
     );
 
@@ -65,23 +67,23 @@ class ChatService extends ChangeNotifier {
         'unreadCount': FieldValue.increment(1),
       }, SetOptions(merge: true));
 
-      logger.e('Unread count incremented by 1');
+      // logger.e('Unread count incremented by 1');
     } catch (e) {
-      logger.e('Error incrementing unread count: $e');
+      // logger.e('Error incrementing unread count: $e');
     }
   }
 
   // Get the unreadCount for a specific chat room
   Future<int> getUnreadCount(String chatRoomId) async {
     try {
-      logger.e('Fetching unread count for chat room ID: $chatRoomId');
+      // logger.e('Fetching unread count for chat room ID: $chatRoomId');
 
       final chatRoomSnapshot = await FirebaseFirestore.instance
           .collection('chat_rooms')
           .doc(chatRoomId)
           .get();
-      logger.e('Chat room snapshot: $chatRoomSnapshot');
-      logger.e('Chat room snapshot exists: ${chatRoomSnapshot.exists}');
+      // logger.e('Chat room snapshot: $chatRoomSnapshot');
+      // logger.e('Chat room snapshot exists: ${chatRoomSnapshot.exists}');
       if (chatRoomSnapshot.exists) {
         final data = chatRoomSnapshot.data();
         if (data != null && data.containsKey('unreadCount')) {
@@ -93,12 +95,87 @@ class ChatService extends ChangeNotifier {
           return 0; // Return a default value if 'unreadCount' field is missing
         }
       } else {
-        logger.e('Chat room document $chatRoomId does not exist');
+        // logger.e('Chat room document $chatRoomId does not exist');
         return 0; // Return a default value if the document does not exist
       }
     } catch (e) {
       logger.e('Error getting unread count for $chatRoomId: $e');
       return 0; // Return a default value if there's an error
+    }
+  }
+
+  Future<void> resetUnreadCount(String chatRoomId) async {
+    logger.e('Resetting unread count for $chatRoomId');
+    try {
+      // Update the 'unreadCount' field to 0 for the specified chat room
+      await FirebaseFirestore.instance
+          .collection('chat_rooms')
+          .doc(chatRoomId)
+          .update({'unreadCount': 0});
+    } catch (e) {
+      // Handle any errors that may occur during the update operation
+      logger.e('Error resetting unread count for $chatRoomId: $e');
+    }
+  }
+
+  Stream<DocumentSnapshot> getLastMessage(String chatRoomId) {
+    return _firebaseFirestore
+        .collection('chat_rooms')
+        .doc(chatRoomId)
+        .collection('messages')
+        .orderBy('timestamp', descending: true)
+        .limit(1)
+        .snapshots()
+        .map((querySnapshot) {
+      if (querySnapshot.docs.isEmpty) {
+        // logger.e('No messages found in chat room $chatRoomId');
+      }
+      return querySnapshot.docs.first;
+    });
+  }
+
+  Future<String> getChatRoomId(String userId, String otherUserId) async {
+    List<String> userIds = [userId, otherUserId];
+    userIds.sort();
+    String chatRoomId = userIds.join('_');
+
+    // Check if the chat room exists
+    DocumentSnapshot chatRoomDoc =
+        await _firebaseFirestore.collection('chat_rooms').doc(chatRoomId).get();
+
+    if (chatRoomDoc.exists) {
+      return chatRoomId;
+    } else {
+      // Create a new chat room if it doesn't exist
+      await _firebaseFirestore.collection('chat_rooms').doc(chatRoomId).set({
+        'users': userIds,
+      });
+
+      return chatRoomId;
+    }
+  }
+
+  Future<void> markMessageAsRead(String senderId, String recieverId) async {
+    try {
+      await _firebaseFirestore
+          .collection('messages')
+          .doc()
+          .update({'read': true});
+    } catch (e) {
+      // Handle any errors that may occur during the update operation
+      logger.e('Error marking message as read: $e');
+    }
+  }
+
+  Future<void> deleteMessage(String messageId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('messages')
+          .doc(messageId)
+          .delete();
+    } catch (e) {
+      // Handle any errors that may occur during the delete operation
+      logger.e('Error deleting message: $e');
     }
   }
 }

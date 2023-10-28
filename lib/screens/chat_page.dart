@@ -1,5 +1,3 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers, prefer_const_constructors
-
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,6 +9,7 @@ import 'package:parttimenow_flutter/Widgets/chat_bubble.dart';
 import 'package:parttimenow_flutter/Widgets/chat_text_field.dart';
 import 'package:parttimenow_flutter/services/chat/chat_service.dart';
 import 'package:parttimenow_flutter/utils/global_variable.dart';
+// import 'package:parttimenow_flutter/utils/my_date_util.dart';
 import 'package:uuid/uuid.dart';
 
 class ChatPage extends StatefulWidget {
@@ -262,12 +261,96 @@ class _ChatPageState extends State<ChatPage> {
                       const SizedBox(
                         width: 10,
                       ),
-                      ChatBubble(
+                      GestureDetector(
+                        onLongPress: () {
+                          // Handle long-press here
+                          if (data['senderId'] ==
+                              _firebaseAuth.currentUser!.uid) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(16),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      color: Colors.white,
+                                    ),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Text(
+                                          'Delete Message',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 16),
+                                        const Text(
+                                          'Are you sure you want to delete this message?',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black),
+                                        ),
+                                        const SizedBox(height: 24),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: const Text(
+                                                'Cancel',
+                                                style: TextStyle(
+                                                  color: Colors.blue,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                            TextButton(
+                                              onPressed: () async {
+                                                await FirebaseFirestore.instance
+                                                    .collection('messages')
+                                                    .doc(document.id)
+                                                    .delete();
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: const Text(
+                                                'Delete',
+                                                style: TextStyle(
+                                                  color: Colors.red,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          } else {
+                            // This is a message received by the current user
+                            // Handle actions specific to receiver's messages
+                          }
+                        },
+                        child: ChatBubble(
                           message: data['message'],
                           color: (data['senderId'] ==
                                   _firebaseAuth.currentUser!.uid)
                               ? 'sender'
-                              : 'reciever'),
+                              : 'reciever',
+                        ),
+                      ),
                       const SizedBox(
                         width: 10,
                       ),
@@ -304,8 +387,8 @@ class _ChatPageState extends State<ChatPage> {
                             // );
                             return Container(
                                 //     child: Text(
-                                //   // formatTimestamp(data['timestamp']),
-                                //   style: const TextStyle(color: Colors.black),
+                                //   MyDateUtil.getFormattedTime(
+                                //       context: context, time: data['timestamp']),
                                 // )
                                 );
                           },
@@ -325,13 +408,90 @@ class _ChatPageState extends State<ChatPage> {
                 ? Alignment.centerRight
                 : Alignment.centerLeft,
             child: InkWell(
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => ShowImage(
-                    imageUrl: data['message'],
+              onTap: () {
+                // Handle the onTap behavior (e.g., navigate to a new screen)
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => ShowImage(
+                      imageUrl: data['message'],
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
+              onLongPress: () {
+                // Handle the onTap behavior (e.g., navigate to a new screen)
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Dialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: Colors.white,
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text(
+                              'Delete Message',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            const Text(
+                              'Are you sure you want to delete this message?',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black),
+                            ),
+                            const SizedBox(height: 24),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text(
+                                    'Cancel',
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    await FirebaseFirestore.instance
+                                        .collection('messages')
+                                        .doc(document.id)
+                                        .delete();
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text(
+                                    'Delete',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
               child: Container(
                 height: size.height / 2.5,
                 width: size.width / 2,
@@ -350,7 +510,9 @@ class _ChatPageState extends State<ChatPage> {
                           fit: BoxFit.cover,
                         ),
                       )
-                    : const CircularProgressIndicator(),
+                    : const CircularProgressIndicator(
+                        color: Colors.deepOrange,
+                      ),
               ),
             ),
           );

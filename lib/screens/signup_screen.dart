@@ -26,6 +26,9 @@ class _SignupScreenState extends State<SignupScreen> {
   Uint8List? image;
   bool _isLoading = false;
 
+
+  
+
   @override
   void dispose() {
     super.dispose();

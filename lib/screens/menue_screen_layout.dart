@@ -40,6 +40,7 @@ class _MenuScreenState extends State<MenuScreen> {
           userDetails = user;
         });
         logger.e(user.email);
+        user.photoUrl;
       } else {}
     } catch (e) {
       userDetails = null; // Set userDetails to null in case of an error
@@ -86,25 +87,49 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 50,
-        backgroundColor: Colors.white,
+      // appBar: AppBar(
+      //   toolbarHeight: 50,
+      //   backgroundColor: Colors.white,
+      //   elevation: 0,
+      //   centerTitle: false,
+      //   title: const Text(
+      //     'Menu',
+      //     style: TextStyle(
+      //       color: signInBtn,
+      //       fontSize: 28,
+      //       fontWeight: FontWeight.bold,
+      //     ),
+      //   ),
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () {},
+      //       icon: const Icon(
+      //         Icons.settings,
+      //         color: navActivaeColor,
+      //         size: 30,
+      //       ),
+      //     ),
+      //   ],
+      // ),
+            appBar: AppBar(
+        toolbarHeight: 70,
+        backgroundColor: mobileBackgroundColor,
         elevation: 0,
         centerTitle: false,
         title: const Text(
-          'Menu',
+          "Menu",
           style: TextStyle(
-            color: signInBtn,
-            fontSize: 28,
+            color: Colors.white,
+            fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
         ),
         actions: [
-          IconButton(
+                    IconButton(
             onPressed: () {},
             icon: const Icon(
               Icons.settings,
-              color: navActivaeColor,
+              color: Colors.white,
               size: 30,
             ),
           ),
@@ -123,7 +148,7 @@ class _MenuScreenState extends State<MenuScreen> {
               Card(
                 margin: const EdgeInsets.symmetric(
                   horizontal: 7,
-                  vertical: 7,
+                  vertical: 10,
                 ),
                 // elevation:20,
                 color: Colors.white,
@@ -137,13 +162,14 @@ class _MenuScreenState extends State<MenuScreen> {
                   child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const CircleAvatar(
+                        CircleAvatar(
                           backgroundColor: Colors.black,
                           radius: 42,
                           child: CircleAvatar(
                             radius: 40,
                             backgroundImage: NetworkImage(
-                                'https://images.unsplash.com/photo-1694284028434-2872aa51337b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0Nnx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60'),
+                              userDetails?.photoUrl ?? 'N/A',
+                            ),
                             // fit: BoxFit.cover,
                           ),
                         ),
@@ -284,12 +310,12 @@ class _MenuScreenState extends State<MenuScreen> {
                             //     left: 5, right: 5, top: 5, bottom: 5),
                             child: ElevatedButton(
                               onPressed: () {
-                                 Navigator.of(context).push(
+                                Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                         ChangeCategoryScreen(
-                                          selectedCategory: userDetails?.categories ?? [],
-                                        ),
+                                    builder: (context) => ChangeCategoryScreen(
+                                      selectedCategory:
+                                          userDetails?.categories ?? [],
+                                    ),
                                   ),
                                 );
                               },
@@ -343,7 +369,9 @@ class _MenuScreenState extends State<MenuScreen> {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        const ChangeLocationScreen(selectedCategory: [],),
+                                        const ChangeLocationScreen(
+                                      selectedCategory: [],
+                                    ),
                                   ),
                                 );
                               },
